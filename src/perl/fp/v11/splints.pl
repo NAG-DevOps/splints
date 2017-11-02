@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 use strict;
 
@@ -7,11 +7,11 @@ use SOAP::Lite;
 #my $USE_PROXY_SERVER = 1;
 my $USE_PROXY_SERVER = 0;
 
-my $FP_PROJECT_ID = 78;
+my $FP_PROJECT_ID = 72;
 
 my $soap = new SOAP::Lite;
 
-$soap->uri( 'http://localhost/MRWebServices' );
+$soap->uri( 'https://localhost/MRWebServices' );
 
 print "post URI ---\n";
 
@@ -24,47 +24,58 @@ if( $USE_PROXY_SERVER )
 else
 {
     $soap->proxy( 'https://localhost/MRcgi/MRWebServices.pl' );
-print "post non-proxy proxy ---\n";
+    print "post non-proxy proxy ---\n";
 }
 
-my $soapenv = $soap->MRWebServices__getIssueDetails(
+&getIssueDetails(3508, $FP_PROJECT_ID);
+
+exit(0);
+
+##
+## Test subs API, to be refactored into a module
+##
+
+sub getIssueDetails()
+{
+  my ($iTicketNumber, $iProjectID) = @_;
+
+  my $soapenv = $soap->MRWebServices__getIssueDetails(
     'fakeuser',
     'fakepassword',
     '',
-    $FP_PROJECT_ID,
-    #1 -- ticket number
-    35086
-);
+    $iProjectID,
+    $iTicketNumber
+  );
 
-print "post SOAP request ---\n";
+  print "post SOAP request ---\n";
 
-my $result;
+  my $result;
 
-if( $soapenv->fault )
-{
-print "SOAP FAULT ---\n";
+  if($soapenv->fault)
+  {
+    print "SOAP FAULT ---\n";
     print ${$soapenv->fault}{faultstring} . "\n";
     exit;
-}
-else
-{
-print "SOAP OK ---\n";
+  }
+  else
+  {
+    print "SOAP OK ---\n";
     $result = $soapenv->result;
-}
+  }
 
-print "<<<{{{$soapenv}}}>>>\n";
+  print "<<<{{{$soapenv}}}>>>\n";
 
-use Data::Dumper;
-print Dumper($soapenv);
+  use Data::Dumper;
+  print Dumper($soapenv);
 
-print "post result ---\n";
+  print "post result ---\n";
 
-print "<<<{{{$result}}}>>>\n";
+  print "<<<{{{$result}}}>>>\n";
 
-my %hash = %{$result};
+  my %hash = %{$result};
 
-foreach my $item ( keys %hash )
-{
+  foreach my $item ( keys %hash )
+  {
     print "---\n";
     print "ITEM IS: [$item]\n";
 
@@ -73,8 +84,10 @@ foreach my $item ( keys %hash )
     print "\n";
     
     print "---\n";
+  }
+
+  print "DONE ---\n";
 }
 
-print "DONE ---\n";
 
 # EOF
