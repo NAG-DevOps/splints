@@ -4,30 +4,53 @@ use strict;
 
 use SOAP::Lite;
 
+##
+## Config
+## TODO: split into a module
+##
+
 #my $USE_PROXY_SERVER = 1;
 my $USE_PROXY_SERVER = 0;
 
 my $FP_PROJECT_ID = 72;
 
+my $soapUser = 'agentusername';
+my $soapPass = 'agentpassword';
+
+my $baseUrl  = 'https://localhost';
+
+my $proxyUrl  = 'https://localhost:8888';
+
+my $strExtraInfo = '';
+
+my $bDebug = 1;
+
+##
+## main()
+##
+
 my $soap = new SOAP::Lite;
 
-$soap->uri( 'https://localhost/MRWebServices' );
+$soap->uri("$baseUrl/MRWebServices");
 
 print "post URI ---\n";
 
-if( $USE_PROXY_SERVER )
+if($USE_PROXY_SERVER)
 {
-    $soap->proxy(
-        'https://localhost/MRcgi/MRWebServices.pl',
-        proxy => ['http' => 'http://localhost:8888/'] );
+  $soap->proxy
+  (
+    "$baseUrl/MRcgi/MRWebServices.pl",
+    proxy => ['http' => "$proxyUrl/"]
+  );
 }
 else
 {
-    $soap->proxy( 'https://localhost/MRcgi/MRWebServices.pl' );
-    print "post non-proxy proxy ---\n";
+  $soap->proxy("$baseUrl/MRcgi/MRWebServices.pl");
+  print "post non-proxy proxy ---\n";
 }
 
-&getIssueDetails(3508, $FP_PROJECT_ID);
+# Test, getting given ticket number
+&getIssueDetails(35086, $FP_PROJECT_ID);
 
 exit(0);
 
@@ -39,10 +62,11 @@ sub getIssueDetails()
 {
   my ($iTicketNumber, $iProjectID) = @_;
 
-  my $soapenv = $soap->MRWebServices__getIssueDetails(
-    'fakeuser',
-    'fakepassword',
-    '',
+  my $soapenv = $soap->MRWebServices__getIssueDetails
+  (
+    $soapUser,
+    $soapPass,
+    $strExtraInfo,
     $iProjectID,
     $iTicketNumber
   );
