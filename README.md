@@ -30,8 +30,7 @@ Current version has limitations below. See supported API.
 ## Supported API ###
 
 - `createIssue()` -- creates a ticket
-```
-#!perl
+```perl
 $iReturnedTicketNumber = createIssue
 (
     $iProjectID,       -- workspace
@@ -44,9 +43,8 @@ $iReturnedTicketNumber = createIssue
     $strDescription    -- ticket description
 )
 ```
-- editIssue()` -- edits a ticket
-```
-#!perl
+- `editIssue()` -- edits a ticket
+```perl
 editIssue()
 (
     $iTicketNumber,    -- ticket to edit
@@ -63,8 +61,7 @@ editIssue()
 returns SOAP result
 ```
 - `getIssueDetails()` -- queries ticket's details
-```
-#!perl
+```perl
 getIssueDetails()
 (
     $iTicketNumber,    -- ticket to get info about
@@ -75,8 +72,7 @@ returns SOAP result Perl hash with all the ticket fields
 ```
 - `linkIssue()` -- links two tickets; `dynamic` linking causes changes to one ticket
 to be repeated for the other linked ticket(s); `static` simply refers
-```
-#!perl
+```perl
 linkIssue()
 (
     $iTicketNumber1,    -- ticket1 to link to
