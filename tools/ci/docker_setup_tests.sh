@@ -27,7 +27,7 @@ if [ "$el_version" -eq "6" ]; then
 		--privileged \
 		-v /sys/fs/cgroup:/sys/fs/cgroup --rm=true \
 		-v `pwd`:$DOCKERPATH:rw centos:centos${OS_VERSION} \
-		/bin/bash -c "$BUILDDEPS; perl -c src/perl/fp/v11/splints.pl"
+		/bin/bash -c "$BUILDDEPS; pwd; ls -al; perl -c splints/src/perl/fp/v11/splints.pl"
 
 elif [ "$el_version" -eq "7" ]; then
 
@@ -40,7 +40,7 @@ elif [ "$el_version" -eq "7" ]; then
 	docker logs $DOCKER_CONTAINER_ID
 	docker exec \
 		-ti $DOCKER_CONTAINER_ID \
-		/bin/bash -xec "$BUILDDEPS; perl -c src/perl/fp/v11/splints.pl ; echo -ne \"------\nEND splints TESTS\n\";"
+		/bin/bash -xec "yum -y install epel-release; $BUILDDEPS; pwd; ls -al; perl -c splints/src/perl/fp/v11/splints.pl ; echo -ne \"------\nEND splints TESTS\n\";"
 	docker ps -a
 	docker stop $DOCKER_CONTAINER_ID
 	docker rm -v $DOCKER_CONTAINER_ID
