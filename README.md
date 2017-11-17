@@ -11,7 +11,14 @@ It requires `SOAP::Lite` Perl module to work.
 The PoC implementation being modularaized based on the
 Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
-### EL6 ###
+### EL6 and EL7 ###
+
+#### EL7 ####
+
+- `yum install epel-release`
+- (follow the steps for EL6)
+
+#### EL6 ####
 
 - `yum install git`
 - `yum install perl-SOAP-Lite`
@@ -107,7 +114,6 @@ returns SOAP result
 
 ### OS Support ###
 
-- EL7
 - OS X
 - Windows 7 and Windows 10
 
