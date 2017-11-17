@@ -4,7 +4,7 @@ use strict;
 
 use SOAP::Lite;
 
-my $VERSION = "splints-0.0.2";
+my $VERSION = "splints-0.0.3";
 
 ##
 ## Config
@@ -66,12 +66,14 @@ my $iTicket = &createIssue
 (
   $FP_PROJECT_ID,
 
-  # Appears have to be an FP user via API
+  # Appears have to be ane FP user via API
   "$soapUser",
 
   "$VERSION: testing createIssue()...",
 
-  ['user1', 'user2'],
+  #['user1', 'SOME-Queue L3'],
+  ['SOME-Queue L3'],
+  #[],
   
   #4,
   #2,
@@ -98,13 +100,14 @@ if($iTicket > 0)
 
     $FP_PROJECT_ID,
 
-    # Appears have to be an FP user via API
+    # Appears have to be ane FP user via API
     "$soapUser",
 
     "$VERSION: testing editIssue(now)... -- renaming $iTicket",
 
+    #['user1', 'SOME-Queue L3'],
+    #['SOME-Queue L3'],
     [ ],
-    #undef,
   
     4,
     #2,
@@ -122,10 +125,93 @@ if($iTicket > 0)
 
   # Re-query the ticket again after editing
   &getIssueDetails($iTicket, $FP_PROJECT_ID);
+
+  # Link one or more other tickets, assuming $iTicket as a "parent"
+  # 'dynamic' link causes edits to one ticket propagate to the others
+  # via editIssue() (new subject, description, priority, status, etc.
+  # are set for all links if dynaminc if changed)
+  #&linkIssue($iTicket, $FP_PROJECT_ID, 5422, $FP_PROJECT_ID);
+  #&linkIssue($iTicket, $FP_PROJECT_ID, 5410, $FP_PROJECT_ID);
+  #&linkIssue($iTicket, $FP_PROJECT_ID, 5409, $FP_PROJECT_ID);
+  #&linkIssue($iTicket, $FP_PROJECT_ID, 5403, $FP_PROJECT_ID);
+  #&linkIssue($iTicket, $FP_PROJECT_ID, 5401, $FP_PROJECT_ID);
+
+  # Close $iTicket
+  &editIssue
+  (
+    $iTicket,
+
+    $FP_PROJECT_ID,
+
+    # Appears have to be ane FP user via API
+    "$soapUser",
+
+    "$VERSION: testing create/edit/link/getIssue() -- closing $iTicket",
+
+    ['user1', 'SOME-Queue L3'],
+    #['SOME-Queue L3'],
+    #[ ],
+  
+    #4,
+    2,
+    #1,
+    #3,
+
+    'Resolved',
+
+    "MILD PRIORITY",
+
+    "Re-re-testing Perl Splints and here is a description of the updated issue after linking tickets and closing $iTicket..."
+  );
+
+  # Re-query the ticket again after editing
+  &getIssueDetails($iTicket, $FP_PROJECT_ID);
+
+  # Link one or more other tickets, assuming $iTicket as a "parent"
+  # 'static' link maintains links but does not propagate the changes
+  # to the linked tickets, unlike 'dynamic'
+  &linkIssue(5402, $FP_PROJECT_ID, $iTicket, $FP_PROJECT_ID, 'static');
+  &linkIssue(5402, $FP_PROJECT_ID, 5417, $FP_PROJECT_ID, 'static');
+  &linkIssue(5402, $FP_PROJECT_ID, 5416, $FP_PROJECT_ID, 'static');
+  &linkIssue(5402, $FP_PROJECT_ID, 5415, $FP_PROJECT_ID, 'static');
+  &linkIssue(5402, $FP_PROJECT_ID, 5414, $FP_PROJECT_ID, 'static');
+  &linkIssue(5402, $FP_PROJECT_ID, 5413, $FP_PROJECT_ID, 'static');
+
+  # Close a specific ticket
+  &editIssue
+  (
+    5402,
+
+    $FP_PROJECT_ID,
+
+    # Appears have to be ane FP user via API
+    "$soapUser",
+
+    "$VERSION: testing create/edit/static link/getIssue() -- closing 5402",
+
+    ['user1', 'SOME-Queue L3'],
+    #['SOME-Queue L3'],
+    #[ ],
+  
+    #4,
+    #2,
+    #1,
+    3,
+
+    'Resolved',
+
+    "MILD PRIORITY",
+
+    "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing 35402,.."
+  );
+
+  # Re-query the ticket again after editing
+  &getIssueDetails(5402, $FP_PROJECT_ID);
 }
 else
 {
   warn "Failed to get proper ticket number: $iTicket, createIssue() must have failed";
+  exit(1);
 }
 
 # Test, getting a given "organic" ticket number
@@ -337,5 +423,51 @@ sub getIssueDetails()
   return $result;
 }
 
+sub linkIssue()
+{
+  # By calling this, you don't need to worry about whether this is a new or edited contact. This method
+  # will do all the work.
+
+  # Can link tickets across workspaces $iProjectID1 and $iProjectID2,
+  # else they are simply the same
+  my ($iTicketNumber1, $iProjectID1, $iTicketNumber2, $iProjectID2, $strLinkType) = @_;
+
+  $strLinkType = 'dynamic' if not defined($strLinkType);
+
+  my $soapenv = $soap->MRWebServices__linkIssues
+  (
+    $soapUser,
+    $soapPass,
+    $strExtraInfo,
+    {
+       linkType => $strLinkType,
+       issue1   => {projectID => $iProjectID1, mrID => $iTicketNumber1},
+       issue2   => {projectID => $iProjectID1, mrID => $iTicketNumber2},
+    }
+  );
+
+  my $result;
+
+  if($soapenv->fault)
+  {
+    print ${$soapenv->fault}{faultstring} . "\n";
+    exit;
+  }
+  else
+  {
+    $result = $soapenv->result;
+  }
+
+  if($result)
+  {
+    print "Link ($strLinkType) $iTicketNumber1:$iProjectID1 -> $iTicketNumber2:$iProjectID2 is successful.\n";
+  }
+  else
+  {
+    warn "Link ($strLinkType) $iTicketNumber1:$iProjectID1 -> $iTicketNumber2:$iProjectID2 failed.";
+  }
+
+  return $result;
+}
 
 # EOF
