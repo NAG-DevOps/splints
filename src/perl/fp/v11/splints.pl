@@ -4,7 +4,7 @@ use strict;
 
 use SOAP::Lite;
 
-my $VERSION = "splints-0.0.3";
+my $VERSION = "splints-0.0.4";
 
 ##
 ## Config
@@ -36,7 +36,7 @@ my $soap = new SOAP::Lite;
 
 $soap->uri("$baseUrl/MRWebServices");
 
-print "post URI ---\n";
+print "post URI ---\n" if $bDebug;
 
 if($USE_PROXY_SERVER)
 {
@@ -49,7 +49,7 @@ if($USE_PROXY_SERVER)
 else
 {
   $soap->proxy("$baseUrl/MRcgi/MRWebServices.pl");
-  print "post non-proxy proxy ---\n";
+  print "post non-proxy proxy ---\n" if $bDebug;
 }
 
 # Status values:
@@ -66,13 +66,15 @@ my $iTicket = &createIssue
 (
   $FP_PROJECT_ID,
 
-  # Appears have to be ane FP user via API
+  # Appears have to be an FP user via API
   "$soapUser",
 
   "$VERSION: testing createIssue()...",
+  #"$VERSION: createIssue()'d ticket for mail test",
 
   #['user1', 'SOME-Queue L3'],
   ['SOME-Queue L3'],
+  #['OTHE-Queue L3'],
   #[],
   
   #4,
@@ -80,14 +82,15 @@ my $iTicket = &createIssue
   #1,
   3,
 
-  #'Open',
-  'Assigned',
+  'Open',
+  #'Assigned',
 
   #"Not too urgent",
   "HIGH PRIORITY",
   #"Service Down",
 
-  "Testing Perl Splints and here is a description of the initial issue..."
+  #"Testing Perl Splints and here is a description of the initial issue..."
+  "From Perl Splints and here is a description of the initial issue..."
 );
 
 if($iTicket > 0)
@@ -100,7 +103,7 @@ if($iTicket > 0)
 
     $FP_PROJECT_ID,
 
-    # Appears have to be ane FP user via API
+    # Appears have to be an FP user via API
     "$soapUser",
 
     "$VERSION: testing editIssue(now)... -- renaming $iTicket",
@@ -143,7 +146,7 @@ if($iTicket > 0)
 
     $FP_PROJECT_ID,
 
-    # Appears have to be ane FP user via API
+    # Appears have to be an FP user via API
     "$soapUser",
 
     "$VERSION: testing create/edit/link/getIssue() -- closing $iTicket",
@@ -184,7 +187,7 @@ if($iTicket > 0)
 
     $FP_PROJECT_ID,
 
-    # Appears have to be ane FP user via API
+    # Appears have to be an FP user via API
     "$soapUser",
 
     "$VERSION: testing create/edit/static link/getIssue() -- closing 5402",
@@ -202,7 +205,7 @@ if($iTicket > 0)
 
     "MILD PRIORITY",
 
-    "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing 35402,.."
+    "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing 5402,.."
   );
 
   # Re-query the ticket again after editing
@@ -277,18 +280,21 @@ sub createIssue()
     }
   );
 
-  use Data::Dumper;
-  print Dumper($soapenv);
+  if($bDebug)
+  {
+    use Data::Dumper;
+    print Dumper($soapenv);
+  }
 
   if($soapenv->fault)
   {
-    warn "SOAP FAULT:" . ${$soapenv->fault}{faultstring} . "\n";
-    exit;
+    warn "SOAP FAULT: " . ${$soapenv->fault}{faultstring};
+    exit(1);
   }
   else
   {
     $iTicketNumber = $soapenv->result;
-    print "<<<{{{$iTicketNumber}}}>>>\n";
+    print "<<<{{{$iTicketNumber}}}>>>\n" if $bDebug;
   }
 
   print "Issue [$iTicketNumber] has been created.\n";
@@ -352,16 +358,19 @@ sub editIssue()
     }
   );
 
-  use Data::Dumper;
-  print Dumper($soapenv);
+  if($bDebug)
+  {
+    use Data::Dumper;
+    print Dumper($soapenv);
+  }
 
   if($soapenv->fault)
   {
-    print "SOAP FAULT: " . ${$soapenv->fault}{faultstring} . "\n";
-    exit;
+    warn "SOAP FAULT: " . ${$soapenv->fault}{faultstring};
+    exit(1);
   }
 
-  print "editIssue: done\n";
+  print "editIssue: done\n" if $bDebug;
 
   return $soapenv->result;
 }
@@ -379,30 +388,32 @@ sub getIssueDetails()
     $iTicketNumber
   );
 
-  print "post SOAP request ---\n";
+  print "post SOAP request ---\n" if $bDebug;
 
   my $result;
 
   if($soapenv->fault)
   {
-    warn "SOAP FAULT ---";
-    print ${$soapenv->fault}{faultstring} . "\n";
-    exit;
+    warn "SOAP FAULT --- ${$soapenv->fault}{faultstring}";
+    exit(1);
   }
   else
   {
-    print "SOAP OK ---\n";
+    print "SOAP OK ---\n" if $bDebug;
     $result = $soapenv->result;
   }
 
-  print "<<<{{{$soapenv}}}>>>\n";
+  print "<<<{{{$soapenv}}}>>>\n" if $bDebug;
 
-  use Data::Dumper;
-  print Dumper($soapenv);
+  if($bDebug)
+  {
+    use Data::Dumper;
+    print Dumper($soapenv);
+  }
 
-  print "post result ---\n";
+  print "post result ---\n" if $bDebug;
 
-  print "<<<{{{$result}}}>>>\n";
+  print "<<<{{{$result}}}>>>\n" if $bDebug;
 
   my %hash = %{$result};
 
