@@ -130,6 +130,7 @@ returns SOAP result
 
 ## References ##
 
+- [`SOAP::Lite`](http://search.cpan.org/perldoc?SOAP%3A%3ALite) Documentation, CPAN
 - [BMC FootPrints v11.6 manual](https://docs.bmc.com/docs/display/public/FPSC0/Version+11.6+PDFs)
 - BMC FootPrints v11 Web Services API and sample
     - https://tracks.usask.ca/help/FootPrintsHelp/content/footprints_apimaintopic.htm
