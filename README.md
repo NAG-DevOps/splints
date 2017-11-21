@@ -13,6 +13,9 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 ### EL6 and EL7 ###
 
+- Automated compile test on CentOS 6.x and 7.x:
+  [![Build Status](https://travis-ci.org/NAG-DevOps/splints.svg?branch=master)](https://travis-ci.org/NAG-DevOps/splints)
+
 #### EL7 ####
 
 - `yum install epel-release`
@@ -31,7 +34,7 @@ Current version has limitations below. See supported API.
 ### Footprints v11.6 ###
 
 - navigate to `src/perl/fp/v11`
-- customize `splints.pl` to your needs
+- customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
 - run `./splints.pl`
 
 ## Supported API ###
