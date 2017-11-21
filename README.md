@@ -3,6 +3,24 @@
 
 v0.0.3
 
+Table of Contents
+=================
+
+   * [splints](#splints)
+      * [Installation](#installation)
+         * [EL6 and EL7](#el6-and-el7)
+            * [EL7](#el7)
+            * [EL6](#el6)
+      * [Running](#running)
+         * [Footprints v11.6](#footprints-v116)
+      * [Supported API](#supported-api)
+      * [TODO](#todo)
+         * [Tickecting Systems Support](#tickecting-systems-support)
+         * [Language Support](#language-support)
+         * [OS Support](#os-support)
+      * [Contribution Guidelines](#contribution-guidelines)
+      * [References](#references)
+
 ## Installation ##
 
 Current version is in its very beginning with the gradual
@@ -140,3 +158,5 @@ returns SOAP result
     - https://tracks.usask.ca/help/FootPrintsHelp/content/perl_sample.htm
 - [BMC FootPrints v12.x Web Services API](https://docs.bmc.com/docs/display/public/FPSC120/Configuring+Web+Services)
 - [BestPractical RT REST API](https://rt-wiki.bestpractical.com/wiki/REST)
+- TOC created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
