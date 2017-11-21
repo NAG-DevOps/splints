@@ -1,30 +1,13 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
+use warnings;
 
 use SOAP::Lite;
 
 my $VERSION = "splints-0.0.4";
 
-##
-## Config
-## TODO: split into a module
-##
-
-#my $USE_PROXY_SERVER = 1;
-my $USE_PROXY_SERVER = 0;
-
-# Footprints Workspace
-my $FP_PROJECT_ID = 72;
-
-my $soapUser = 'agentusername';
-my $soapPass = 'agentpassword';
-
-my $baseUrl  = 'https://localhost';
-
-my $proxyUrl  = 'https://localhost:8888';
-
-my $strExtraInfo = '';
+use SPLINTS::Config;
 
 my $bDebug = 1;
 
@@ -34,21 +17,21 @@ my $bDebug = 1;
 
 my $soap = new SOAP::Lite;
 
-$soap->uri("$baseUrl/MRWebServices");
+$soap->uri("$SPLINTS::Config::baseUrl/MRWebServices");
 
 print "post URI ---\n" if $bDebug;
 
-if($USE_PROXY_SERVER)
+if($SPLINTS::Config::USE_PROXY_SERVER)
 {
   $soap->proxy
   (
-    "$baseUrl/MRcgi/MRWebServices.pl",
-    proxy => ['http' => "$proxyUrl/"]
+    "$SPLINTS::Config::baseUrl/MRcgi/MRWebServices.pl",
+    proxy => ['http' => "$SPLINTS::Config::proxyUrl/"]
   );
 }
 else
 {
-  $soap->proxy("$baseUrl/MRcgi/MRWebServices.pl");
+  $soap->proxy("$SPLINTS::Config::baseUrl/MRcgi/MRWebServices.pl");
   print "post non-proxy proxy ---\n" if $bDebug;
 }
 
@@ -64,13 +47,13 @@ else
 
 my $iTicket = &createIssue
 (
-  $FP_PROJECT_ID,
+  $SPLINTS::Config::FP_PROJECT_ID,
 
   # Appears have to be an FP user via API
-  "$soapUser",
+  "$SPLINTS::Config::soapUser",
 
   "$VERSION: testing createIssue()...",
-  #"$VERSION: createIssue()'d ticket for mail test",
+  #"$VERSION: createIssue()'d ticket for user2's mail test",
 
   #['user1', 'SOME-Queue L3'],
   ['SOME-Queue L3'],
@@ -95,16 +78,16 @@ my $iTicket = &createIssue
 
 if($iTicket > 0)
 {
-  &getIssueDetails($iTicket, $FP_PROJECT_ID);
+  &getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
 
   &editIssue
   (
     $iTicket,
 
-    $FP_PROJECT_ID,
+    $SPLINTS::Config::FP_PROJECT_ID,
 
     # Appears have to be an FP user via API
-    "$soapUser",
+    "$SPLINTS::Config::soapUser",
 
     "$VERSION: testing editIssue(now)... -- renaming $iTicket",
 
@@ -127,7 +110,7 @@ if($iTicket > 0)
   );
 
   # Re-query the ticket again after editing
-  &getIssueDetails($iTicket, $FP_PROJECT_ID);
+  &getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
 
   # Link one or more other tickets, assuming $iTicket as a "parent"
   # 'dynamic' link causes edits to one ticket propagate to the others
@@ -144,10 +127,10 @@ if($iTicket > 0)
   (
     $iTicket,
 
-    $FP_PROJECT_ID,
+    $SPLINTS::Config::FP_PROJECT_ID,
 
     # Appears have to be an FP user via API
-    "$soapUser",
+    "$SPLINTS::Config::soapUser",
 
     "$VERSION: testing create/edit/link/getIssue() -- closing $iTicket",
 
@@ -168,29 +151,31 @@ if($iTicket > 0)
   );
 
   # Re-query the ticket again after editing
-  &getIssueDetails($iTicket, $FP_PROJECT_ID);
+  &getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
+
+  my $iSpecificTicket = 5402;
 
   # Link one or more other tickets, assuming $iTicket as a "parent"
   # 'static' link maintains links but does not propagate the changes
   # to the linked tickets, unlike 'dynamic'
-  &linkIssue(5402, $FP_PROJECT_ID, $iTicket, $FP_PROJECT_ID, 'static');
-  &linkIssue(5402, $FP_PROJECT_ID, 5417, $FP_PROJECT_ID, 'static');
-  &linkIssue(5402, $FP_PROJECT_ID, 5416, $FP_PROJECT_ID, 'static');
-  &linkIssue(5402, $FP_PROJECT_ID, 5415, $FP_PROJECT_ID, 'static');
-  &linkIssue(5402, $FP_PROJECT_ID, 5414, $FP_PROJECT_ID, 'static');
-  &linkIssue(5402, $FP_PROJECT_ID, 5413, $FP_PROJECT_ID, 'static');
+  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, $iTicket, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5417, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5416, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5415, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5414, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5413, $SPLINTS::Config::FP_PROJECT_ID, 'static');
 
-  # Close a specific ticket
+  # Close a specific hardcoded ticket
   &editIssue
   (
-    5402,
+    $iSpecificTicket,
 
-    $FP_PROJECT_ID,
+    $SPLINTS::Config::FP_PROJECT_ID,
 
     # Appears have to be an FP user via API
-    "$soapUser",
+    "$SPLINTS::Config::soapUser",
 
-    "$VERSION: testing create/edit/static link/getIssue() -- closing 5402",
+    "$VERSION: testing create/edit/static link/getIssue() -- closing $iSpecificTicket",
 
     ['user1', 'SOME-Queue L3'],
     #['SOME-Queue L3'],
@@ -205,21 +190,17 @@ if($iTicket > 0)
 
     "MILD PRIORITY",
 
-    "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing 5402,.."
+    "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing $iSpecificTicket,.."
   );
 
   # Re-query the ticket again after editing
-  &getIssueDetails(5402, $FP_PROJECT_ID);
+  &getIssueDetails($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID);
 }
 else
 {
   warn "Failed to get proper ticket number: $iTicket, createIssue() must have failed";
   exit(1);
 }
-
-# Test, getting a given "organic" ticket number
-#&getIssueDetails(35086, $FP_PROJECT_ID);
-#&getIssueDetails(35363, $FP_PROJECT_ID);
 
 exit(0);
 
@@ -247,9 +228,9 @@ sub createIssue()
 
   my $soapenv = $soap->MRWebServices__createIssue
   (
-    $soapUser,
-    $soapPass,
-    $strExtraInfo,
+    $SPLINTS::Config::soapUser,
+    $SPLINTS::Config::soapPass,
+    $SPLINTS::Config::strExtraInfo,
     {
       projectID => $iProjectID,
       submitter => "$strSubmitter",
@@ -319,9 +300,9 @@ sub editIssue()
 
   my $soapenv = $soap->MRWebServices__editIssue
   (
-    $soapUser,
-    $soapPass,
-    $strExtraInfo,
+    $SPLINTS::Config::soapUser,
+    $SPLINTS::Config::soapPass,
+    $SPLINTS::Config::strExtraInfo,
     {
       projectID => $iProjectID,
       mrID => $iTicketNumber,
@@ -381,9 +362,9 @@ sub getIssueDetails()
 
   my $soapenv = $soap->MRWebServices__getIssueDetails
   (
-    $soapUser,
-    $soapPass,
-    $strExtraInfo,
+    $SPLINTS::Config::soapUser,
+    $SPLINTS::Config::soapPass,
+    $SPLINTS::Config::strExtraInfo,
     $iProjectID,
     $iTicketNumber
   );
@@ -447,9 +428,9 @@ sub linkIssue()
 
   my $soapenv = $soap->MRWebServices__linkIssues
   (
-    $soapUser,
-    $soapPass,
-    $strExtraInfo,
+    $SPLINTS::Config::soapUser,
+    $SPLINTS::Config::soapPass,
+    $SPLINTS::Config::strExtraInfo,
     {
        linkType => $strLinkType,
        issue1   => {projectID => $iProjectID1, mrID => $iTicketNumber1},
