@@ -35,6 +35,37 @@ else
   print "post non-proxy proxy ---\n" if $bDebug;
 }
 
+# Get a list of all open tickets
+&queryIssues($SPLINTS::Config::FP_PROJECT_ID);
+
+# Get all tickets with a specific subject pattern
+#mrstatus = 'Assigned'
+#mrstatus = 'Closed'
+#mrstatus = '_DELETED_'
+#mrstatus = 'Open'
+#mrstatus = '_REQUEST_'
+#mrstatus = '_SOLVED_'
+
+&queryIssues
+(
+  $SPLINTS::Config::FP_PROJECT_ID,
+  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Open'"
+);
+
+&queryIssues
+(
+  $SPLINTS::Config::FP_PROJECT_ID,
+  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Closed'"
+);
+
+&queryIssues
+(
+  $SPLINTS::Config::FP_PROJECT_ID,
+  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Assigned'"
+);
+
+exit(0);
+
 # Status values:
 #   Open
 #   Assigned
@@ -75,6 +106,8 @@ my $iTicket = &createIssue
   #"Testing Perl Splints and here is a description of the initial issue..."
   "From Perl Splints and here is a description of the initial issue..."
 );
+
+#exit(0);
 
 if($iTicket > 0)
 {
@@ -457,6 +490,53 @@ sub linkIssue()
   else
   {
     warn "Link ($strLinkType) $iTicketNumber1:$iProjectID1 -> $iTicketNumber2:$iProjectID2 failed.";
+  }
+
+  return $result;
+}
+
+sub queryIssues()
+{
+  my ($iProjectID, $strQuery) = @_;
+
+  $strQuery = "SELECT mrID, mrTITLE FROM MASTER$iProjectID WHERE mrSTATUS = 'Open'"
+    if not defined($strQuery);
+
+  my $soapenv = $soap->MRWebServices__search
+  (
+    $SPLINTS::Config::soapUser,
+    $SPLINTS::Config::soapPass,
+    $SPLINTS::Config::strExtraInfo,
+    $strQuery
+  );
+
+  my $result;
+
+  if($soapenv->fault)
+  {
+    print ${$soapenv->fault}{faultstring} . "\n";
+    exit;
+  }
+  else
+  {
+    $result = $soapenv->result;
+  }
+
+  my @result_list = @{$result};
+
+  for(my $i = 0; $i <= $#result_list; $i++)
+  {
+    print "RESULT $i\n";
+    
+    my $hash_ref = $result_list[$i];
+
+    foreach my $item ( keys %{$hash_ref} )
+    {
+        my $val = $hash_ref->{$item};
+        print "$item = '$val'\n";
+    }
+
+    print "---------------------\n";
   }
 
   return $result;

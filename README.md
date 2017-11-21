@@ -1,7 +1,7 @@
 # splints
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems.
 
-v0.0.3
+v0.0.4
 
 Table of Contents
 =================
@@ -111,6 +111,18 @@ linkIssue()
 )
 
 returns SOAP result
+```
+- `queryIssues()` -- queries all issues per query criteria
+```perl
+sub queryIssues()
+(
+    $iProjectID,       -- workspace
+    $strQuery          -- optional SQL query
+)
+
+returns SOAP result Perl hash with all the query results, including
+ticket numbers, titles, and status. If query is not specified, returns
+all Open tickets.
 ```
 
 ## TODO ##
