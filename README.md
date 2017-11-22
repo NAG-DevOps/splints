@@ -45,6 +45,12 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 - `yum install perl-SOAP-Lite`
 - `git clone https://github.com/NAG-DevOps/splints`
 
+## OS X ##
+
+- open Terminal app
+- `cpan -i SOAP::Lite`
+- `git clone https://github.com/NAG-DevOps/splints`
+
 ## Running ##
 
 Current version has limitations below. See supported API.
@@ -59,41 +65,43 @@ Current version has limitations below. See supported API.
 
 - `createIssue()` -- creates a ticket
 ```perl
-$iReturnedTicketNumber = createIssue
+$iReturnedTicketNumber = createIssue();
+
+sub createIssue()
 (
-    $iProjectID,       -- workspace
-    $strSubmitter,     -- FP agent's username
-    $strSubject,       -- title of the ticket
-    $astrAssignees,    -- an array of assignees, can be empty `[]`
-    $iPriorityNumber,  -- ticket priority
-    $strStatus,        -- status (e.g., `Open`)
-    $strPriorityWords, -- priority keywords set together with status
-    $strDescription    -- ticket description
+    $iProjectID,       # -- workspace
+    $strSubmitter,     # -- FP agent's username
+    $strSubject,       # -- title of the ticket
+    $astrAssignees,    # -- an array of assignees, can be empty `[]`
+    $iPriorityNumber,  # -- ticket priority
+    $strStatus,        # -- status (e.g., `Open`)
+    $strPriorityWords, # -- priority keywords set together with status
+    $strDescription    # -- ticket description
 )
 ```
 - `editIssue()` -- edits a ticket
 ```perl
-editIssue()
+sub editIssue()
 (
-    $iTicketNumber,    -- ticket to edit
-    $iProjectID,       -- workspace
-    $strSubmitter,     -- submitting agent
-    $strSubject,       -- new title of the ticket
-    $astrAssignees,    -- new assignees
-    $iPriorityNumber,  -- new priority
-    $strStatus,        -- new status
-    $strPriorityWords, -- new priority words
-    $strDescription    -- description to append
+    $iTicketNumber,    # -- ticket to edit
+    $iProjectID,       # -- workspace
+    $strSubmitter,     # -- submitting agent
+    $strSubject,       # -- new title of the ticket
+    $astrAssignees,    # -- new assignees
+    $iPriorityNumber,  # -- new priority
+    $strStatus,        # -- new status
+    $strPriorityWords, # -- new priority words
+    $strDescription    # -- description to append
 )
 
 returns SOAP result
 ```
 - `getIssueDetails()` -- queries ticket's details
 ```perl
-getIssueDetails()
+sub getIssueDetails()
 (
-    $iTicketNumber,    -- ticket to get info about
-    $iProjectID,       -- workspace
+    $iTicketNumber,    # -- ticket to get info about
+    $iProjectID        # -- workspace
 )
 
 returns SOAP result Perl hash with all the ticket fields
@@ -101,13 +109,13 @@ returns SOAP result Perl hash with all the ticket fields
 - `linkIssue()` -- links two tickets; `dynamic` linking causes changes to one ticket
 to be repeated for the other linked ticket(s); `static` simply refers
 ```perl
-linkIssue()
+sub linkIssue()
 (
-    $iTicketNumber1,    -- ticket1 to link to
-    $iProjectID1,       -- workspace of ticket1
-    $iTicketNumber2,    -- ticket2 to get linked
-    $iProjectID2,       -- workspace of ticket2
-    $strLinkType        -- 'static' or 'dynamic' (default)
+    $iTicketNumber1,    # -- ticket1 to link to
+    $iProjectID1,       # -- workspace of ticket1
+    $iTicketNumber2,    # -- ticket2 to get linked
+    $iProjectID2,       # -- workspace of ticket2
+    $strLinkType        # -- 'static' or 'dynamic' (default)
 )
 
 returns SOAP result
@@ -116,13 +124,13 @@ returns SOAP result
 ```perl
 sub queryIssues()
 (
-    $iProjectID,       -- workspace
-    $strQuery          -- optional SQL query
+    $iProjectID,       # -- workspace
+    $strQuery          # -- optional SQL query
 )
 
 returns SOAP result Perl hash with all the query results, including
 ticket numbers, titles, and status. If query is not specified, returns
-all Open tickets.
+all 'Open' tickets.
 ```
 
 ## TODO ##
@@ -147,7 +155,6 @@ all Open tickets.
 
 ### OS Support ###
 
-- OS X
 - Windows 7 and Windows 10
 
 ## Contribution Guidelines ##
@@ -165,10 +172,11 @@ all Open tickets.
 
 - [`SOAP::Lite`](http://search.cpan.org/perldoc?SOAP%3A%3ALite) Documentation, CPAN
 - [BMC FootPrints v11.6 manual](https://docs.bmc.com/docs/display/public/FPSC0/Version+11.6+PDFs)
-- BMC FootPrints v11 Web Services API and sample
-    - https://tracks.usask.ca/help/FootPrintsHelp/content/footprints_apimaintopic.htm
-    - https://tracks.usask.ca/help/FootPrintsHelp/content/perl_sample.htm
+- BMC FootPrints v11 SOAP Web Services API and sample code
+    - [API Reference](https://tracks.usask.ca/help/FootPrintsHelp/content/footprints_apimaintopic.htm)
+    - [Perl sample](https://tracks.usask.ca/help/FootPrintsHelp/content/perl_sample.htm)
 - [BMC FootPrints v12.x Web Services API](https://docs.bmc.com/docs/display/public/FPSC120/Configuring+Web+Services)
 - [BestPractical RT REST API](https://rt-wiki.bestpractical.com/wiki/REST)
+- [GitHub Issues REST API](https://developer.github.com/v3/issues/)
+- [Bitbucket Issues REST API](https://confluence.atlassian.com/bitbucket/issues-resource-296095191.html)
 - TOC created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
