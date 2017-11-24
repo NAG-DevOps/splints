@@ -1,16 +1,18 @@
 # splints
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems.
 
-v0.0.4
+v0.0.5-dev
 
 Table of Contents
 =================
 
    * [splints](#splints)
+   * [Table of Contents](#table-of-contents)
       * [Installation](#installation)
          * [EL6 and EL7](#el6-and-el7)
             * [EL7](#el7)
             * [EL6](#el6)
+      * [OS X](#os-x)
       * [Running](#running)
          * [Footprints v11.6](#footprints-v116)
       * [Supported API](#supported-api)
@@ -26,7 +28,7 @@ Table of Contents
 Current version is in its very beginning with the gradual
 support being added to work with Footprints v11 in Perl on EL6.
 It requires `SOAP::Lite` Perl module to work.
-The PoC implementation being modularaized based on the
+The PoC implementation being modularized based on the
 Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 ### EL6 and EL7 ###
@@ -55,13 +57,15 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 Current version has limitations below. See supported API.
 
-### Footprints v11.6 ###
+### FootPrints v11.6 ###
 
 - navigate to `src/perl/fp/v11`
 - customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
 - run `./splints.pl`
 
 ## Supported API ###
+
+- `SPLINTS::Config` -- FootPrints instance URLs, credentials, etc.
 
 - `createIssue()` -- creates a ticket
 ```perl
