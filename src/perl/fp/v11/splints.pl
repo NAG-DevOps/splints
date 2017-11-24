@@ -163,11 +163,11 @@ if($iTicket > 0)
   # 'dynamic' link causes edits to one ticket propagate to the others
   # via editIssue() (new subject, description, priority, status, etc.
   # are set for all links if dynaminc if changed)
-  #&linkIssue($iTicket, $FP_PROJECT_ID, 5422, $FP_PROJECT_ID);
-  #&linkIssue($iTicket, $FP_PROJECT_ID, 5410, $FP_PROJECT_ID);
-  #&linkIssue($iTicket, $FP_PROJECT_ID, 5409, $FP_PROJECT_ID);
-  #&linkIssue($iTicket, $FP_PROJECT_ID, 5403, $FP_PROJECT_ID);
-  #&linkIssue($iTicket, $FP_PROJECT_ID, 5401, $FP_PROJECT_ID);
+  #&linkIssues($iTicket, $FP_PROJECT_ID, 5422, $FP_PROJECT_ID);
+  #&linkIssues($iTicket, $FP_PROJECT_ID, 5410, $FP_PROJECT_ID);
+  #&linkIssues($iTicket, $FP_PROJECT_ID, 5409, $FP_PROJECT_ID);
+  #&linkIssues($iTicket, $FP_PROJECT_ID, 5403, $FP_PROJECT_ID);
+  #&linkIssues($iTicket, $FP_PROJECT_ID, 5401, $FP_PROJECT_ID);
 
   # Close $iTicket
   &editIssue
@@ -203,12 +203,12 @@ if($iTicket > 0)
   # Link one or more other tickets, assuming $iTicket as a "parent"
   # 'static' link maintains links but does not propagate the changes
   # to the linked tickets, unlike 'dynamic'
-  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, $iTicket, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5417, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5416, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5415, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5414, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &linkIssue($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5413, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, $iTicket, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5417, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5416, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5415, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5414, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+  &linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5413, $SPLINTS::Config::FP_PROJECT_ID, 'static');
 
   # Close a specific hardcoded ticket
   &editIssue
@@ -458,7 +458,7 @@ sub getIssueDetails()
   return $result;
 }
 
-sub linkIssue()
+sub linkIssues()
 {
   # By calling this, you don't need to worry about whether this is a new or edited contact. This method
   # will do all the work.

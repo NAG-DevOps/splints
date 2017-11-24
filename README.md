@@ -118,10 +118,10 @@ sub getIssueDetails()
 
 returns SOAP result Perl hash with all the ticket fields
 ```
-- `linkIssue()` -- links two tickets; `dynamic` linking causes changes to one ticket
+- `linkIssues()` -- links two tickets; `dynamic` linking causes changes to one ticket
 to be repeated for the other linked ticket(s); `static` simply refers
 ```perl
-sub linkIssue()
+sub linkIssues()
 (
     $iTicketNumber1,    # -- ticket1 to link to
     $iProjectID1,       # -- workspace of ticket1
