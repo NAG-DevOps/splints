@@ -12,9 +12,9 @@ Table of Contents
          * [EL6 and EL7](#el6-and-el7)
             * [EL7](#el7)
             * [EL6](#el6)
-      * [OS X](#os-x)
+         * [OS X](#os-x)
       * [Running](#running)
-         * [Footprints v11.6](#footprints-v116)
+         * [FootPrints v11.6](#footprints-v116)
       * [Supported API](#supported-api)
       * [TODO](#todo)
          * [Tickecting Systems Support](#tickecting-systems-support)
@@ -49,7 +49,7 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 - `yum install perl-TermReadKey` (is you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
 
-## OS X ##
+### OS X ###
 
 - open Terminal app
 - `cpan -i SOAP::Lite`
@@ -183,6 +183,7 @@ all 'Open' tickets.
 ## References ##
 
 - [`SOAP::Lite`](http://search.cpan.org/perldoc?SOAP%3A%3ALite) Documentation, CPAN
+- [`Term::ReadKey`](http://search.cpan.org/perldoc?Term%3A%3AReadKey) Documentation, CPAN
 - [BMC FootPrints v11.6 manual](https://docs.bmc.com/docs/display/public/FPSC0/Version+11.6+PDFs)
 - BMC FootPrints v11 SOAP Web Services API and sample code
     - [API Reference](https://tracks.usask.ca/help/FootPrintsHelp/content/footprints_apimaintopic.htm)
