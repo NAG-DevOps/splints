@@ -9,8 +9,8 @@ my $VERSION = "splints-0.0.5-dev";
 
 use SPLINTS::Config;
 
-use SPLINTS::HardcodedCredentialsProvider;
-#use SPLINTS::PromptCredentialsProvider;
+#use SPLINTS::HardcodedCredentialsProvider;
+use SPLINTS::PromptCredentialsProvider;
 
 my $bDebug = 1;
 
@@ -18,8 +18,14 @@ my $bDebug = 1;
 ## main()
 ##
 
-$SPLINTS::Config::soapUser = SPLINTS::HardcodedCredentialsProvider::getUsername();
-$SPLINTS::Config::soapPass = SPLINTS::HardcodedCredentialsProvider::getPassword();
+#$SPLINTS::Config::soapUser = SPLINTS::HardcodedCredentialsProvider::getUsername();
+#$SPLINTS::Config::soapPass = SPLINTS::HardcodedCredentialsProvider::getPassword();
+
+$SPLINTS::Config::soapUser = SPLINTS::PromptCredentialsProvider::getUsername();
+$SPLINTS::Config::soapPass = SPLINTS::PromptCredentialsProvider::getPassword();
+
+#print "[$SPLINTS::Config::soapUser] --- [$SPLINTS::Config::soapPass]\n";
+#exit;
 
 my $soap = new SOAP::Lite;
 
