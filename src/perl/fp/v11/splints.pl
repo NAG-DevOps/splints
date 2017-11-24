@@ -477,7 +477,7 @@ sub linkIssues()
     {
        linkType => $strLinkType,
        issue1   => {projectID => $iProjectID1, mrID => $iTicketNumber1},
-       issue2   => {projectID => $iProjectID1, mrID => $iTicketNumber2},
+       issue2   => {projectID => $iProjectID2, mrID => $iTicketNumber2},
     }
   );
 
@@ -485,8 +485,8 @@ sub linkIssues()
 
   if($soapenv->fault)
   {
-    print ${$soapenv->fault}{faultstring} . "\n";
-    exit;
+    warn "SOAP FAULT: " . ${$soapenv->fault}{faultstring};
+    exit(1);
   }
   else
   {
@@ -524,8 +524,8 @@ sub queryIssues()
 
   if($soapenv->fault)
   {
-    print ${$soapenv->fault}{faultstring} . "\n";
-    exit;
+    warn "SOAP FAULT: " . ${$soapenv->fault}{faultstring};
+    exit(1);
   }
   else
   {
