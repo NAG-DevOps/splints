@@ -9,11 +9,17 @@ my $VERSION = "splints-0.0.4";
 
 use SPLINTS::Config;
 
+use SPLINTS::HardcodedCredentialsProvider;
+#use SPLINTS::PromptCredentialsProvider;
+
 my $bDebug = 1;
 
 ##
 ## main()
 ##
+
+$SPLINTS::Config::soapUser = SPLINTS::HardcodedCredentialsProvider::getUsername();
+$SPLINTS::Config::soapPass = SPLINTS::HardcodedCredentialsProvider::getPassword();
 
 my $soap = new SOAP::Lite;
 
