@@ -75,9 +75,9 @@ Current version has limitations below. See supported API.
 - `SPLINTS::HardcodedCredentialsProvider` -- simple hardcoded credtianls; DON'T use unless absolutely have to
     - `getUsername()`
     - `getPassword()`
-- `createIssue()` -- creates a ticket
+- `SPLINTS::FootPrints11::createIssue()` -- creates a ticket
 ```perl
-$iReturnedTicketNumber = createIssue();
+$iReturnedTicketNumber = &SPLINTS::FootPrints11::createIssue();
 
 sub createIssue()
 (
@@ -91,7 +91,7 @@ sub createIssue()
     $strDescription    # -- ticket description
 )
 ```
-- `editIssue()` -- edits a ticket
+- `SPLINTS::FootPrints11::editIssue()` -- edits a ticket
 ```perl
 sub editIssue()
 (
@@ -108,7 +108,7 @@ sub editIssue()
 
 returns SOAP result
 ```
-- `getIssueDetails()` -- queries ticket's details
+- `SPLINTS::FootPrints11::getIssueDetails()` -- queries ticket's details
 ```perl
 sub getIssueDetails()
 (
@@ -118,7 +118,7 @@ sub getIssueDetails()
 
 returns SOAP result Perl hash with all the ticket fields
 ```
-- `linkIssues()` -- links two tickets; `dynamic` linking causes changes to one ticket
+- `SPLINTS::FootPrints11::linkIssues()` -- links two tickets; `dynamic` linking causes changes to one ticket
 to be repeated for the other linked ticket(s); `static` simply refers
 ```perl
 sub linkIssues()
@@ -132,7 +132,7 @@ sub linkIssues()
 
 returns SOAP result
 ```
-- `queryIssues()` -- queries all issues per query criteria
+- `SPLINTS::FootPrints11::queryIssues()` -- queries all issues per query criteria
 ```perl
 sub queryIssues()
 (
@@ -148,7 +148,6 @@ all 'Open' tickets.
 ## TODO ##
 
 - See [Issues](https://github.com/NAG-DevOps/splints/issues)
-- Modularize credentials and API
 - Add `GetOpt` support
 
 ### Tickecting Systems Support ###
