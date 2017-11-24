@@ -1,5 +1,5 @@
 # splints
-**S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems.
+**S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems
 
 v0.0.5-dev
 
@@ -27,13 +27,14 @@ Table of Contents
 
 Current version is in its very beginning with the gradual
 support being added to work with Footprints v11 in Perl on EL6.
-It requires `SOAP::Lite` Perl module to work.
+It requires `SOAP::Lite` Perl module to work and `Term::ReadKey`
+for password prompts if the corresponding credentials provider is in use.
 The PoC implementation being modularized based on the
 Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 ### EL6 and EL7 ###
 
-- Automated compile test on CentOS 6.x and 7.x:
+- Automated compile tests on CentOS 6.x and 7.x:
   [![Build Status](https://travis-ci.org/NAG-DevOps/splints.svg?branch=master)](https://travis-ci.org/NAG-DevOps/splints)
 
 #### EL7 ####
@@ -45,12 +46,14 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 - `yum install git`
 - `yum install perl-SOAP-Lite`
+- `yum install perl-TermReadKey` (is you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
 
 ## OS X ##
 
 - open Terminal app
 - `cpan -i SOAP::Lite`
+- `cpan -i Term::ReadKey` (is you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
 
 ## Running ##
@@ -66,7 +69,12 @@ Current version has limitations below. See supported API.
 ## Supported API ###
 
 - `SPLINTS::Config` -- FootPrints instance URLs, credentials, etc.
-
+- `SPLINTS::PromptCredentialsProvider` -- simple credentials prompting modue (default)
+    - `getUsername()`
+    - `getPassword()`
+- `SPLINTS::HardcodedCredentialsProvider` -- simple hardcoded credtianls; DON'T use unless absolutely have to
+    - `getUsername()`
+    - `getPassword()`
 - `createIssue()` -- creates a ticket
 ```perl
 $iReturnedTicketNumber = createIssue();
