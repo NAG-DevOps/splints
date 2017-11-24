@@ -5,7 +5,7 @@ use warnings;
 
 use SOAP::Lite;
 
-my $VERSION = "splints-0.0.4";
+my $VERSION = "splints-0.0.5-dev";
 
 use SPLINTS::Config;
 
@@ -70,6 +70,12 @@ else
   "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Assigned'"
 );
 
+&queryIssues
+(
+  $SPLINTS::Config::FP_PROJECT_ID,
+  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrPRIORITY=1"
+);
+
 exit(0);
 
 # Status values:
@@ -98,8 +104,6 @@ my $iTicket = &createIssue
   #[],
   
   #4,
-  #2,
-  #1,
   3,
 
   'Open',
@@ -135,8 +139,6 @@ if($iTicket > 0)
     [ ],
   
     4,
-    #2,
-    #1,
     #3,
 
     #'Open',
@@ -178,9 +180,7 @@ if($iTicket > 0)
     #[ ],
   
     #4,
-    2,
-    #1,
-    #3,
+    3,
 
     'Resolved',
 
@@ -221,8 +221,6 @@ if($iTicket > 0)
     #[ ],
   
     #4,
-    #2,
-    #1,
     3,
 
     'Resolved',
@@ -495,7 +493,7 @@ sub linkIssue()
   }
   else
   {
-    warn "Link ($strLinkType) $iTicketNumber1:$iProjectID1 -> $iTicketNumber2:$iProjectID2 failed.";
+    warn "Link ($strLinkType) $iTicketNumber1:$iProjectID1 -> $iTicketNumber2:$iProjectID2 failed ($result).";
   }
 
   return $result;
