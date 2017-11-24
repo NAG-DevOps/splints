@@ -13,6 +13,7 @@ Table of Contents
             * [EL7](#el7)
             * [EL6](#el6)
          * [OS X](#os-x)
+		 * [Windows] (#windows-7)
       * [Running](#running)
          * [FootPrints v11.6](#footprints-v116)
       * [Supported API](#supported-api)
@@ -46,15 +47,35 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 - `yum install git`
 - `yum install perl-SOAP-Lite`
-- `yum install perl-TermReadKey` (is you use `SPLINTS::PromptCredentialsProvider`, which you should)
+- `yum install perl-TermReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
 
 ### OS X ###
 
 - open Terminal app
 - `cpan -i SOAP::Lite`
-- `cpan -i Term::ReadKey` (is you use `SPLINTS::PromptCredentialsProvider`, which you should)
+- `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
+
+### Windows 7 ###
+
+#### ActivePerl-5 ####
+
+- get and install Perl for Windows [(ActivePerl-5.24.2.2403-MSWin32-x64-403863.exe (or latest))](https://www.activestate.com/activeperl)
+- open a command prompt `cmd.exe`
+- `cpan -i SOAP::Lite`
+- `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
+- using your favorite method (GitHub Desktop, Source Tree, Git Bash, etc.) clone https://github.com/NAG-DevOps/splints
+
+#### Strawberry ####
+
+- get and install Perl for Windows [(Strawberry)](http://Strawberryperl.com/)
+  strawberry-perl-5.26.1.1-64bit.msi (or latest)
+- open a command prompt `cmd.exe`
+- `cpan -u ExtUtils::MakeMaker`
+- `cpan -i SOAP::Lite`
+- `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
+- using your favorite method (GitHub Desktop, Source Tree, Git Bash, etc.) clone https://github.com/NAG-DevOps/splints
 
 ## Running ##
 
@@ -166,7 +187,7 @@ all 'Open' tickets.
 
 ### OS Support ###
 
-- Windows 7 and Windows 10
+- Windows 10
 
 ## Contribution Guidelines ##
 
