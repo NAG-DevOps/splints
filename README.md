@@ -18,6 +18,8 @@ Table of Contents
             * [Strawberry](#strawberry)
       * [Running](#running)
          * [FootPrints v11.6](#footprints-v116)
+            * [Linux and OS X](#linux-and-os-x)
+            * [Windows](#windows)
       * [Supported API](#supported-api)
       * [TODO](#todo)
          * [Tickecting Systems Support](#tickecting-systems-support)
@@ -85,9 +87,18 @@ Current version has limitations below. See supported API.
 
 ### FootPrints v11.6 ###
 
+#### Linux and OS X ####
+
 - navigate to `src/perl/fp/v11`
 - customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
 - run `./splints.pl`
+
+#### Windows ####
+
+- either open terminal from SourceTree or Git Bash or
+- in `cmd.exe` cd to `src\perl\fp\v11`
+- customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
+- run `perl splints.pl`
 
 ## Supported API ###
 
