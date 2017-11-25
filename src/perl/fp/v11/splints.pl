@@ -5,7 +5,7 @@ use warnings;
 
 use SOAP::Lite;
 
-our $VERSION = "splints-0.0.5-dev";
+our $VERSION = "splints-0.0.5";
 
 use SPLINTS::Config;
 #use SPLINTS::HardcodedCredentialsProvider;
