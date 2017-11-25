@@ -1,7 +1,7 @@
 # splints
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems
 
-v0.0.5-dev
+v0.0.5
 
 Table of Contents
 =================
@@ -13,7 +13,9 @@ Table of Contents
             * [EL7](#el7)
             * [EL6](#el6)
          * [OS X](#os-x)
-		 * [Windows] (#windows-7)
+         * [Windows 7](#windows-7)
+            * [ActivePerl-5](#activeperl-5)
+            * [Strawberry](#strawberry)
       * [Running](#running)
          * [FootPrints v11.6](#footprints-v116)
       * [Supported API](#supported-api)
@@ -53,6 +55,7 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 ### OS X ###
 
 - open Terminal app
+- if getting an `xcrun: error` while doing any of the below after updating your OS X, update your XCode command line tools: `xcode-select --install`
 - `cpan -i SOAP::Lite`
 - `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
@@ -69,8 +72,7 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 #### Strawberry ####
 
-- get and install Perl for Windows [(Strawberry)](http://Strawberryperl.com/)
-  strawberry-perl-5.26.1.1-64bit.msi (or latest)
+- get and install Perl for Windows [(strawberry-perl-5.26.1.1-64bit.msi (or latest))](http://Strawberryperl.com/)
 - open a command prompt `cmd.exe`
 - `cpan -u ExtUtils::MakeMaker`
 - `cpan -i SOAP::Lite`
