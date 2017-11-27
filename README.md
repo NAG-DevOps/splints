@@ -1,7 +1,7 @@
 # splints
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems
 
-v0.0.5
+v0.0.6-dev
 
 Table of Contents
 =================
@@ -13,9 +13,8 @@ Table of Contents
             * [EL7](#el7)
             * [EL6](#el6)
          * [OS X](#os-x)
-         * [Windows 7](#windows-7)
-            * [ActivePerl-5](#activeperl-5)
-            * [Strawberry](#strawberry)
+         * [Windows 7 and 10](#windows-7-and-10)
+            * [ActivePerl-5 or Strawberry Perl](#activeperl-5-or-strawberry-perl)
       * [Running](#running)
          * [FootPrints v11.6](#footprints-v116)
             * [Linux and OS X](#linux-and-os-x)
@@ -24,7 +23,6 @@ Table of Contents
       * [TODO](#todo)
          * [Tickecting Systems Support](#tickecting-systems-support)
          * [Language Support](#language-support)
-         * [OS Support](#os-support)
       * [Contribution Guidelines](#contribution-guidelines)
       * [References](#references)
 
@@ -62,24 +60,17 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 - `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
 
-### Windows 7 ###
+### Windows 7 and 10 ###
 
-#### ActivePerl-5 ####
+#### ActivePerl-5 or Strawberry Perl ####
 
-- get and install Perl for Windows [(ActivePerl-5.24.2.2403-MSWin32-x64-403863.exe (or latest))](https://www.activestate.com/activeperl)
+- get and install Perl for Windows, either:
+    - [(ActivePerl-5.24.2.2403-MSWin32-x64-403863.exe (or latest))](https://www.activestate.com/activeperl), or
+    - [(strawberry-perl-5.26.1.1-64bit.msi (or latest))](http://Strawberryperl.com/)
 - open a command prompt `cmd.exe`
 - `cpan -i SOAP::Lite`
 - `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
-- using your favorite method (GitHub Desktop, Source Tree, Git Bash, etc.) clone https://github.com/NAG-DevOps/splints
-
-#### Strawberry ####
-
-- get and install Perl for Windows [(strawberry-perl-5.26.1.1-64bit.msi (or latest))](http://Strawberryperl.com/)
-- open a command prompt `cmd.exe`
-- `cpan -u ExtUtils::MakeMaker`
-- `cpan -i SOAP::Lite`
-- `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
-- using your favorite method (GitHub Desktop, Source Tree, Git Bash, etc.) clone https://github.com/NAG-DevOps/splints
+- using your favorite method (GitHub Desktop, SourceTree, GitBash, etc.), clone https://github.com/NAG-DevOps/splints
 
 ## Running ##
 
@@ -183,6 +174,7 @@ all 'Open' tickets.
 
 - See [Issues](https://github.com/NAG-DevOps/splints/issues)
 - Add `GetOpt` support
+- Add CI and Contact API support
 
 ### Tickecting Systems Support ###
 
@@ -197,10 +189,6 @@ all 'Open' tickets.
 - Python
 - PHP
 - C#
-
-### OS Support ###
-
-- Windows 10
 
 ## Contribution Guidelines ##
 
