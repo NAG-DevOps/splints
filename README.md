@@ -93,8 +93,8 @@ Current version has limitations below. See supported API.
 - `--quick` -- create a "quick ticket" with an optional description, default assignee, and a subject
 - `--edit` -- quick editing a ticket by appending a description and a subject
 - `--debug` -- enable verbose debug mode; **NOTE:** as a part of the request dump your credentials are dumped as well
-
-- `--description=s` -- string of the description to append
+- `--stdin` -- populate ticket description from STDIN (can be piped from other programs), works with `--quick` and `--edit`; if `--description` is set, it is pre-pended to the STDIN part.
+- `--description=s` -- string of the description to append to the ticket
 - `--subject=s` -- string of the subject line portion (title of the ticket)
 - `--ticket=i` -- ticket number to editing
 
@@ -103,6 +103,8 @@ Current version has limitations below. See supported API.
 - `./splints.pl --quick --subject=foo --description=barbar`
 - `./splints.pl --edit --ticket=5461 --subject=foofoo --description=barbarbaz`
 - `./splints.pl --sim`
+- `./splints.pl --sim --debug`
+- `cal | ./splints.pl --quick --stdin --subject='stdin description body test'`
 
 #### Windows ####
 

@@ -30,14 +30,14 @@ $SPLINTS::Config::soapUser = SPLINTS::PromptCredentialsProvider::getUsername();
 $SPLINTS::Config::soapPass = SPLINTS::PromptCredentialsProvider::getPassword();
 
 my $sim         = ''; # default false
-my $quick       = ''; # defayypult none
-my $edit        = ''; # defayypult none
-my $description = 'Created / updated.'; # default none
-my $subject     = ''; # default none
-my $ticket      = ''; # default none
+my $quick       = ''; # default false
+my $edit        = ''; # default false
+my $description = 'Created / updated.'; # default
+my $stdin       = ''; # default empty
+my $subject     = ''; # default empty
+my $ticket      = ''; # default empty
 
 my $debug       = ''; # default none
-
 
 my $all         = ''; # default false
 my $help        = ''; # default false
@@ -46,20 +46,25 @@ my $pc          = ''; # default none
 
 GetOptions
 (
-  "sim"            => \$sim,    # flag
-  "quick"            => \$quick,    # flag
-  "debug"            => \$quick,    # flag
-  "description=s"    => \$description,    # flag
-  "subject=s"    => \$subject,    # flag
-  "ticket=i"                  => \$ticket,         # string
+  "sim"              => \$sim,            # flag
 
-  "edit"            => \$edit, # flag
+  "quick"            => \$quick,          # flag
+  "edit"             => \$edit,           # flag
+
+  "debug"            => \$debug,          # flag
+
+  "stdin"            => \$stdin,          # flag
+
+  "description=s"    => \$description,    # string
+  "subject=s"        => \$subject,        # string
+  "ticket=i"         => \$ticket,         # int
+
   "all"            => \$all,          # flag
   "help"              => \$help,         # flag
   "g=s"                  => \$gig,          # string
   "p=s"                  => \$pc,           # string
 ) or die "Can't process command line options: $!";
-die print_usage() if $help;
+#die print_usage() if $help;
 
 $bDebug = 1 if $debug;
 
@@ -86,9 +91,21 @@ else
   print "post non-proxy proxy ---\n" if $bDebug;
 }
 
+# --quick
 if($quick)
 {
   print "--quick\n";
+
+  # --stdin
+  if($stdin)
+  {
+    $description .= "\n";
+    while(<STDIN>)
+    {
+      $description .= $_;
+    }
+  }
+
   #die "description: [$description]\n";
   die "Need description: [$description]" if $description eq "";
 
@@ -110,9 +127,21 @@ if($quick)
 
   print "Created ticket: [$iTicket]\n";
 }
+
+# --edit
 elsif($edit)
 {
   my $title = $subject ? $subject : $description;
+
+  # --stdin
+  if($stdin)
+  {
+    $description .= "\n";
+    while(<STDIN>)
+    {
+      $description .= $_;
+    }
+  }
 
   &SPLINTS::FootPrints11::editIssue
   (
@@ -128,8 +157,11 @@ elsif($edit)
     "LOW PRIORITY",
     "$description"
   );
+
   print "Edited ticket: [$ticket]\n";
 }
+
+# --sim
 elsif($sim)
 {
   # Get a list of all open tickets
