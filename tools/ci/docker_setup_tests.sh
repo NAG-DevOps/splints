@@ -7,7 +7,7 @@ el_version=$1
 
 # Commands and paths
 DOCKERPATH=/splints
-BUILDDEPS="yum install -y git perl-SOAP-Lite perl-TermReadKey"
+BUILDDEPS="yum install -y git perl-SOAP-Lite perl-Crypt-SSLeay perl-TermReadKey"
 
 # Debug
 DEBUG=1
