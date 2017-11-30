@@ -9,15 +9,17 @@ Table of Contents
    * [splints](#splints)
    * [Table of Contents](#table-of-contents)
       * [Installation](#installation)
-         * [EL6 and EL7](#el6-and-el7)
+         * [EL7, EL6, EL7](#el7-el6-el7)
             * [EL7](#el7)
-            * [EL6](#el6)
+            * [EL6 and EL5](#el6-and-el5)
          * [OS X](#os-x)
          * [Windows 7 and 10](#windows-7-and-10)
             * [ActivePerl-5 or Strawberry Perl](#activeperl-5-or-strawberry-perl)
       * [Running](#running)
          * [FootPrints v11.6](#footprints-v116)
             * [Linux and OS X](#linux-and-os-x)
+               * [Options](#options)
+               * [Examples](#examples)
             * [Windows](#windows)
       * [Supported API](#supported-api)
       * [TODO](#todo)
@@ -83,14 +85,31 @@ Current version has limitations below. See supported API.
 
 - navigate to `src/perl/fp/v11`
 - customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
-- run `./splints.pl`
+- run `./splints.pl [options]`
+
+##### Options #####
+
+- `--sim` -- run a simulation scenatrio of creating, examing, linking, and closing a ticket (the original 0.0.5- `main`)
+- `--quick` -- create a "quick ticket" with an optional description, default assignee, and a subject
+- `--edit` -- quick editing a ticket by appending a description and a subject
+- `--debug` -- enable verbose debug mode; **NOTE:** as a part of the request dump your credentials are dumped as well
+
+- `--description=s` -- string of the description to append
+- `--subject=s` -- string of the subject line portion (title of the ticket)
+- `--ticket=i` -- ticket number to editing
+
+##### Examples #####
+
+- `./splints.pl --quick --subject=foo --description=barbar`
+- `./splints.pl --edit --ticket=5461 --subject=foofoo --description=barbarbaz`
+- `./splints.pl --sim`
 
 #### Windows ####
 
 - either open terminal from SourceTree or Git Bash or
 - in `cmd.exe` cd to `src\perl\fp\v11`
 - customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
-- run `perl splints.pl`
+- run `perl splints.pl [options]` -- options are documented above
 
 ## Supported API ###
 

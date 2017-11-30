@@ -5,14 +5,19 @@ use warnings;
 
 use SOAP::Lite;
 
-our $VERSION = "splints-0.0.5";
+use Getopt::Std;
+use Getopt::Long;
+
+our $VERSION = "splints-0.0.6-dev";
 
 use SPLINTS::Config;
 #use SPLINTS::HardcodedCredentialsProvider;
 use SPLINTS::PromptCredentialsProvider;
 use SPLINTS::FootPrints11;
 
-our $bDebug = 1;
+our $bDebug = 0;
+
+my %options = ();
 
 ##
 ## main()
@@ -23,6 +28,40 @@ our $bDebug = 1;
 
 $SPLINTS::Config::soapUser = SPLINTS::PromptCredentialsProvider::getUsername();
 $SPLINTS::Config::soapPass = SPLINTS::PromptCredentialsProvider::getPassword();
+
+my $sim         = ''; # default false
+my $quick       = ''; # defayypult none
+my $edit        = ''; # defayypult none
+my $description = 'Created / updated.'; # default none
+my $subject     = ''; # default none
+my $ticket      = ''; # default none
+
+my $debug       = ''; # default none
+
+
+my $all         = ''; # default false
+my $help        = ''; # default false
+my $gig         = ''; # default none
+my $pc          = ''; # default none
+
+GetOptions
+(
+  "sim"            => \$sim,    # flag
+  "quick"            => \$quick,    # flag
+  "debug"            => \$quick,    # flag
+  "description=s"    => \$description,    # flag
+  "subject=s"    => \$subject,    # flag
+  "ticket=i"                  => \$ticket,         # string
+
+  "edit"            => \$edit, # flag
+  "all"            => \$all,          # flag
+  "help"              => \$help,         # flag
+  "g=s"                  => \$gig,          # string
+  "p=s"                  => \$pc,           # string
+) or die "Can't process command line options: $!";
+die print_usage() if $help;
+
+$bDebug = 1 if $debug;
 
 #print "[$SPLINTS::Config::soapUser] --- [$SPLINTS::Config::soapPass]\n";
 #exit;
@@ -47,8 +86,62 @@ else
   print "post non-proxy proxy ---\n" if $bDebug;
 }
 
-# Get a list of all open tickets
-&SPLINTS::FootPrints11::queryIssues($SPLINTS::Config::FP_PROJECT_ID);
+if($quick)
+{
+  print "--quick\n";
+  #die "description: [$description]\n";
+  die "Need description: [$description]" if $description eq "";
+
+  my $title = $subject ? $subject : $description;
+
+  my $iTicket = &SPLINTS::FootPrints11::createIssue
+  (
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "$SPLINTS::Config::soapUser",
+    "Quick ticket ($VERSION): $title",
+    ['SOME-Queue L3'],
+    #[],
+    5,
+    'Assigned',
+    "No priority words",
+    #"Testing Perl Splints and here is a description of the initial issue..."
+    "$description"
+  );
+
+  print "Created ticket: [$iTicket]\n";
+}
+elsif($edit)
+{
+  my $title = $subject ? $subject : $description;
+
+  &SPLINTS::FootPrints11::editIssue
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "$SPLINTS::Config::soapUser",
+    "Edited ticket ($VERSION): $title",
+    ['SOME-Queue L3'],
+    #[ ],
+    4,
+    #'Assigned',
+    'Work In Progress',
+    "LOW PRIORITY",
+    "$description"
+  );
+  print "Edited ticket: [$ticket]\n";
+}
+elsif($sim)
+{
+  # Get a list of all open tickets
+  &SPLINTS::FootPrints11::queryIssues($SPLINTS::Config::FP_PROJECT_ID);
+#}
+#else
+#{
+#  print "Not --sim\n";
+#  exit(0);
+#}
+
+#exit(0);
 
 # Get all tickets with a specific subject pattern
 #mrstatus = 'Assigned'
@@ -64,26 +157,25 @@ else
   "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Open'"
 );
 
-&SPLINTS::FootPrints11::queryIssues
-(
-  $SPLINTS::Config::FP_PROJECT_ID,
-  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Closed'"
-);
+#&SPLINTS::FootPrints11::queryIssues
+#(
+#  $SPLINTS::Config::FP_PROJECT_ID,
+#  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Closed'"
+#);
+#
+#&SPLINTS::FootPrints11::queryIssues
+#(
+#  $SPLINTS::Config::FP_PROJECT_ID,
+#  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Assigned'"
+#);
+#
+#&SPLINTS::FootPrints11::queryIssues
+#(
+#  $SPLINTS::Config::FP_PROJECT_ID,
+#  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrPRIORITY=1"
+#);
 
-&SPLINTS::FootPrints11::queryIssues
-(
-  $SPLINTS::Config::FP_PROJECT_ID,
-  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Assigned'"
-);
-
-#&queryIssues
-&SPLINTS::FootPrints11::queryIssues
-(
-  $SPLINTS::Config::FP_PROJECT_ID,
-  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrPRIORITY=1"
-);
-
-exit(0);
+#exit(0);
 
 # Status values:
 #   Open
@@ -246,6 +338,12 @@ else
   exit(1);
 }
 
+}
+else
+{
+  print "Not --sim\n";
+  exit(0);
+}
 exit(0);
 
 # EOF
