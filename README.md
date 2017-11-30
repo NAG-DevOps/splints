@@ -35,7 +35,7 @@ for password prompts if the corresponding credentials provider is in use.
 The PoC implementation being modularized based on the
 Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
-### EL6 and EL7 ###
+### EL7, EL6, EL7 ###
 
 - Automated compile tests on CentOS 6.x and 7.x:
   [![Build Status](https://travis-ci.org/NAG-DevOps/splints.svg?branch=master)](https://travis-ci.org/NAG-DevOps/splints)
@@ -43,12 +43,13 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 #### EL7 ####
 
 - `yum install epel-release`
-- (follow the steps for EL6)
+- (follow the steps for EL6 and EL5 below)
 
-#### EL6 ####
+#### EL6 and EL5 ####
 
 - `yum install git`
 - `yum install perl-SOAP-Lite`
+- `yum install perl-Crypt-SSLeay`
 - `yum install perl-TermReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
 - `git clone https://github.com/NAG-DevOps/splints`
 
