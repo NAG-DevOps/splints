@@ -9,6 +9,8 @@ Table of Contents
    * [splints](#splints)
    * [Table of Contents](#table-of-contents)
       * [Installation](#installation)
+         * [Perl 5](#perl-5)
+         * [PHP](#php)
          * [EL7, EL6, EL7](#el7-el6-el7)
             * [EL7](#el7)
             * [EL6 and EL5](#el6-and-el5)
@@ -16,7 +18,7 @@ Table of Contents
          * [Windows 7 and 10](#windows-7-and-10)
             * [ActivePerl-5 or Strawberry Perl](#activeperl-5-or-strawberry-perl)
       * [Running](#running)
-         * [FootPrints v11.6](#footprints-v116)
+         * [FootPrints v11.6 and Perl 5](#footprints-v116-and-perl-5)
             * [Linux and OS X](#linux-and-os-x)
                * [Options](#options)
                * [Examples](#examples)
@@ -30,12 +32,22 @@ Table of Contents
 
 ## Installation ##
 
+### Perl 5 ###
+
 Current version is in its very beginning with the gradual
 support being added to work with Footprints v11 in Perl on EL6.
 It requires `SOAP::Lite` Perl module to work and `Term::ReadKey`
 for password prompts if the corresponding credentials provider is in use.
+`Crypt::SSLeay` is required for HTTPS access.
 The PoC implementation being modularized based on the
 Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
+
+### PHP ###
+
+Experimental PHP 5.5.36 development is in progress.
+PHP's `SoapClient` is required.
+The PoC implementation being modularized based on the
+PHP sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 ### EL7, EL6, EL7 ###
 
@@ -79,7 +91,7 @@ Perl sample of the Chapter 11 of BMC FootPrints Service Core manual.
 
 Current version has limitations below. See supported API.
 
-### FootPrints v11.6 ###
+### FootPrints v11.6 and Perl 5 ###
 
 #### Linux and OS X ####
 
@@ -89,22 +101,35 @@ Current version has limitations below. See supported API.
 
 ##### Options #####
 
-- `--sim` -- run a simulation scenatrio of creating, examing, linking, and closing a ticket (the original 0.0.5- `main`)
 - `--quick` -- create a "quick ticket" with an optional description, default assignee, and a subject
 - `--edit` -- quick editing a ticket by appending a description and a subject
+- `--details` -- dump ticket details in a simple raw list form
+- `--link` -- link two tickets
+
 - `--debug` -- enable verbose debug mode; **NOTE:** as a part of the request dump your credentials are dumped as well
+
 - `--stdin` -- populate ticket description from STDIN (can be piped from other programs), works with `--quick` and `--edit`; if `--description` is set, it is pre-pended to the STDIN part.
+- `--static` -- use static linking of tickets (default); works with `--link`
+- `--dynamic` -- use dynamic linking of tickets; works with `--link`
+
 - `--description=s` -- string of the description to append to the ticket
 - `--subject=s` -- string of the subject line portion (title of the ticket)
-- `--ticket=i` -- ticket number to editing
+- `--ticket=i` -- ticket number to edit, see details of, or link
+- `--ticket2=i` -- other ticket number to link to
+- `--sim` -- run a simulation scenario of creating, examining, linking, and closing a ticket (the original 0.0.5-'s `main`)
 
 ##### Examples #####
 
+- `./splints.pl --quick`
 - `./splints.pl --quick --subject=foo --description=barbar`
 - `./splints.pl --edit --ticket=5461 --subject=foofoo --description=barbarbaz`
+- `cal | ./splints.pl --quick --stdin --subject='stdin description body test'`
+- `cal | ./splints.pl --edit --ticket=5461 --stdin --subject='optional subject for stdin description body test'`
+- `./splints.pl --link --ticket=5473 --ticket2=5474`
+- `./splints.pl --link --ticket=5474 --ticket2=5475 --dynamic`
+- `./splints.pl --details --ticket=5474`
 - `./splints.pl --sim`
 - `./splints.pl --sim --debug`
-- `cal | ./splints.pl --quick --stdin --subject='stdin description body test'`
 
 #### Windows ####
 
@@ -209,7 +234,7 @@ all 'Open' tickets.
 
 - Java
 - Python
-- PHP
+- PHP (in progress)
 - C#
 
 ## Contribution Guidelines ##
