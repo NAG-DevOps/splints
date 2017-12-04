@@ -32,10 +32,20 @@ $SPLINTS::Config::soapPass = SPLINTS::PromptCredentialsProvider::getPassword();
 my $sim         = ''; # default false
 my $quick       = ''; # default false
 my $edit        = ''; # default false
+my $details     = ''; # default false
+my $link        = ''; # default false
+my $resolve     = ''; # default false
+my $assign      = ''; # default false
+my $unassign    = ''; # default false
+
 my $description = 'Created / updated.'; # default
 my $stdin       = ''; # default empty
+my $static      = ''; # default empty
+my $dynamic     = ''; # default empty
 my $subject     = ''; # default empty
 my $ticket      = ''; # default empty
+my $ticket2     = ''; # default empty
+my $tix         = ''; # default empty
 
 my $debug       = ''; # default none
 
@@ -47,17 +57,26 @@ my $pc          = ''; # default none
 GetOptions
 (
   "sim"              => \$sim,            # flag
-
   "quick"            => \$quick,          # flag
   "edit"             => \$edit,           # flag
+  "details"          => \$details,        # flag
+  "link"             => \$link,           # flag
+  "resolve"          => \$resolve,        # flag
+  "assign"           => \$assign,         # flag
+  "unassign"         => \$unassign,       # flag
 
   "debug"            => \$debug,          # flag
 
   "stdin"            => \$stdin,          # flag
+  "static"           => \$static,         # flag
+  "dynamic"          => \$dynamic,        # flag
 
   "description=s"    => \$description,    # string
+  "descr=s"          => \$description,    # string
   "subject=s"        => \$subject,        # string
   "ticket=i"         => \$ticket,         # int
+  "ticket2=i"        => \$ticket2,        # int
+  "tix=s"            => \$tix,            # string
 
   "all"            => \$all,          # flag
   "help"              => \$help,         # flag
@@ -106,7 +125,6 @@ if($quick)
     }
   }
 
-  #die "description: [$description]\n";
   die "Need description: [$description]" if $description eq "";
 
   my $title = $subject ? $subject : $description;
@@ -143,6 +161,9 @@ elsif($edit)
     }
   }
 
+  # TODO: check if $ticket is specified
+  # TODO: remove forcing of extra fields
+
   &SPLINTS::FootPrints11::editIssue
   (
     $ticket,
@@ -159,6 +180,37 @@ elsif($edit)
   );
 
   print "Edited ticket: [$ticket]\n";
+}
+
+# --details
+elsif($details)
+{
+  # TODO: check if $ticket is specified
+  &SPLINTS::FootPrints11::getIssueDetails($ticket, $SPLINTS::Config::FP_PROJECT_ID);
+  print "Ticket [$ticket]'s details\n";
+}
+
+# --link
+elsif($link)
+{
+  # Link two tickets
+  # 'static' link maintains links but does not propagate the changes
+  # to the linked tickets, unlike 'dynamic'
+  my $linkType = (!$static && !$dynamic) ? "static" : ($static ? 'static' : 'dynamic');
+
+  # TODO: check if $ticket and $ticket2 are specified
+  # TODO: allow different workspaces
+  
+  &SPLINTS::FootPrints11::linkIssues
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    $ticket2,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    $linkType
+  );
+  
+  print "Done linking tickets [$ticket:$ticket2] as $linkType in PROJ=$SPLINTS::Config::FP_PROJECT_ID.\n";
 }
 
 # --sim
@@ -373,9 +425,10 @@ else
 }
 else
 {
-  print "Not --sim\n";
-  exit(0);
+  print "No main context option found (@ARGV).\n";
+  exit(1);
 }
+
 exit(0);
 
 # EOF
