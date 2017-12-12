@@ -103,10 +103,10 @@ Current version has limitations below. See supported API.
 
 - `--quick` -- create a "quick ticket" with an optional description, default assignee, and a subject
 - `--edit` -- quick editing a ticket by appending a description and a subject
+- `--resolve` -- resolves a specified ticket
 - `--details` -- dump ticket details in a simple raw list form
 - `--link` -- link two tickets
-
-- `--debug` -- enable verbose debug mode; **NOTE:** as a part of the request dump your credentials are dumped as well
+- `--link-asset=s` -- link CI (defaults to a specific asset type 3) to a specified ticket
 
 - `--stdin` -- populate ticket description from STDIN (can be piped from other programs), works with `--quick` and `--edit`; if `--description` is set, it is pre-pended to the STDIN part.
 - `--static` -- use static linking of tickets (default); works with `--link`
@@ -116,6 +116,8 @@ Current version has limitations below. See supported API.
 - `--subject=s` -- string of the subject line portion (title of the ticket)
 - `--ticket=i` -- ticket number to edit, see details of, or link
 - `--ticket2=i` -- other ticket number to link to
+
+- `--debug` -- enable verbose debug mode; **NOTE:** as a part of the request dump your credentials are dumped as well
 - `--sim` -- run a simulation scenario of creating, examining, linking, and closing a ticket (the original 0.0.5-'s `main`)
 
 ##### Examples #####
@@ -139,6 +141,29 @@ Current version has limitations below. See supported API.
 - run `perl splints.pl [options]` -- options are documented above
 
 ## Supported API ###
+
+### Summary ###
+
+| API                            | FP11 + Perl | FP11 + PHP | FP11 + Java |
+| ------------------------------ |:-----------:|:----------:|:-----------:|
+| `Config`                       | *           |            |             |
+| `PromptCredentialsProvider`    | *           |            |             |
+| `HardcodedCredentialsProvider` | *           |            |             |
+| `createIssue()`                | *           |            |             |
+| `editIssue()`                  | *           | *          |             |
+| `getIssueDetails()`            | *           |            |             |
+| `--format=raw`                 | *           |            |             |
+| `--format=email`               |             |            |             |
+| `--format=flucid`              |             |            |             |
+| `linkIssues()`                 | *           |            |             |
+| `queryIssues()`                | *           |            |             |
+| `createAsset()`                |             |            |             |
+| `linkAsset()`                  | * (CI to ticket)  |      |             |
+| `editAsset()`                  |             |            |             |
+| `createContact()`              |             |            |             |
+| `editContact()`                |             |            |             |
+
+## Details
 
 - `SPLINTS::Config` -- FootPrints instance URLs, credentials, etc.
 - `SPLINTS::PromptCredentialsProvider` -- simple credentials prompting modue (default)
@@ -215,12 +240,19 @@ sub queryIssues()
 returns SOAP result Perl hash with all the query results, including
 ticket numbers, titles, and status. If query is not specified, returns
 all 'Open' tickets.
-```
+- `SPLINTS::FootPrints11::linkAsset()` -- links a ticket and CI CMDB entry
+```perl
+sub linkIssues()
+(
+    $iTicketNumber,     # -- ticket to link to
+    $iProjectID,        # -- workspace of ticket1
+    $iAssedCMDBID,      # -- CMDB ID type to link to
+    $iAssetID           # -- CI-ID to link to
+)
 
 ## TODO ##
 
 - See [Issues](https://github.com/NAG-DevOps/splints/issues)
-- Add `GetOpt` support
 - Add CI and Contact API support
 
 ### Tickecting Systems Support ###
