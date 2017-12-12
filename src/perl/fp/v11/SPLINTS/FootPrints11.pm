@@ -316,6 +316,59 @@ sub queryIssues()
   return $result;
 }
 
+sub linkAsset()
+{
+  # MR, PROJ, CMDB ID, CI ID
+  my ($iTicketNumber, $iProjectID, $iAssedCMDBID, $iAssetID) = @_;
+
+  # TODO: fix hardcoding
+  #my $iAssetIDType = 10;
+  my $iAssetIDType = 3;
+
+  my $soapenv = $::soap->MRWebServices__createCIIssueLink
+  (
+    $SPLINTS::Config::soapUser,
+    $SPLINTS::Config::soapPass,
+    $SPLINTS::Config::strExtraInfo,
+    {
+       CMDB_ID    => $iAssedCMDBID,
+       CI_ID      => $iAssetID,
+       CI_TYPE_ID => $iAssetIDType,
+       PROJECTID  => $iProjectID,
+       MRID       => $iTicketNumber,
+    }
+  );
+
+  if($::bDebug)
+  {
+    use Data::Dumper;
+    print Dumper($soapenv);
+  }
+
+  my $result;
+
+  if($soapenv->fault)
+  {
+    warn "SOAP FAULT: " . ${$soapenv->fault}{faultstring};
+    exit(1);
+  }
+  else
+  {
+    $result = $soapenv->result;
+  }
+
+  if($result)
+  {
+    print "Link ($iAssetIDType) $iTicketNumber:$iProjectID -> $iAssedCMDBID-$iAssetID is successful.\n";
+  }
+  else
+  {
+    warn "Link ($iAssetIDType) $iTicketNumber:$iProjectID -> $iAssedCMDBID-$iAssetID failed ($result).";
+  }
+
+  return $result;
+}
+
 1;
 
 # EOF

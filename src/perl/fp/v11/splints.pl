@@ -46,6 +46,7 @@ my $subject     = ''; # default empty
 my $ticket      = ''; # default empty
 my $ticket2     = ''; # default empty
 my $tix         = ''; # default empty
+my $workstation = 3; # default 3
 
 my $debug       = ''; # default none
 
@@ -62,8 +63,9 @@ GetOptions
   "details"          => \$details,        # flag
   "link"             => \$link,           # flag
   "resolve"          => \$resolve,        # flag
-  "assign"           => \$assign,         # flag
-  "unassign"         => \$unassign,       # flag
+  "assign=s"         => \$assign,         # string
+  "unassign=s"       => \$unassign,       # string
+  "link-asset=s"     => \$linkasset,      # string
 
   "debug"            => \$debug,          # flag
 
@@ -182,6 +184,35 @@ elsif($edit)
   print "Edited ticket: [$ticket]\n";
 }
 
+# --resolve
+elsif($resolve)
+{
+  # TODO: check if $ticket is specified
+  # TODO: remove forcing of extra fields
+
+  my $result = &SPLINTS::FootPrints11::editIssue
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "$SPLINTS::Config::soapUser",
+    "Resolved ticket ($ticket)",
+    [ ],
+    4,
+    'Resolved',
+    "",
+    "Resolving..."
+  );
+
+  if($result)
+  {
+    print "Resolved ticket: [$ticket]\n";
+  }
+  else
+  {
+    warn "Failed to resolve ticket [$ticket]";
+  }
+}
+
 # --details
 elsif($details)
 {
@@ -213,215 +244,233 @@ elsif($link)
   print "Done linking tickets [$ticket:$ticket2] as $linkType in PROJ=$SPLINTS::Config::FP_PROJECT_ID.\n";
 }
 
+# --link-asset
+elsif($linkasset)
+{
+  # TODO: check if $ticket and $ticket2 are specified
+  # TODO: allow different workspaces
+
+  my $result = &SPLINTS::FootPrints11::linkAsset
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    $workstation, # 3
+    $linkasset    # CI-ID
+  );
+
+  if($result)
+  {
+    print "Done linking ticket [$ticket:$SPLINTS::Config::FP_PROJECT_ID] to asset [$workstation-$linkasset]\n";
+  }
+  else
+  {
+    warn "Could not link ticket [$ticket:$SPLINTS::Config::FP_PROJECT_ID] to asset [$workstation-$linkasset]";
+  }
+}
+
 # --sim
 elsif($sim)
 {
   # Get a list of all open tickets
   &SPLINTS::FootPrints11::queryIssues($SPLINTS::Config::FP_PROJECT_ID);
-#}
-#else
-#{
-#  print "Not --sim\n";
-#  exit(0);
-#}
 
-#exit(0);
+  #exit(0);
 
-# Get all tickets with a specific subject pattern
-#mrstatus = 'Assigned'
-#mrstatus = 'Closed'
-#mrstatus = '_DELETED_'
-#mrstatus = 'Open'
-#mrstatus = '_REQUEST_'
-#mrstatus = '_SOLVED_'
+  # Get all tickets with a specific subject pattern
+  #mrstatus = 'Assigned'
+  #mrstatus = 'Closed'
+  #mrstatus = '_DELETED_'
+  #mrstatus = 'Open'
+  #mrstatus = '_REQUEST_'
+  #mrstatus = '_SOLVED_'
 
-&SPLINTS::FootPrints11::queryIssues
-(
-  $SPLINTS::Config::FP_PROJECT_ID,
-  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Open'"
-);
-
-#&SPLINTS::FootPrints11::queryIssues
-#(
-#  $SPLINTS::Config::FP_PROJECT_ID,
-#  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Closed'"
-#);
-#
-#&SPLINTS::FootPrints11::queryIssues
-#(
-#  $SPLINTS::Config::FP_PROJECT_ID,
-#  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Assigned'"
-#);
-#
-#&SPLINTS::FootPrints11::queryIssues
-#(
-#  $SPLINTS::Config::FP_PROJECT_ID,
-#  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrPRIORITY=1"
-#);
-
-#exit(0);
-
-# Status values:
-#   Open
-#   Assigned
-#   Work In Progress
-#   On Hold
-#   Pending Customer
-#   Scheduled
-#   Resolved
-#   Cancelled
-
-my $iTicket = &SPLINTS::FootPrints11::createIssue
-(
-  $SPLINTS::Config::FP_PROJECT_ID,
-
-  # Appears have to be an FP user via API
-  "$SPLINTS::Config::soapUser",
-
-  "$VERSION: testing createIssue()...",
-  #"$VERSION: createIssue()'d ticket for user2's mail test",
-
-  #['user1', 'SOME-Queue L3'],
-  ['SOME-Queue L3'],
-  #['OTHE-Queue L3'],
-  #[],
-  
-  #4,
-  3,
-
-  'Open',
-  #'Assigned',
-
-  #"Not too urgent",
-  "HIGH PRIORITY",
-  #"Service Down",
-
-  #"Testing Perl Splints and here is a description of the initial issue..."
-  "From Perl Splints and here is a description of the initial issue..."
-);
-
-#exit(0);
-
-if($iTicket > 0)
-{
-  &SPLINTS::FootPrints11::getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
-
-  &SPLINTS::FootPrints11::editIssue
+  &SPLINTS::FootPrints11::queryIssues
   (
-    $iTicket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Open'"
+  );
 
+  #&SPLINTS::FootPrints11::queryIssues
+  #(
+  #  $SPLINTS::Config::FP_PROJECT_ID,
+  #  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Closed'"
+  #);
+
+  #&SPLINTS::FootPrints11::queryIssues
+  #(
+  #  $SPLINTS::Config::FP_PROJECT_ID,
+  #  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrTITLE LIKE '%Exam Scoring%' AND mrSTATUS='Assigned'"
+  #);
+
+  #&SPLINTS::FootPrints11::queryIssues
+  #(
+  #  $SPLINTS::Config::FP_PROJECT_ID,
+  #  "SELECT mrID, mrTITLE, mrSTATUS from MASTER$SPLINTS::Config::FP_PROJECT_ID WHERE mrPRIORITY=1"
+  #);
+
+  #exit(0);
+
+  # Status values:
+  #   Open
+  #   Assigned
+  #   Work In Progress
+  #   On Hold
+  #   Pending Customer
+  #   Scheduled
+  #   Resolved
+  #   Cancelled
+  #   Closed
+
+  my $iTicket = &SPLINTS::FootPrints11::createIssue
+  (
     $SPLINTS::Config::FP_PROJECT_ID,
 
     # Appears have to be an FP user via API
     "$SPLINTS::Config::soapUser",
 
-    "$VERSION: testing editIssue(now)... -- renaming $iTicket",
+    "$VERSION: testing createIssue()...",
+    #"$VERSION: createIssue()'d ticket for user2's mail test",
 
     #['user1', 'SOME-Queue L3'],
-    #['SOME-Queue L3'],
-    [ ],
+    ['SOME-Queue L3'],
+    #['OTHE-Queue L3'],
+    #[],
   
-    4,
-    #3,
+    #4,
+    3,
 
-    #'Open',
+    'Open',
     #'Assigned',
-    'Work In Progress',
 
-    "LOW PRIORITY",
+    #"Not too urgent",
+    "HIGH PRIORITY",
+    #"Service Down",
 
-    "Re-Testing Perl Splints and here is a description of the updated issue..."
+    #"Testing Perl Splints and here is a description of the initial issue..."
+    "From Perl Splints and here is a description of the initial issue..."
   );
 
-  # Re-query the ticket again after editing
-  &SPLINTS::FootPrints11::getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
+  #exit(0);
 
-  # Link one or more other tickets, assuming $iTicket as a "parent"
-  # 'dynamic' link causes edits to one ticket propagate to the others
-  # via editIssue() (new subject, description, priority, status, etc.
-  # are set for all links if dynaminc if changed)
-  #&linkIssues($iTicket, $FP_PROJECT_ID, 5422, $FP_PROJECT_ID);
-  #&linkIssues($iTicket, $FP_PROJECT_ID, 5410, $FP_PROJECT_ID);
-  #&linkIssues($iTicket, $FP_PROJECT_ID, 5409, $FP_PROJECT_ID);
-  #&linkIssues($iTicket, $FP_PROJECT_ID, 5403, $FP_PROJECT_ID);
-  #&linkIssues($iTicket, $FP_PROJECT_ID, 5401, $FP_PROJECT_ID);
+  if($iTicket > 0)
+  {
+    &SPLINTS::FootPrints11::getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
 
-  # Close $iTicket
-  &SPLINTS::FootPrints11::editIssue
-  (
-    $iTicket,
+    &SPLINTS::FootPrints11::editIssue
+    (
+      $iTicket,
 
-    $SPLINTS::Config::FP_PROJECT_ID,
+      $SPLINTS::Config::FP_PROJECT_ID,
 
-    # Appears have to be an FP user via API
-    "$SPLINTS::Config::soapUser",
+      # Appears have to be an FP user via API
+      "$SPLINTS::Config::soapUser",
 
-    "$VERSION: testing create/edit/link/getIssue() -- closing $iTicket",
+      "$VERSION: testing editIssue(now)... -- renaming $iTicket",
 
-    ['user1', 'SOME-Queue L3'],
-    #['SOME-Queue L3'],
-    #[ ],
+      #['user1', 'SOME-Queue L3'],
+      #['SOME-Queue L3'],
+      [ ],
   
-    #4,
-    3,
+      4,
+      #3,
 
-    'Resolved',
+      #'Open',
+      #'Assigned',
+      'Work In Progress',
 
-    "MILD PRIORITY",
+      "LOW PRIORITY",
 
-    "Re-re-testing Perl Splints and here is a description of the updated issue after linking tickets and closing $iTicket..."
-  );
+      "Re-Testing Perl Splints and here is a description of the updated issue..."
+    );
 
-  # Re-query the ticket again after editing
-  &SPLINTS::FootPrints11::getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
+    # Re-query the ticket again after editing
+    &SPLINTS::FootPrints11::getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
 
-  my $iSpecificTicket = 5402;
+    # Link one or more other tickets, assuming $iTicket as a "parent"
+    # 'dynamic' link causes edits to one ticket propagate to the others
+    # via editIssue() (new subject, description, priority, status, etc.
+    # are set for all links if dynaminc if changed)
+    #&linkIssues($iTicket, $FP_PROJECT_ID, 5422, $FP_PROJECT_ID);
+    #&linkIssues($iTicket, $FP_PROJECT_ID, 5410, $FP_PROJECT_ID);
+    #&linkIssues($iTicket, $FP_PROJECT_ID, 5409, $FP_PROJECT_ID);
+    #&linkIssues($iTicket, $FP_PROJECT_ID, 5403, $FP_PROJECT_ID);
+    #&linkIssues($iTicket, $FP_PROJECT_ID, 5401, $FP_PROJECT_ID);
 
-  # Link one or more other tickets, assuming $iTicket as a "parent"
-  # 'static' link maintains links but does not propagate the changes
-  # to the linked tickets, unlike 'dynamic'
-  &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, $iTicket, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5417, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5416, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5415, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5414, $SPLINTS::Config::FP_PROJECT_ID, 'static');
-  &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 5413, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+    # Close $iTicket
+    &SPLINTS::FootPrints11::editIssue
+    (
+      $iTicket,
 
-  # Close a specific hardcoded ticket
-  &SPLINTS::FootPrints11::editIssue
-  (
-    $iSpecificTicket,
+      $SPLINTS::Config::FP_PROJECT_ID,
 
-    $SPLINTS::Config::FP_PROJECT_ID,
+      # Appears have to be an FP user via API
+      "$SPLINTS::Config::soapUser",
 
-    # Appears have to be an FP user via API
-    "$SPLINTS::Config::soapUser",
+      "$VERSION: testing create/edit/link/getIssue() -- closing $iTicket",
 
-    "$VERSION: testing create/edit/static link/getIssue() -- closing $iSpecificTicket",
-
-    ['user1', 'SOME-Queue L3'],
-    #['SOME-Queue L3'],
-    #[ ],
+      ['user1', 'SOME-Queue L3'],
+      #['SOME-Queue L3'],
+      #[ ],
   
-    #4,
-    3,
+      #4,
+      3,
 
-    'Resolved',
+      'Resolved',
 
-    "MILD PRIORITY",
+      "MILD PRIORITY",
 
-    "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing $iSpecificTicket,.."
-  );
+      "Re-re-testing Perl Splints and here is a description of the updated issue after linking tickets and closing $iTicket..."
+    );
 
-  # Re-query the ticket again after editing
-  &SPLINTS::FootPrints11::getIssueDetails($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID);
-}
-else
-{
-  warn "Failed to get proper ticket number: $iTicket, createIssue() must have failed";
-  exit(1);
-}
+    # Re-query the ticket again after editing
+    &SPLINTS::FootPrints11::getIssueDetails($iTicket, $SPLINTS::Config::FP_PROJECT_ID);
 
+    my $iSpecificTicket = 5402;
+
+    # Link one or more other tickets, assuming $iTicket as a "parent"
+    # 'static' link maintains links but does not propagate the changes
+    # to the linked tickets, unlike 'dynamic'
+    &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, $iTicket, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+    &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 30317, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+    &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 30316, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+    &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 30315, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+    &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 30314, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+    &SPLINTS::FootPrints11::linkIssues($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID, 30313, $SPLINTS::Config::FP_PROJECT_ID, 'static');
+
+    # Close a specific hardcoded ticket
+    &SPLINTS::FootPrints11::editIssue
+    (
+      $iSpecificTicket,
+
+      $SPLINTS::Config::FP_PROJECT_ID,
+
+      # Appears have to be an FP user via API
+      "$SPLINTS::Config::soapUser",
+
+      "$VERSION: testing create/edit/static link/getIssue() -- closing $iSpecificTicket",
+
+      ['user1', 'SOME-Queue L3'],
+      #['SOME-Queue L3'],
+      #[ ],
+  
+      #4,
+      3,
+
+      'Resolved',
+
+      "MILD PRIORITY",
+
+      "Re-re-testing Perl Splints and here is a description of the updated issue after statically linking tickets and closing $iSpecificTicket,.."
+    );
+
+    # Re-query the ticket again after editing
+    &SPLINTS::FootPrints11::getIssueDetails($iSpecificTicket, $SPLINTS::Config::FP_PROJECT_ID);
+  }
+  else
+  {
+    warn "Failed to get proper ticket number: $iTicket, createIssue() must have failed";
+    exit(1);
+  }
 }
 else
 {
