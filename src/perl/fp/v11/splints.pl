@@ -37,6 +37,7 @@ my $link        = ''; # default false
 my $resolve     = ''; # default false
 my $assign      = ''; # default false
 my $unassign    = ''; # default false
+my $linkasset   = ''; # default
 
 my $description = 'Created / updated.'; # default
 my $stdin       = ''; # default empty
