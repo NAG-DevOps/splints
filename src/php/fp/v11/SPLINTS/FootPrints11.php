@@ -1,7 +1,7 @@
 <?php
-require "SplintsConstant.php";
+require "Config.php";
 
-class SplintsOperations extends SplintsConstant
+class FootPrints11 extends Config
 {	
 	public function __construct()
 	{

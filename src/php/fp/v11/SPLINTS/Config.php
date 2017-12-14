@@ -1,6 +1,6 @@
 <?php
 
-class SplintsConstant
+class Config
 {
 	// replace with real url
 	protected $urlLocation  = "https://localhost";

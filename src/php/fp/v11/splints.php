@@ -1,7 +1,7 @@
 <?
-require "SPLINTS/SplintsOperations.php";
+require "SPLINTS/FootPrints11.php";
 
-$splints = new SplintsOperations();
+$splints = new FootPrints11();
 
    $strTitle		 = "Test Issue PHP - Splints";
 	$strStatus      = "Open";
