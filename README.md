@@ -24,6 +24,8 @@ Table of Contents
                * [Examples](#examples)
             * [Windows](#windows)
       * [Supported API](#supported-api)
+         * [Summary](#summary)
+         * [Details](#details)
       * [TODO](#todo)
          * [Tickecting Systems Support](#tickecting-systems-support)
          * [Language Support](#language-support)
@@ -127,9 +129,11 @@ Current version has limitations below. See supported API.
 - `./splints.pl --edit --ticket=5461 --subject=foofoo --description=barbarbaz`
 - `cal | ./splints.pl --quick --stdin --subject='stdin description body test'`
 - `cal | ./splints.pl --edit --ticket=5461 --stdin --subject='optional subject for stdin description body test'`
+- `./splints.pl --resolve --ticket=5474`
 - `./splints.pl --link --ticket=5473 --ticket2=5474`
 - `./splints.pl --link --ticket=5474 --ticket2=5475 --dynamic`
 - `./splints.pl --details --ticket=5474`
+- `./splints.pl --link-asset=5504 --ticket=35506`
 - `./splints.pl --sim`
 - `./splints.pl --sim --debug`
 
@@ -149,8 +153,9 @@ Current version has limitations below. See supported API.
 | `Config`                       | *           |            |             |
 | `PromptCredentialsProvider`    | *           |            |             |
 | `HardcodedCredentialsProvider` | *           |            |             |
-| `createIssue()`                | *           |            |             |
-| `editIssue()`                  | *           | *          |             |
+| `createIssue()`                | *           | *          | *           |
+| `editIssue()`                  | *           | *          | *           |
+| `--resolve`                    | *           |            |             |
 | `getIssueDetails()`            | *           |            |             |
 | `--format=raw`                 | *           |            |             |
 | `--format=email`               |             |            |             |
@@ -163,7 +168,7 @@ Current version has limitations below. See supported API.
 | `createContact()`              |             |            |             |
 | `editContact()`                |             |            |             |
 
-## Details
+### Details ###
 
 - `SPLINTS::Config` -- FootPrints instance URLs, credentials, etc.
 - `SPLINTS::PromptCredentialsProvider` -- simple credentials prompting modue (default)
@@ -240,6 +245,7 @@ sub queryIssues()
 returns SOAP result Perl hash with all the query results, including
 ticket numbers, titles, and status. If query is not specified, returns
 all 'Open' tickets.
+```
 - `SPLINTS::FootPrints11::linkAsset()` -- links a ticket and CI CMDB entry
 ```perl
 sub linkIssues()
@@ -250,10 +256,13 @@ sub linkIssues()
     $iAssetID           # -- CI-ID to link to
 )
 
+returns SOAP result
+```
+
 ## TODO ##
 
 - See [Issues](https://github.com/NAG-DevOps/splints/issues)
-- Add CI and Contact API support
+- Add CI and Contact API support (in progress)
 
 ### Tickecting Systems Support ###
 
@@ -264,9 +273,9 @@ sub linkIssues()
 
 ### Language Support ###
 
-- Java
-- Python
 - PHP (in progress)
+- Java (in progress)
+- Python
 - C#
 
 ## Contribution Guidelines ##
