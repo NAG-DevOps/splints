@@ -106,6 +106,9 @@ Current version has limitations below. See supported API.
 - `--quick` -- create a "quick ticket" with an optional description, default assignee, and a subject
 - `--edit` -- quick editing a ticket by appending a description and a subject
 - `--resolve` -- resolves a specified ticket
+- `--status=s` -- sets a specified status `s` of a specified ticket
+- `--assign=s[,s]` -- assigns a specified ticket to the assignee 's'; `--status=Assigned` is implied
+- `--unassign=s[,s]` -- unassigns a specified ticket from the assignee 's'
 - `--details` -- dump ticket details in a simple raw list form
 - `--link` -- link two tickets
 - `--link-asset=s` -- link CI (defaults to a specific asset type 3) to a specified ticket
@@ -115,9 +118,11 @@ Current version has limitations below. See supported API.
 - `--dynamic` -- use dynamic linking of tickets; works with `--link`
 
 - `--description=s` -- string of the description to append to the ticket
+- `--descr=s` -- shorthand for `--description`
 - `--subject=s` -- string of the subject line portion (title of the ticket)
 - `--ticket=i` -- ticket number to edit, see details of, or link
 - `--ticket2=i` -- other ticket number to link to
+- `--format=s` -- ticket dump format (`s=raw` is implied)
 
 - `--debug` -- enable verbose debug mode; **NOTE:** as a part of the request dump your credentials are dumped as well
 - `--sim` -- run a simulation scenario of creating, examining, linking, and closing a ticket (the original 0.0.5-'s `main`)
@@ -130,6 +135,12 @@ Current version has limitations below. See supported API.
 - `cal | ./splints.pl --quick --stdin --subject='stdin description body test'`
 - `cal | ./splints.pl --edit --ticket=5461 --stdin --subject='optional subject for stdin description body test'`
 - `./splints.pl --resolve --ticket=5474`
+- `./splints.pl --status='Open' --ticket=5474`
+- `./splints.pl --status='Work In Progress' --ticket=5474`
+- `./splints.pl --assign=user1 --ticket=5474`
+- `./splints.pl --assign=user1,user2 --ticket=5474`
+- `./splints.pl --assign='SOME-Queue L3' --ticket=5474`
+- `./splints.pl --unassign=user1 --ticket=5474`
 - `./splints.pl --link --ticket=5473 --ticket2=5474`
 - `./splints.pl --link --ticket=5474 --ticket2=5475 --dynamic`
 - `./splints.pl --details --ticket=5474`
@@ -150,12 +161,16 @@ Current version has limitations below. See supported API.
 
 | API                            | FP11 + Perl | FP11 + PHP | FP11 + Java |
 | ------------------------------ |:-----------:|:----------:|:-----------:|
-| `Config`                       | *           |            |             |
+| `Config`                       | *           | *          |             |
 | `PromptCredentialsProvider`    | *           |            |             |
 | `HardcodedCredentialsProvider` | *           |            |             |
+| `FootPrints11`                 | *           | *          |             |
 | `createIssue()`                | *           | *          | *           |
 | `editIssue()`                  | *           | *          | *           |
 | `--resolve`                    | *           |            |             |
+| `--status`                     | *           |            |             |
+| `--assign`                     | *           |            |             |
+| `--unassign`                   | *           |            |             |
 | `getIssueDetails()`            | *           |            |             |
 | `--format=raw`                 | *           |            |             |
 | `--format=email`               |             |            |             |

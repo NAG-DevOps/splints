@@ -34,9 +34,10 @@ my $quick       = ''; # default false
 my $edit        = ''; # default false
 my $details     = ''; # default false
 my $link        = ''; # default false
+my $status      = ''; # default empty
 my $resolve     = ''; # default false
-my $assign      = ''; # default false
-my $unassign    = ''; # default false
+my $assign      = '[ ]'; # default empty list
+my $unassign    = '[ ]'; # default empty list
 my $linkasset   = ''; # default
 
 my $description = 'Created / updated.'; # default
@@ -48,6 +49,7 @@ my $ticket      = ''; # default empty
 my $ticket2     = ''; # default empty
 my $tix         = ''; # default empty
 my $workstation = 3; # default 3
+my $format      = 'raw'; # default empty
 
 my $debug       = ''; # default none
 
@@ -66,6 +68,7 @@ GetOptions
   "resolve"          => \$resolve,        # flag
   "assign=s"         => \$assign,         # string
   "unassign=s"       => \$unassign,       # string
+  "status=s"         => \$status,         # string
   "link-asset=s"     => \$linkasset,      # string
 
   "debug"            => \$debug,          # flag
@@ -80,6 +83,7 @@ GetOptions
   "ticket=i"         => \$ticket,         # int
   "ticket2=i"        => \$ticket2,        # int
   "tix=s"            => \$tix,            # string
+  "format=s"         => \$format,         # string
 
   "all"            => \$all,          # flag
   "help"              => \$help,         # flag
@@ -214,12 +218,110 @@ elsif($resolve)
   }
 }
 
+# --assign
+elsif($assign)
+{
+  # TODO: check if $ticket is specified
+  # TODO: check if $assign is specified
+  # TODO: remove forcing of extra fields
+
+  my $result = &SPLINTS::FootPrints11::editIssue
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "$SPLINTS::Config::soapUser",
+    "Assigned ticket $ticket to $assign",
+    $assign,
+    4,
+    'Assigned',
+    "",
+    "Assigning..."
+  );
+
+  if($result)
+  {
+    print "Assigned ticket: [$ticket] to [$assign]\n";
+  }
+  else
+  {
+    warn "Failed to assign ticket [$ticket] to [$assign]";
+  }
+}
+
+# --unassign
+elsif($unassign)
+{
+  # TODO: check if $ticket is specified
+  # TODO: check if $unassign is specified
+  #       remove that assignee from the list and keep others
+  # TODO: remove forcing of extra fields
+
+  my $result = &SPLINTS::FootPrints11::editIssue
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "$SPLINTS::Config::soapUser",
+    "Unassigned ticket $ticket",
+    [],
+    4,
+    'Open',
+    "",
+    "Unassigning..."
+  );
+
+  if($result)
+  {
+    print "Unassigned ticket: [$ticket] from [$unassign]\n";
+  }
+  else
+  {
+    warn "Failed to assign ticket [$ticket] from [$unassign]";
+  }
+}
+
+# --status
+elsif($status)
+{
+  # TODO: check if $ticket is specified
+  # TODO: check if $status is specified
+  # TODO: remove forcing of extra fields
+
+  my $result = &SPLINTS::FootPrints11::editIssue
+  (
+    $ticket,
+    $SPLINTS::Config::FP_PROJECT_ID,
+    "$SPLINTS::Config::soapUser",
+    "Ticket $ticket status set to $status",
+    $assign,
+    4,
+    $status,
+    "",
+    "Ticket $ticket status set to $status"
+  );
+
+  if($result)
+  {
+    print "Ticket [$ticket] is [$status]\n";
+  }
+  else
+  {
+    warn "Failed to set status of ticket [$ticket] to [$status]";
+  }
+}
+
 # --details
 elsif($details)
 {
   # TODO: check if $ticket is specified
-  &SPLINTS::FootPrints11::getIssueDetails($ticket, $SPLINTS::Config::FP_PROJECT_ID);
-  print "Ticket [$ticket]'s details\n";
+  if($format eq "raw")
+  {
+    &SPLINTS::FootPrints11::getIssueDetails($ticket, $SPLINTS::Config::FP_PROJECT_ID);
+    print "Ticket [$ticket]'s details\n";
+  }
+  else
+  {
+    warn "Ticket dump format [$format] is not supported.";
+  }
 }
 
 # --link
