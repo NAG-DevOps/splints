@@ -44,7 +44,7 @@ sub createIssue()
       priorityNumber => $iPriorityNumber,
       priorityWords => "$strPriorityWords",
       status => "$strStatus",
-      description => "$strDescription\n\n--\n$::VERSION",
+      description => $::bDebug ? "$strDescription\n\n--\n$::VERSION" : "$strDescription",
       #description => "$strDescription"
 
       # TODO: acquire a dictionary of custom fields in use
@@ -123,8 +123,7 @@ sub editIssue()
       priorityNumber => $iPriorityNumber,
       priorityWords => "$strPriorityWords",
       status => "$strStatus",
-      description => "$strDescription\n\n--\n$::VERSION",
-      #description => "$strDescription"
+      description => $::bDebug ? "$strDescription\n\n--\n$::VERSION" : "$strDescription",
 
       # TODO: acquire a dictionary of custom fields in use
 
@@ -211,7 +210,7 @@ sub getIssueDetails()
     print "---\n";
     print $hash{$item};
     print "\n";
-    
+
     print "---\n";
   }
 
@@ -222,9 +221,6 @@ sub getIssueDetails()
 
 sub linkIssues()
 {
-  # By calling this, you don't need to worry about whether this is a new or edited contact. This method
-  # will do all the work.
-
   # Can link tickets across workspaces $iProjectID1 and $iProjectID2,
   # else they are simply the same
   my ($iTicketNumber1, $iProjectID1, $iTicketNumber2, $iProjectID2, $strLinkType) = @_;
@@ -301,7 +297,7 @@ sub queryIssues()
   for(my $i = 0; $i <= $#result_list; $i++)
   {
     print "RESULT $i\n";
-    
+
     my $hash_ref = $result_list[$i];
 
     foreach my $item (keys %{$hash_ref})

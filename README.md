@@ -1,7 +1,7 @@
 # splints
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems
 
-v0.0.6-dev
+v0.0.6
 
 Table of Contents
 =================
@@ -82,8 +82,8 @@ PHP sample of the Chapter 11 of BMC FootPrints Service Core manual.
 #### ActivePerl-5 or Strawberry Perl ####
 
 - get and install Perl for Windows, either:
-    - [(ActivePerl-5.24.2.2403-MSWin32-x64-403863.exe (or latest))](https://www.activestate.com/activeperl), or
-    - [(strawberry-perl-5.26.1.1-64bit.msi (or latest))](http://Strawberryperl.com/)
+    - [ActivePerl-5.24.2.2403-MSWin32-x64-403863.exe (or latest)](https://www.activestate.com/activeperl), or
+    - [strawberry-perl-5.26.1.1-64bit.msi (or latest)](http://Strawberryperl.com/)
 - open a command prompt `cmd.exe`
 - `cpan -i SOAP::Lite`
 - `cpan -i Term::ReadKey` (if you use `SPLINTS::PromptCredentialsProvider`, which you should)
@@ -98,8 +98,8 @@ Current version has limitations below. See supported API.
 #### Linux and OS X ####
 
 - navigate to `src/perl/fp/v11`
-- customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
 - run `./splints.pl [options]`
+- (customize `splints.pl`'s `## main` section or `SPLINTS/FootPrints11.pm` if needed)
 
 ##### Options #####
 
@@ -152,7 +152,7 @@ Current version has limitations below. See supported API.
 
 - either open terminal from SourceTree or Git Bash or
 - in `cmd.exe` cd to `src\perl\fp\v11`
-- customize `splints.pl`'s `## main` section to your needs; TODO in progress to use options
+- (in Notepad or Notepad++ customize `splints.pl`'s `## main` section or `SPLINTS/FootPrints11.pm` if needed)
 - run `perl splints.pl [options]` -- options are documented above
 
 ## Supported API ###

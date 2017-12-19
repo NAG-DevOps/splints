@@ -8,7 +8,7 @@ use SOAP::Lite;
 use Getopt::Std;
 use Getopt::Long;
 
-our $VERSION = "splints-0.0.6-dev";
+our $VERSION = "splints-0.0.6";
 
 use SPLINTS::Config;
 #use SPLINTS::HardcodedCredentialsProvider;
@@ -36,8 +36,8 @@ my $details     = ''; # default false
 my $link        = ''; # default false
 my $status      = ''; # default empty
 my $resolve     = ''; # default false
-my $assign      = '[ ]'; # default empty list
-my $unassign    = '[ ]'; # default empty list
+my $assign      = ''; # default empty list
+my $unassign    = ''; # default empty list
 my $linkasset   = ''; # default
 
 my $description = 'Created / updated.'; # default
