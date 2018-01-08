@@ -1,7 +1,7 @@
 # splints
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems
 
-v0.0.6
+v0.0.7-dev
 
 Table of Contents
 =================
@@ -162,6 +162,7 @@ Current version has limitations below. See supported API.
 | API                            | FP11 + Perl | FP11 + PHP | FP11 + Java |
 | ------------------------------ |:-----------:|:----------:|:-----------:|
 | `Config`                       | *           | *          |             |
+| `Constants`                    | +--         |            |             |
 | `PromptCredentialsProvider`    | *           |            |             |
 | `HardcodedCredentialsProvider` | *           |            |             |
 | `FootPrints11`                 | *           | *          |             |
@@ -186,6 +187,7 @@ Current version has limitations below. See supported API.
 ### Details ###
 
 - `SPLINTS::Config` -- FootPrints instance URLs, credentials, etc.
+- `SPLINTS::Constants` -- legend and constants for common and custom fields and their values
 - `SPLINTS::PromptCredentialsProvider` -- simple credentials prompting modue (default)
     - `getUsername()`
     - `getPassword()`
