@@ -1,4 +1,4 @@
-# splints
+# splints - team08
 **S**pecial-**P**urpose **L**egwork for **IN**tegration of **T**icketing **S**ystems
 
 v0.0.7-dev
