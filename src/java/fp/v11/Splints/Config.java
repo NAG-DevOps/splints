@@ -1,4 +1,9 @@
+package fp.v11.splints;
 
+/**
+ * Soap and proxy parameters
+ * @author soen487-w18-team03
+ */
 public class Config {
 
     public static final String SOAP_AGENT_USERNAME = "YOUR_AGENT_USERNAME";

@@ -1,3 +1,4 @@
+package fp.v11.splints;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
@@ -8,8 +9,13 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.Text;
 
+/**
+ * 
+ * @author soen487-w18-team03
+ */
 public class FootPrints11 implements ISplints {
 
+    @Override
     public String createIssue() {
         String priorityNumber = "5";
         String status = "Open";
@@ -22,10 +28,10 @@ public class FootPrints11 implements ISplints {
         String ticketNumber = "0";
         try {
             /*
-         // Comment this out for NO proxy.
-         java.util.Properties props = System.getProperties();
-         props.put( "http.proxyHost", Config.PROXY_HOST );
-         props.put( "http.proxyPort", Config.PROXY_PORT );
+            // Comment this out for NO proxy.
+            java.util.Properties props = System.getProperties();
+            props.put( "http.proxyHost", Config.PROXY_HOST );
+            props.put( "http.proxyPort", Config.PROXY_PORT );
              */
 
             // Setup SOAP message.
@@ -42,7 +48,8 @@ public class FootPrints11 implements ISplints {
 
             // Compose SOAP body.
             SOAPBody body = env.getBody();
-            SOAPElement invoke = body.addChildElement(env.createName("MRWebServices__createIssue", "namesp1", "MRWebServices"));
+            SOAPElement invoke = body
+                    .addChildElement(env.createName("MRWebServices__createIssue", "namesp1", "MRWebServices"));
 
             SOAPElement arg1 = invoke.addChildElement(env.createName("user"));
             arg1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -85,33 +92,33 @@ public class FootPrints11 implements ISplints {
             arg4_3.addAttribute(env.createName("type", "xsi", ""), "namesp2:SOAPStruct");
 
             /*
-         SOAPElement arg4_3_1 = arg4_3.addChildElement( env.createName("Custom__bAB__bField__bOne") );
-         arg4_3_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg4_3_1.addTextNode("Value of Custom AB Field One");
-
-         SOAPElement arg4_3_2 = arg4_3.addChildElement( env.createName("Last__bName") );
-         arg4_3_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg4_3_2.addTextNode("Doe");
-
-         SOAPElement arg4_3_3 = arg4_3.addChildElement( env.createName("First__bName") );
-         arg4_3_3.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg4_3_3.addTextNode("John");
+            SOAPElement arg4_3_1 = arg4_3.addChildElement( env.createName("Custom__bAB__bField__bOne") );
+            arg4_3_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
+            arg4_3_1.addTextNode("Value of Custom AB Field One");
+            
+            SOAPElement arg4_3_2 = arg4_3.addChildElement( env.createName("Last__bName") );
+            arg4_3_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
+            arg4_3_2.addTextNode("Doe");
+            
+            SOAPElement arg4_3_3 = arg4_3.addChildElement( env.createName("First__bName") );
+            arg4_3_3.addAttribute( env.createName("type","xsi",""), "xsd:string" );
+            arg4_3_3.addTextNode("John");
              */
             SOAPElement arg4_3_4 = arg4_3.addChildElement(env.createName("Email__bAddress"));
             arg4_3_4.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
             arg4_3_4.addTextNode(emailBAddress);
 
             /*
-         SOAPElement arg4_6 = arg4.addChildElement( env.createName("projfields") );
-         arg4_6.addAttribute( env.createName("type","xsi",""), "namesp2:SOAPStruct" );
-
-         SOAPElement arg4_6_1 = arg4_6.addChildElement( env.createName("Custom__bField__bOne") );
-         arg4_6_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg4_6_1.addTextNode("Value of Custom Field One");
-
-         SOAPElement arg4_6_2 = arg4_6.addChildElement( env.createName("Custom__bField__bTwo") );
-         arg4_6_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg4_6_2.addTextNode("Value of Custom Field Two");
+            SOAPElement arg4_6 = arg4.addChildElement( env.createName("projfields") );
+            arg4_6.addAttribute( env.createName("type","xsi",""), "namesp2:SOAPStruct" );
+            
+            SOAPElement arg4_6_1 = arg4_6.addChildElement( env.createName("Custom__bField__bOne") );
+            arg4_6_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
+            arg4_6_1.addTextNode("Value of Custom Field One");
+            
+            SOAPElement arg4_6_2 = arg4_6.addChildElement( env.createName("Custom__bField__bTwo") );
+            arg4_6_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
+            arg4_6_2.addTextNode("Value of Custom Field Two");
              */
             SOAPElement arg4_7 = arg4.addChildElement(env.createName("projectID"));
             arg4_7.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
@@ -126,7 +133,7 @@ public class FootPrints11 implements ISplints {
             //System.out.println("Request Message ----------\n");
             //msg.writeTo( System.out );
             // Make SOAP call
-            SOAPMessage reply = connection.call(msg, Config.BASE_URL+"/MRcgi/MRWebServices.pl");
+            SOAPMessage reply = connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
 
             connection.close();
 
@@ -184,6 +191,7 @@ public class FootPrints11 implements ISplints {
         return ticketNumber;
     }
 
+    @Override
     public Object getIssueDetails() {
         String projectId = "PROJECT_ID";
         String ticketNumber = "TICKET_NUMBER";
@@ -191,10 +199,10 @@ public class FootPrints11 implements ISplints {
         Object result = null;
         try {
             /*
-         // Comment this out for NO proxy.
-         java.util.Properties props = System.getProperties();
-         props.put( "http.proxyHost", Config.PROXY_HOST );
-         props.put( "http.proxyPort", Config.PROXY_PORT );
+            // Comment this out for NO proxy.
+            java.util.Properties props = System.getProperties();
+            props.put( "http.proxyHost", Config.PROXY_HOST );
+            props.put( "http.proxyPort", Config.PROXY_PORT );
              */
 
             // Setup SOAP message.
@@ -211,7 +219,8 @@ public class FootPrints11 implements ISplints {
 
             // Compose SOAP body.
             SOAPBody body = env.getBody();
-            SOAPElement invoke = body.addChildElement(env.createName("MRWebServices__getIssueDetails", "namesp1", "MRWebServices"));
+            SOAPElement invoke = body
+                    .addChildElement(env.createName("MRWebServices__getIssueDetails", "namesp1", "MRWebServices"));
 
             SOAPElement arg1 = invoke.addChildElement(env.createName("user"));
             arg1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -219,7 +228,7 @@ public class FootPrints11 implements ISplints {
 
             SOAPElement arg2 = invoke.addChildElement(env.createName("password"));
             arg2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg2.addTextNode(Config.SOAP_AGENT_Password);
+            arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
 
             SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
             arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -237,7 +246,7 @@ public class FootPrints11 implements ISplints {
             //System.out.println("Request Message ----------\n");
             //msg.writeTo( System.out );
             // Make SOAP call
-            SOAPMessage reply = connection.call(msg, Config.BASE_URL+"/MRcgi/MRWebServices.pl");
+            SOAPMessage reply = connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
 
             connection.close();
 
@@ -252,7 +261,7 @@ public class FootPrints11 implements ISplints {
                 throw new Exception(replybody.getFault().getFaultString());
 
             }
-            result=replybody;
+            result = replybody;
             DumpSOAPElement(replybody, 0);
 
         } catch (Exception ex) {
@@ -265,6 +274,7 @@ public class FootPrints11 implements ISplints {
         return result;
     }
 
+    @Override
     public Object linkIssues() {
         String linkType = "LINK_TYPE";
         String projectId1 = "PROJECT_ID1";
@@ -275,10 +285,10 @@ public class FootPrints11 implements ISplints {
         Object result = null;
         try {
             /*
-         // Comment this out for NO proxy.
-         java.util.Properties props = System.getProperties();
-         props.put( "http.proxyHost", Config.PROXY_HOST );
-         props.put( "http.proxyPort", Config.PROXY_PORT );
+            // Comment this out for NO proxy.
+            java.util.Properties props = System.getProperties();
+            props.put( "http.proxyHost", Config.PROXY_HOST );
+            props.put( "http.proxyPort", Config.PROXY_PORT );
              */
 
             // Setup SOAP message.
@@ -295,7 +305,8 @@ public class FootPrints11 implements ISplints {
 
             // Compose SOAP body.
             SOAPBody body = env.getBody();
-            SOAPElement invoke = body.addChildElement(env.createName("MRWebServices__linkIssues", "namesp1", "MRWebServices"));
+            SOAPElement invoke = body
+                    .addChildElement(env.createName("MRWebServices__linkIssues", "namesp1", "MRWebServices"));
 
             SOAPElement arg1 = invoke.addChildElement(env.createName("user"));
             arg1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -303,7 +314,7 @@ public class FootPrints11 implements ISplints {
 
             SOAPElement arg2 = invoke.addChildElement(env.createName("password"));
             arg2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg2.addTextNode(Config.SOAP_AGENT_Password);
+            arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
 
             SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
             arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -342,7 +353,7 @@ public class FootPrints11 implements ISplints {
             //System.out.println("Request Message ----------\n");
             //msg.writeTo( System.out );
             // Make SOAP call
-            SOAPMessage reply = connection.call(msg, Config.BASE_URL+"/MRcgi/MRWebServices.pl");
+            SOAPMessage reply = connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
 
             connection.close();
 
@@ -362,9 +373,11 @@ public class FootPrints11 implements ISplints {
             result = replybody;
 
             if (result != null) {
-                System.out.println(String.format("Link %s %s:$s -> %s:%s is successful.\n", linkType, ticketNumber1, projectId1, ticketNumber2, projectId2));
+                System.out.println(String.format("Link %s %s:$s -> %s:%s is successful.\n", linkType, ticketNumber1,
+                        projectId1, ticketNumber2, projectId2));
             } else {
-                System.out.println(String.format("Link %s %s:$s -> %s:%s failed.\n", linkType, ticketNumber1, projectId1, ticketNumber2, projectId2));
+                System.out.println(String.format("Link %s %s:$s -> %s:%s failed.\n", linkType, ticketNumber1,
+                        projectId1, ticketNumber2, projectId2));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

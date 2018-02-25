@@ -1,3 +1,4 @@
+package fp.v11.splints;
 
 import java.io.Console;
 import java.io.IOError;
@@ -6,6 +7,7 @@ import java.util.Scanner;
 /**
  * PromptCredentialsProvider asks for username and password instead of
  * hard-coding them. A primitive implementation.
+ * @author soen487-w18-team03
  */
 public class PromptCredentialsProvider {
 
