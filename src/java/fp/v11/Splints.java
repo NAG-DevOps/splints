@@ -1,6 +1,6 @@
 package fp.v11;
 
-public class splints {
+public class Splints {
 	
 	
 	public static void main(String args[])
