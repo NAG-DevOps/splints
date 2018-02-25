@@ -1,7 +1,13 @@
 package fp.v11.splints;
 
-import java.util.ArrayList;
+import javax.xml.soap.SOAPElement;
 
+/**
+ * ISplints Interface
+ * 
+ * @author soen487-team08
+ *
+ */
 public interface ISplints {
 
 	/**
@@ -10,9 +16,23 @@ public interface ISplints {
 	void editIssue();
 
 	/**
-	 * Query Results
-	 * @return result list
+	 * Get Indent
+	 * @param num
+	 * @return indent
 	 */
-	ArrayList<String> queryResults();
+	String getIndent(int num);
+
+	/**
+	 * Dump SOAP Element
+	 * @param el
+	 * @param indent
+	 * @throws Exception
+	 */
+	void dumpSOAPElement(SOAPElement el, int indent) throws Exception;
+
+	/**
+	 * Query Issues
+	 */
+	void queryIssues();
 
 }
