@@ -1,4 +1,4 @@
-package splints;
+package fp.v11.splints;
 
 /**
  * HardcodedCredentialsProvider provides getters for 
