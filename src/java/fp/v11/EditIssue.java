@@ -1,5 +1,3 @@
-package fp.v11;
-
 import javax.xml.soap.*;
 
 public class EditIssue
@@ -34,40 +32,51 @@ public class EditIssue
          SOAPBody body = env.getBody();
          SOAPElement invoke = body.addChildElement( env.createName("MRWebServices__editIssue", "namesp1","MRWebServices") );
          
+         // Set user
          SOAPElement arg1 = invoke.addChildElement( env.createName("user") );
          arg1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg1.addTextNode("YOUR_AGENT_USERNAME");
+         arg1.addTextNode("eas487_4");
 
+         /*
          SOAPElement arg2 = invoke.addChildElement( env.createName("password") );
          arg2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg2.addTextNode("YOUR_AGENT_PASSWORD");
-
+         arg2.addTextNode("N0ct!s01");
+		 */
+         
+         
          SOAPElement arg3 = invoke.addChildElement( env.createName("extrainfo") );
          arg3.addAttribute( env.createName("type","xsi",""), "xsd:string" );
 				
          SOAPElement arg4 = invoke.addChildElement( env.createName("args") );
          arg4.addAttribute( env.createName("type","xsi",""), "namesp2:SOAPStruct" );
-                  
+         
+         /*
          SOAPElement arg4_3 = arg4.addChildElement( env.createName("projectID") );
          arg4_3.addAttribute( env.createName("type","xsi",""), "xsd:int" ); 
-         arg4_3.addTextNode("PROJECT_ID");
-
+         arg4_3.addTextNode("");
+         */
+         
+         
+         //Ticket Number
          SOAPElement arg4_4 = arg4.addChildElement( env.createName("mrID") );
          arg4_4.addAttribute( env.createName("type","xsi",""), "xsd:int" );
-         arg4_4.addTextNode("TICKET_NUMBER");
+         arg4_4.addTextNode("1");
          
+         //Add title
          SOAPElement arg4_5 = arg4.addChildElement( env.createName("title") );
          arg4_5.addAttribute( env.createName("type","xsi",""), "xsd:string" );
          arg4_5.addTextNode("Test Issue Java - Splints");
          
+         //Add description
          SOAPElement arg4_6 = arg4.addChildElement( env.createName("description") );
          arg4_6.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-         arg4_6.addTextNode("Place issue description here. From Java code. End test.");
+         arg4_6.addTextNode("This is a test to edit ticket number 1.");
+         
+        
          
          /*
          SOAPElement arg4_1 = arg4.addChildElement( env.createName("abfields") );
          arg4_1.addAttribute( env.createName("type","xsi",""), "namesp2:SOAPStruct" );
-
          SOAPElement arg4_1_1 = arg4_1.addChildElement( env.createName("Custom__bAB__bField__bOne") );
          arg4_1_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
          arg4_1_1.addTextNode("NEW VALUE FOR Custom AB Field One");
@@ -76,7 +85,6 @@ public class EditIssue
 			/*
          SOAPElement arg4_2 = arg4.addChildElement( env.createName("projfields") );
          arg4_2.addAttribute( env.createName("type","xsi",""), "namesp2:SOAPStruct" );
-
          SOAPElement arg4_2_1 = arg4_2.addChildElement( env.createName("Custom__bField__bTwo") );
          arg4_2_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
          arg4_2_1.addTextNode("NEW VALUE FOR Custom Field Two");
@@ -90,7 +98,7 @@ public class EditIssue
          //msg.writeTo( System.out );
          
          // Make SOAP call
-         SOAPMessage reply = connection.call( msg, "https://localhost/MRcgi/MRWebServices.pl" );
+         SOAPMessage reply = connection.call( msg, "https://localhost/REST/1.0/ticket/edit" );
          
 
          connection.close();
@@ -104,6 +112,7 @@ public class EditIssue
          // Check for error
          if( replybody.hasFault() )
          {
+        	
              throw new Exception( replybody.getFault().getFaultString() );
          }
 
@@ -113,7 +122,7 @@ public class EditIssue
       catch( Exception ex )
       {
          ex.printStackTrace();
-
+         
       }
    }
 
