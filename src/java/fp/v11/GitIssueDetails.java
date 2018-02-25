@@ -62,6 +62,7 @@ public class GitIssueDetails {
     }
 
     /**
+    * This method should later be merged into an utility package containing all HTTP requests
     * This method send a HTTP GET request to the given URL
     * @param url
     */
