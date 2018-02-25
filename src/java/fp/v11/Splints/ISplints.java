@@ -14,13 +14,13 @@ public interface ISplints {
     
     /**
      * Gets issue details
-     * @return ReplyBody
+     * 
      */
-    public Object getIssueDetails();
+    public void getIssueDetails();
     
     /**
      * Links two issues
-     * @return 
+     * 
      */
-    public Object linkIssues();
+    public void linkIssues();
 }

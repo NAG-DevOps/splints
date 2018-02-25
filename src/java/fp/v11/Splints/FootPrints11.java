@@ -25,6 +25,14 @@ public class FootPrints11 implements ISplints {
         String projectId = "PROJECT_ID";
         String title = "Test Issue Java - Splints";
 
+        //Optional Parameters
+        String customFieldOne = "Value of Custom Field One";
+        String customFieldTwo = "Value of Custom Field Two";
+        String item = "user2";
+        String customABFieldOne = "Value of Custom AB Field One";
+        String firstBName = "John";
+        String lastBName = "Doe";
+
         String ticketNumber = "0";
         try {
             /*
@@ -87,22 +95,22 @@ public class FootPrints11 implements ISplints {
 
             //SOAPElement arg4_5_2 = arg4_5.addChildElement( env.createName("item") );
             //arg4_5_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            //arg4_5_2.addTextNode("user2");
+            //arg4_5_2.addTextNode(item);
             SOAPElement arg4_3 = arg4.addChildElement(env.createName("abfields"));
             arg4_3.addAttribute(env.createName("type", "xsi", ""), "namesp2:SOAPStruct");
 
             /*
             SOAPElement arg4_3_1 = arg4_3.addChildElement( env.createName("Custom__bAB__bField__bOne") );
             arg4_3_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_3_1.addTextNode("Value of Custom AB Field One");
+            arg4_3_1.addTextNode(customABFieldOne);
             
             SOAPElement arg4_3_2 = arg4_3.addChildElement( env.createName("Last__bName") );
             arg4_3_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_3_2.addTextNode("Doe");
+            arg4_3_2.addTextNode(lastBName);
             
             SOAPElement arg4_3_3 = arg4_3.addChildElement( env.createName("First__bName") );
             arg4_3_3.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_3_3.addTextNode("John");
+            arg4_3_3.addTextNode(firstBName);
              */
             SOAPElement arg4_3_4 = arg4_3.addChildElement(env.createName("Email__bAddress"));
             arg4_3_4.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -114,11 +122,11 @@ public class FootPrints11 implements ISplints {
             
             SOAPElement arg4_6_1 = arg4_6.addChildElement( env.createName("Custom__bField__bOne") );
             arg4_6_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_6_1.addTextNode("Value of Custom Field One");
+            arg4_6_1.addTextNode(customFieldOne);
             
             SOAPElement arg4_6_2 = arg4_6.addChildElement( env.createName("Custom__bField__bTwo") );
             arg4_6_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_6_2.addTextNode("Value of Custom Field Two");
+            arg4_6_2.addTextNode(customFieldTwo);
              */
             SOAPElement arg4_7 = arg4.addChildElement(env.createName("projectID"));
             arg4_7.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
@@ -192,11 +200,10 @@ public class FootPrints11 implements ISplints {
     }
 
     @Override
-    public Object getIssueDetails() {
+    public void getIssueDetails() {
         String projectId = "PROJECT_ID";
         String ticketNumber = "TICKET_NUMBER";
 
-        Object result = null;
         try {
             /*
             // Comment this out for NO proxy.
@@ -257,11 +264,9 @@ public class FootPrints11 implements ISplints {
 
             // Check for error
             if (replybody.hasFault()) {
-
                 throw new Exception(replybody.getFault().getFaultString());
 
             }
-            result = replybody;
             DumpSOAPElement(replybody, 0);
 
         } catch (Exception ex) {
@@ -271,18 +276,16 @@ public class FootPrints11 implements ISplints {
         }
 
         System.out.println("Done");
-        return result;
     }
 
     @Override
-    public Object linkIssues() {
+    public void linkIssues() {
         String linkType = "LINK_TYPE";
         String projectId1 = "PROJECT_ID1";
         String ticketNumber1 = "TICKET_NUMBER1";
         String projectId2 = "PROJECT_ID2";
         String ticketNumber2 = "TICKET_NUMBER2";
 
-        Object result = null;
         try {
             /*
             // Comment this out for NO proxy.
@@ -368,11 +371,7 @@ public class FootPrints11 implements ISplints {
 
             }
 
-            // Iterate through the result body, extracting information
-            java.util.Iterator it = replybody.getChildElements();
-            result = replybody;
-
-            if (result != null) {
+            if (replybody.getValue() != null) {
                 System.out.println(String.format("Link %s %s:$s -> %s:%s is successful.\n", linkType, ticketNumber1,
                         projectId1, ticketNumber2, projectId2));
             } else {
@@ -382,54 +381,44 @@ public class FootPrints11 implements ISplints {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return result;
     }
 
-    private String GetIndent(int num) {
-
-        String s = "";
-
-        for (int i = 0; i < num; i++) {
-
-            s = s + " ";
-
-        }
-
-        return s;
-
-    }
-
+    /**
+     * Prints soap element names
+     */
     private void DumpSOAPElement(SOAPElement el, int indent) throws Exception {
-
         java.util.Iterator it = el.getChildElements();
 
         while (it.hasNext()) {
-
             String indstr = GetIndent(indent);
-
             Object obj = it.next();
 
             if (obj instanceof SOAPElement) {
-
                 SOAPElement ele = (SOAPElement) obj;
-
                 System.out.println(indstr + "-----------------------------");
-
                 System.out.println(indstr + ele.getElementName().getLocalName());
-
                 System.out.println(indstr + "-----------------------------");
-
                 DumpSOAPElement(ele, indent + 4);
 
             } else if (obj instanceof Text) {
-
                 Text txt = (Text) obj;
-
                 System.out.println(indstr + txt.getValue() + "\n");
 
             }
+        }
+    }
 
+    
+    /**
+     * Gets indent for printing
+     */
+    private String GetIndent(int num) {
+        String s = "";
+
+        for (int i = 0; i < num; i++) {
+            s = s + " ";
         }
 
+        return s;
     }
 }
