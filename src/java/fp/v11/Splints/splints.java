@@ -1,4 +1,4 @@
-package fp.v11;
+package fp.v11.splints;
 
 public class splints {
 	
