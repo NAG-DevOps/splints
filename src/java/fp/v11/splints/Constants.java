@@ -2,7 +2,7 @@ package fp.v11.splints;
 
 /**
  * 
- * @author soen487-w18-team08
+ * @author Vincent Fugnitto from soen487-w18-team08
  *
  */
 public class Constants {

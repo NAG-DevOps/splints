@@ -11,7 +11,7 @@ import org.json.*;
 
 /**
  * 
- * @author soen487-team08
+ * @author Ziad Yarbouh from soen487-team08
  *
  */
 public class BitbucketIssuesClient {

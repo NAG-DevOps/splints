@@ -9,7 +9,7 @@ import java.net.URL;
 /**
  * Edit Ticket Utility for RT
  * 
- * @author soen487-team08
+ * @author Kenneth Serrano and Vincent Fugnitto from soen487-team08
  *
  */
 public class RTEditTicket {
