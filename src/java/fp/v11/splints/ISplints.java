@@ -5,7 +5,7 @@ import javax.xml.soap.SOAPElement;
 /**
  * ISplints Interface
  * 
- * @author soen487-team08
+ * @author Vincent Fugnitto from soen487-team08
  *
  */
 public interface ISplints {

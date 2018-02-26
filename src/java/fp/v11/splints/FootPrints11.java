@@ -11,7 +11,7 @@ import javax.xml.soap.Text;
 
 /**
  * 
- * @author soen487-w18-team08
+ * @author Vincent Fugnitto from soen487-w18-team08
  *
  */
 public class FootPrints11 implements ISplints {
