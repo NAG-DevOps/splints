@@ -3,7 +3,7 @@
     * Usage: https://bitbucket.org/soen487-w18-03/soen487-w18-team03/issues/8/github-json-parser
     */
 
-package fp.v11;
+package github;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import javax.json.JsonReader;
 import javax.json.JsonString;
 
 
-public class GitIssueDetails {
+public class GitHub {
 
     // To be merged with Constant file
     static final String api = "https://api.github.com/repos/";
@@ -41,7 +41,7 @@ public class GitIssueDetails {
             URL url = new URL(base, workspace + "issues/" + piIssueNumber);
             String response = sendGet(url);
             System.out.println(response);
-            JsonObject object = getJsonObject(response); 
+            JsonObject object = getJsonObject(response);
             JsonString title = (JsonString) object.get("title");
             System.out.println("Issue title : "+title.getString());
         } catch (MalformedURLException e) {
