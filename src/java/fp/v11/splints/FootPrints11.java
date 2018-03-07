@@ -1,5 +1,6 @@
 package fp.v11.splints;
 
+import java.util.Collection;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
@@ -8,6 +9,8 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.Text;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -200,9 +203,10 @@ public class FootPrints11 implements ISplints {
     }
 
     @Override
-    public void getIssueDetails() {
+    public NodeList getIssueDetails() {
         String projectId = "PROJECT_ID";
         String ticketNumber = "TICKET_NUMBER";
+        NodeList result = null;
 
         try {
             /*
@@ -268,6 +272,7 @@ public class FootPrints11 implements ISplints {
 
             }
             DumpSOAPElement(replybody, 0);
+            result = replybody.getChildNodes();
 
         } catch (Exception ex) {
 
@@ -276,16 +281,18 @@ public class FootPrints11 implements ISplints {
         }
 
         System.out.println("Done");
+        return result;
     }
 
     @Override
-    public void linkIssues() {
+    public NodeList linkIssues() {
         String linkType = "LINK_TYPE";
         String projectId1 = "PROJECT_ID1";
         String ticketNumber1 = "TICKET_NUMBER1";
         String projectId2 = "PROJECT_ID2";
         String ticketNumber2 = "TICKET_NUMBER2";
-
+        NodeList result = null;
+        
         try {
             /*
             // Comment this out for NO proxy.
@@ -364,7 +371,7 @@ public class FootPrints11 implements ISplints {
             //reply.writeTo( System.out );
             // Get result
             SOAPBody replybody = reply.getSOAPPart().getEnvelope().getBody();
-
+            result = replybody.getChildNodes();
             // Check for error
             if (replybody.hasFault()) {
                 throw new Exception(replybody.getFault().getFaultString());
@@ -381,6 +388,7 @@ public class FootPrints11 implements ISplints {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return result;
     }
 
     /**

@@ -13,8 +13,8 @@ public class PromptCredentialsProvider {
 
     private final Console console;
     private final Scanner scanner;
-    private final String USERNAME_INPUT_TEXT = "Your username: ";
-    private final String PASSWORD_INPUT_TEXT = "Your password: ";
+    public static final String USERNAME_INPUT_TEXT = "Your username: ";
+    public static final String PASSWORD_INPUT_TEXT = "Your password: ";
 
     public PromptCredentialsProvider() {
         this.scanner = new Scanner(System.in);
