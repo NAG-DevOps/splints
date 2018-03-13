@@ -51,12 +51,12 @@ public class FootPrints12 implements FootPrints12Interface {
     }
 
     @Override
-    public void createContract() {
+    public void createContact() {
         //To implement
     }
 
     @Override
-    public void createOrEditContract() {
+    public void createOrEditContact() {
         //To implement
     }
 
@@ -67,7 +67,7 @@ public class FootPrints12 implements FootPrints12Interface {
     }
 
     @Override
-    public void editContract() {
+    public void editContact() {
         //To implement
     }
 

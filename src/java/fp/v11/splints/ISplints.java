@@ -1,5 +1,7 @@
 package fp.v11.splints;
 
+import org.w3c.dom.NodeList;
+
 /**
  * Interface for interacting with Splints
  * @author soen487-w18-team03
@@ -16,11 +18,11 @@ public interface ISplints {
      * Gets issue details
      * 
      */
-    public void getIssueDetails();
+    public NodeList getIssueDetails();
     
     /**
      * Links two issues
      * 
      */
-    public void linkIssues();
+    public NodeList linkIssues();
 }

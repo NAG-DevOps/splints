@@ -34,13 +34,13 @@ public interface FootPrints12Interface {
     /**
      *  CONTACT OPERATIONS
      */
-    void createContract();
+    void createContact();
 
-    void createOrEditContract();
+    void createOrEditContact();
 
     String getContactAssociatedTickets();
 
-    void editContract();
+    void editContact();
 
     /**
      *  CI OPERATIONS
