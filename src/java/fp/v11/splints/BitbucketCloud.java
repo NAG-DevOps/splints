@@ -1,18 +1,26 @@
 package fp.v11.splints;
 
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.xml.soap.SOAPElement;
 
 import org.w3c.dom.NodeList;
 
+@Path("/BitbucketCloud")
 public class BitbucketCloud implements ISplints{
 
 	@Override
+	@POST
+	@Path("/createIssue")
 	public String createIssue() {
 		// TODO Need to implement this method as a REST service
 		return null;
 	}
 
 	@Override
+	@PUT
+	@Path("/editIssue")
 	public void editIssue() {
 		// TODO Need to implement this method as a REST service
 	}
