@@ -1,5 +1,4 @@
 # Ignore patterns
 
 *~
-
-.idea/
+/bin/
