@@ -1,4 +1,4 @@
-package fp.v11.splints;
+package fp.v11.splints.rt;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.xml.soap.SOAPElement;
 
 import org.w3c.dom.NodeList;
+
+import fp.v11.splints.ISplints;
 
 @Path("/RT")
 public class RT implements ISplints {
