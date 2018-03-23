@@ -1,0 +1,13 @@
+#main-menu  {
+    background: #00266e;
+    border-color: transparent;
+}
+
+#main-page-container {
+    padding-top: 1em;
+}
+
+#main-title {
+    color: #ffffff;
+    font-weight: 200;
+}
