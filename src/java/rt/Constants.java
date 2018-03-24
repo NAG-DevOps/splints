@@ -19,4 +19,6 @@ public class Constants {
 	static final String TEXT = "text";
 	static final String CUSTOM_FIELD = "custom_field";
 	
+	static final String RESOLVED = "resolved";
+	
 }
