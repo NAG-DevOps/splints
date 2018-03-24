@@ -1,5 +1,7 @@
 package fp.v11.splints.rt;
 
+import java.util.Map;
+
 import javax.xml.soap.SOAPElement;
 
 import org.apache.http.HttpEntity;
@@ -127,6 +129,12 @@ public class RT implements ISplints {
 
 	@Override
 	public void queryIssues() {
+	}
+
+	@Override
+	public String createIssue(Map<String, String> idetails) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
