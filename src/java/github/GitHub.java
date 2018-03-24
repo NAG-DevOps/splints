@@ -40,6 +40,9 @@ import fp.v11.splints.ISplints;
 
 public class GitHub implements ISplints {
 	
+	public static void main (String []args){
+		
+	}
 
     @Override
 	public String createIssue(Map<String, Serializable> content) {
@@ -171,8 +174,34 @@ public class GitHub implements ISplints {
 
 	@Override
 	public void queryIssues() {
-		// TODO Auto-generated method stub
-		
+		try {
+            URL base = new URL(Config.API);
+            URL url = new URL(base, Config.WORKSPACE + "issues");
+            StringBuilder result = new StringBuilder();
+            try {
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    result.append(line);
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            String response = result.toString();
+            System.out.println(response);
+            
+            JsonObject object;
+            try (JsonReader jsonReader = Json.createReader(new StringReader(response))) {
+                object = jsonReader.readObject();
+            }
+            
+            // TODO: query search, in order to perform query search, queryIssues() method should
+            // take a parameter
+        } catch (MalformedURLException e) {
+            System.err.println("ERROR: " + e.getMessage());
+        }
 	}
 
 

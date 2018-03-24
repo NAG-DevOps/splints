@@ -1,4 +1,4 @@
-package rt;
+package github;
 
 public class Config {
 	
