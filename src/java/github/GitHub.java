@@ -23,15 +23,6 @@ import fp.v11.splints.ISplints;
 
 public class GitHub implements ISplints {
 
-    // To be merged with Constant file
-    static final int issue = 1;
-    String issue_subject = "";
-    String issue_status = "";
-    String submitter = "";
-    String assignees = "";
-    String priority_number = "";
-    String description = "";
-
     @Override
     public String createIssue(String title, String body, String assignee, 
     		int milestone, String [] labels, String [] assignees){
@@ -68,13 +59,41 @@ public class GitHub implements ISplints {
     }
 
     public void editIssue(){
+    		URL base = new URL(Config.API);
+        URL url = new URL(base, Config.WORKSPACE + "issues/"+Constants.ISSUE+"?_HttpMethod=PATCH");
     		
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(url);
+
+        // Request parameters and other properties.
+        List<NameValuePair> params = new ArrayList<NameValuePair>(6);
+        params.add(new BasicNameValuePair("title", title));
+        params.add(new BasicNameValuePair("body", body));
+        params.add(new BasicNameValuePair("assignee", assignee));
+        params.add(new BasicNameValuePair("milestone", milestone));
+        params.add(new BasicNameValuePair("labels", labels));
+        params.add(new BasicNameValuePair("assignees", assignees));
+        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+        //Execute and get the response.
+        HttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            InputStream instream = entity.getContent();
+            try {
+                return instream;
+            } finally {
+                instream.close();
+            }
+        }
+        return null;
     }
 
     public void getIssueDetails(int piIssueNumber) {
         try {
-            URL base = new URL(api);
-            URL url = new URL(base, workspace + "issues/" + piIssueNumber);
+            URL base = new URL(Config.API);
+            URL url = new URL(base, Config.WORKSPACE + "issues/" + piIssueNumber);
             String response = sendGet(url);
             System.out.println(response);
             JsonObject object = getJsonObject(response);
