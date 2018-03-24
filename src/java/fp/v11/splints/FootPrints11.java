@@ -385,8 +385,8 @@ public class FootPrints11 implements ISplints {
 
 		try {
 			java.util.Properties props = System.getProperties();
-			props.put("http.proxyHost", "localhost");
-			props.put("http.proxyPort", "8888");
+			props.put("http.proxyHost", Config.PROXY_HOST);
+			props.put("http.proxyPort", Config.PROXY_PORT);
 
 			// Setup SOAP message.
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -508,8 +508,8 @@ public class FootPrints11 implements ISplints {
 		try {
 			// Comment this out for NO proxy.
 			java.util.Properties props = System.getProperties();
-			props.put("http.proxyHost", "localhost");
-			props.put("http.proxyPort", "8888");
+			props.put("http.proxyHost", Config.PROXY_HOST);
+			props.put("http.proxyPort", Config.PROXY_PORT);
 
 			// Setup SOAP message.
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
