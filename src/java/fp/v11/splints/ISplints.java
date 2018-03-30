@@ -1,7 +1,12 @@
 package fp.v11.splints;
 
+import java.io.Serializable;
+
 import javax.xml.soap.SOAPElement;
+
 import org.w3c.dom.NodeList;
+
+import java.util.Map;
 
 /**
  * ISplints Interface
@@ -16,7 +21,7 @@ public interface ISplints {
      * Creates an issue
      * @return Ticket Number
      */
-    public String createIssue();
+    public String createIssue(Map<String,String> idetails);
     
     /**
      * Gets issue details
@@ -54,5 +59,7 @@ public interface ISplints {
 	 * Query Issues
 	 */
 	void queryIssues();
+
+	
 }
 

@@ -1,0 +1,19 @@
+<div class="ui segments">
+  <div class="ui raised padded segment">
+    <div class="ui center aligned basic segment">
+      <button (click)="showIssues()" class="ui right labeled icon button">
+        <i class="long arrow alternate left icon"></i>Get
+      </button>
+      <button (click)="clearResults()" class="ui right labeled red icon button">
+        <i class="remove icon"></i>Clear
+      </button>
+    </div>
+    <div id="result-panel" *ngIf="issues?.length != 0" class="ui raised secondary segment">
+      <h3 class="ui grey header">Results</h3>
+      <div class="ui divider"></div>
+      <span>
+        <pre>{{ issues | json }}</pre>
+      </span>
+    </div>
+  </div>
+</div>
