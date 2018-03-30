@@ -1,6 +1,9 @@
 package fp.v11.splints;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
+
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
@@ -9,6 +12,7 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.Text;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -16,36 +20,22 @@ import org.w3c.dom.NodeList;
  * 
  * @author soen487-w18-team03
  * @author Vincent Fugnitto from soen487-w18-team08
+ * @author Ziad Yarbouh from soen487-team08
  */
 public class FootPrints11 implements ISplints {
 
     @Override
-    public String createIssue() {
-        String priorityNumber = "5";
-        String status = "Open";
-        String description = "Place issue description here. From Java code.";
-        String assignee = "[YOUR_QUEUE_ASSIGNEE]";
-        String emailBAddress = "USER@EMAIL";
-        String projectId = "PROJECT_ID";
-        String title = "Test Issue Java - Splints";
-
+    public String createIssue(Map<String,Serializable> content) {
+ 
         //Optional Parameters
         String customFieldOne = "Value of Custom Field One";
         String customFieldTwo = "Value of Custom Field Two";
         String item = "user2";
         String customABFieldOne = "Value of Custom AB Field One";
-        String firstBName = "John";
-        String lastBName = "Doe";
 
         String ticketNumber = "0";
         try {
-            /*
-            // Comment this out for NO proxy.
-            java.util.Properties props = System.getProperties();
-            props.put( "http.proxyHost", Config.PROXY_HOST );
-            props.put( "http.proxyPort", Config.PROXY_PORT );
-             */
-
+            
             // Setup SOAP message.
             SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
             SOAPConnection connection = scf.createConnection();
@@ -69,7 +59,7 @@ public class FootPrints11 implements ISplints {
 
             SOAPElement arg2 = invoke.addChildElement(env.createName("password"));
             arg2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg2.addTextNode(Config.SOAP_AGENT_USERNAME);
+            arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
 
             SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
             arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -77,29 +67,26 @@ public class FootPrints11 implements ISplints {
             SOAPElement arg4 = invoke.addChildElement(env.createName("args"));
             arg4.addAttribute(env.createName("type", "xsi", ""), "namesp2:SOAPStruct");
 
-            SOAPElement arg4_1 = arg4.addChildElement(env.createName("priorityNumber"));
+            SOAPElement arg4_1 = arg4.addChildElement(env.createName(Constants.PRIORITY_NUMBER));
             arg4_1.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
-            arg4_1.addTextNode(priorityNumber);
+            arg4_1.addTextNode(content.get(Constants.PRIORITY_NUMBER));
 
-            SOAPElement arg4_2 = arg4.addChildElement(env.createName("status"));
+            SOAPElement arg4_2 = arg4.addChildElement(env.createName(Constants.ISSUE_STATUS));
             arg4_2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg4_2.addTextNode(status);
+            arg4_2.addTextNode(content.get(Constants.ISSUE_STATUS));
 
-            SOAPElement arg4_4 = arg4.addChildElement(env.createName("description"));
+            SOAPElement arg4_4 = arg4.addChildElement(env.createName(Constants.DESCRIPTION));
             arg4_4.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg4_4.addTextNode(description);
+            arg4_4.addTextNode(content.get(Constants.DESCRIPTION));
 
-            SOAPElement arg4_5 = arg4.addChildElement(env.createName("Assignees"));
+            SOAPElement arg4_5 = arg4.addChildElement(env.createName(Constants.ASSIGNEES));
             arg4_5.addAttribute(env.createName("type", "xsi", ""), "SOAP-ENC:Array");
             arg4_5.addAttribute(env.createName("arrayType", "SOAP-ENC", ""), "xsd:string[2]");
 
             SOAPElement arg4_5_1 = arg4_5.addChildElement(env.createName("item"));
             arg4_5_1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg4_5_1.addTextNode(assignee);
+            arg4_5_1.addTextNode(content.get(Constants.ASSIGNEES));
 
-            //SOAPElement arg4_5_2 = arg4_5.addChildElement( env.createName("item") );
-            //arg4_5_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            //arg4_5_2.addTextNode(item);
             SOAPElement arg4_3 = arg4.addChildElement(env.createName("abfields"));
             arg4_3.addAttribute(env.createName("type", "xsi", ""), "namesp2:SOAPStruct");
 
@@ -108,17 +95,17 @@ public class FootPrints11 implements ISplints {
             arg4_3_1.addAttribute( env.createName("type","xsi",""), "xsd:string" );
             arg4_3_1.addTextNode(customABFieldOne);
             
-            SOAPElement arg4_3_2 = arg4_3.addChildElement( env.createName("Last__bName") );
+            SOAPElement arg4_3_2 = arg4_3.addChildElement( env.createName(Constants.CONTACT_LAST_NAME) );
             arg4_3_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_3_2.addTextNode(lastBName);
+            arg4_3_2.addTextNode(content.get(Constants.CONTACT_LAST_NAME));
             
-            SOAPElement arg4_3_3 = arg4_3.addChildElement( env.createName("First__bName") );
+            SOAPElement arg4_3_3 = arg4_3.addChildElement( env.createName(Constants.CONTACT_FIRST_NAME) );
             arg4_3_3.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            arg4_3_3.addTextNode(firstBName);
+            arg4_3_3.addTextNode(content.get(Constants.CONTACT_FIRST_NAME));
              */
-            SOAPElement arg4_3_4 = arg4_3.addChildElement(env.createName("Email__bAddress"));
+            SOAPElement arg4_3_4 = arg4_3.addChildElement(env.createName(Constants.CONTACT_EMAIL));
             arg4_3_4.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg4_3_4.addTextNode(emailBAddress);
+            arg4_3_4.addTextNode(content.get(Constants.CONTACT_EMAIL));
 
             /*
             SOAPElement arg4_6 = arg4.addChildElement( env.createName("projfields") );
@@ -132,13 +119,13 @@ public class FootPrints11 implements ISplints {
             arg4_6_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
             arg4_6_2.addTextNode(customFieldTwo);
              */
-            SOAPElement arg4_7 = arg4.addChildElement(env.createName("projectID"));
+            SOAPElement arg4_7 = arg4.addChildElement(env.createName(Constants.WORKSPACE));
             arg4_7.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
-            arg4_7.addTextNode(projectId);
+            arg4_7.addTextNode(content.get(Constants.WORKSPACE));
 
-            SOAPElement arg4_8 = arg4.addChildElement(env.createName("title"));
+            SOAPElement arg4_8 = arg4.addChildElement(env.createName(Constants.ISSUE_SUBJECT));
             arg4_8.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-            arg4_8.addTextNode(title);
+            arg4_8.addTextNode(content.get(Constants.ISSUE_SUBJECT));
 
             msg.saveChanges();
 
@@ -204,18 +191,10 @@ public class FootPrints11 implements ISplints {
     }
 
     @Override
-    public NodeList getIssueDetails() {
-        String projectId = "PROJECT_ID";
-        String ticketNumber = "TICKET_NUMBER";
+    public NodeList getIssueDetails(Map<String,Serializable> content) {
         NodeList result = null;
 
         try {
-            /*
-            // Comment this out for NO proxy.
-            java.util.Properties props = System.getProperties();
-            props.put( "http.proxyHost", Config.PROXY_HOST );
-            props.put( "http.proxyPort", Config.PROXY_PORT );
-             */
 
             // Setup SOAP message.
             SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -245,13 +224,13 @@ public class FootPrints11 implements ISplints {
             SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
             arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
 
-            SOAPElement arg4 = invoke.addChildElement(env.createName("projectID"));
+            SOAPElement arg4 = invoke.addChildElement(env.createName(Constants.WORKSPACE));
             arg4.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
-            arg4.addTextNode(projectId);
+            arg4.addTextNode(content.get(Constants.WORKSPACE));
 
-            SOAPElement arg5 = invoke.addChildElement(env.createName("mrid"));
+            SOAPElement arg5 = invoke.addChildElement(env.createName(Constants.ISSUE));
             arg5.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
-            arg5.addTextNode(ticketNumber);
+            arg5.addTextNode(content.get(Constants.ISSUE));
 
             msg.saveChanges();
 
@@ -295,13 +274,7 @@ public class FootPrints11 implements ISplints {
         NodeList result = null;
         
         try {
-            /*
-            // Comment this out for NO proxy.
-            java.util.Properties props = System.getProperties();
-            props.put( "http.proxyHost", Config.PROXY_HOST );
-            props.put( "http.proxyPort", Config.PROXY_PORT );
-             */
-
+           
             // Setup SOAP message.
             SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
             SOAPConnection connection = scf.createConnection();
@@ -436,12 +409,12 @@ public class FootPrints11 implements ISplints {
 	 * @see fp.v11.splints.ISplints#editIssue()
 	 */
 	@Override
-	public void editIssue() {
+	public void editIssue(Map<String,Serializable> content) {
 
 		try {
 			java.util.Properties props = System.getProperties();
-			props.put("http.proxyHost", "localhost");
-			props.put("http.proxyPort", "8888");
+			props.put("http.proxyHost", Config.PROXY_HOST);
+			props.put("http.proxyPort", Config.PROXY_PORT);
 
 			// Setup SOAP message.
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -461,11 +434,11 @@ public class FootPrints11 implements ISplints {
 
 			SOAPElement arg1 = invoke.addChildElement(env.createName("user"));
 			arg1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-			arg1.addTextNode("WebServices");
+                        arg1.addTextNode(Config.SOAP_AGENT_USERNAME);
 
 			SOAPElement arg2 = invoke.addChildElement(env.createName("password"));
 			arg2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-			arg2.addTextNode("fakepassword");
+                        arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
 
 			SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
 			arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
@@ -487,17 +460,17 @@ public class FootPrints11 implements ISplints {
 			arg4_2_1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
 			arg4_2_1.addTextNode("NEW VALUE FOR Custom Field Two");
 
-			SOAPElement arg4_3 = arg4.addChildElement(env.createName("title"));
+			SOAPElement arg4_3 = arg4.addChildElement(env.createName(Constants.ISSUE_SUBJECT));
 			arg4_3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-			arg4_3.addTextNode("NEW title is here.");
+			arg4_3.addTextNode(content.get(Constants.ISSUE_SUBJECT));
 
-			SOAPElement arg4_4 = arg4.addChildElement(env.createName("projectID"));
+			SOAPElement arg4_4 = arg4.addChildElement(env.createName(Constants.WORKSPACE));
 			arg4_4.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
-			arg4_4.addTextNode("78");
+			arg4_4.addTextNode(content.get(Constants.WORKSPACE));
 
-			SOAPElement arg4_5 = arg4.addChildElement(env.createName("mrID"));
+			SOAPElement arg4_5 = arg4.addChildElement(env.createName(Constants.ISSUE));
 			arg4_5.addAttribute(env.createName("type", "xsi", ""), "xsd:int");
-			arg4_5.addTextNode("40");
+			arg4_5.addTextNode(content.get(Constants.ISSUE));
 
 			msg.saveChanges();
 
@@ -563,8 +536,8 @@ public class FootPrints11 implements ISplints {
 		try {
 			// Comment this out for NO proxy.
 			java.util.Properties props = System.getProperties();
-			props.put("http.proxyHost", "localhost");
-			props.put("http.proxyPort", "8888");
+			props.put("http.proxyHost", Config.PROXY_HOST);
+			props.put("http.proxyPort", Config.PROXY_PORT);
 
 			// Setup SOAP message.
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -585,11 +558,11 @@ public class FootPrints11 implements ISplints {
 
 			SOAPElement arg1 = invoke.addChildElement(env.createName("user"));
 			arg1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-			arg1.addTextNode("WebServices");
+			arg1.addTextNode(Config.SOAP_AGENT_USERNAME);
 
 			SOAPElement arg2 = invoke.addChildElement(env.createName("password"));
 			arg2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-			arg2.addTextNode("root");
+			arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
 
 			SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
 			arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
