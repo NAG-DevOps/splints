@@ -3,6 +3,7 @@ package fp.v11.splints;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
+
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
@@ -11,6 +12,7 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.Text;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -18,6 +20,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author soen487-w18-team03
  * @author Vincent Fugnitto from soen487-w18-team08
+ * @author Ziad Yarbouh from soen487-team08
  */
 public class FootPrints11 implements ISplints {
 
@@ -32,13 +35,7 @@ public class FootPrints11 implements ISplints {
 
         String ticketNumber = "0";
         try {
-            /*
-            // Comment this out for NO proxy.
-            java.util.Properties props = System.getProperties();
-            props.put( "http.proxyHost", Config.PROXY_HOST );
-            props.put( "http.proxyPort", Config.PROXY_PORT );
-             */
-
+            
             // Setup SOAP message.
             SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
             SOAPConnection connection = scf.createConnection();
@@ -82,7 +79,7 @@ public class FootPrints11 implements ISplints {
             arg4_4.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
             arg4_4.addTextNode(content.get(Constants.DESCRIPTION));
 
-            SOAPElement arg4_5 = arg4.addChildElement(env.createName("Assignees"));
+            SOAPElement arg4_5 = arg4.addChildElement(env.createName(Constants.ASSIGNEES));
             arg4_5.addAttribute(env.createName("type", "xsi", ""), "SOAP-ENC:Array");
             arg4_5.addAttribute(env.createName("arrayType", "SOAP-ENC", ""), "xsd:string[2]");
 
@@ -90,9 +87,6 @@ public class FootPrints11 implements ISplints {
             arg4_5_1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
             arg4_5_1.addTextNode(content.get(Constants.ASSIGNEES));
 
-            //SOAPElement arg4_5_2 = arg4_5.addChildElement( env.createName("item") );
-            //arg4_5_2.addAttribute( env.createName("type","xsi",""), "xsd:string" );
-            //arg4_5_2.addTextNode(item);
             SOAPElement arg4_3 = arg4.addChildElement(env.createName("abfields"));
             arg4_3.addAttribute(env.createName("type", "xsi", ""), "namesp2:SOAPStruct");
 
@@ -201,12 +195,6 @@ public class FootPrints11 implements ISplints {
         NodeList result = null;
 
         try {
-            /*
-            // Comment this out for NO proxy.
-            java.util.Properties props = System.getProperties();
-            props.put( "http.proxyHost", Config.PROXY_HOST );
-            props.put( "http.proxyPort", Config.PROXY_PORT );
-             */
 
             // Setup SOAP message.
             SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -286,13 +274,7 @@ public class FootPrints11 implements ISplints {
         NodeList result = null;
         
         try {
-            /*
-            // Comment this out for NO proxy.
-            java.util.Properties props = System.getProperties();
-            props.put( "http.proxyHost", Config.PROXY_HOST );
-            props.put( "http.proxyPort", Config.PROXY_PORT );
-             */
-
+           
             // Setup SOAP message.
             SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
             SOAPConnection connection = scf.createConnection();
@@ -431,8 +413,8 @@ public class FootPrints11 implements ISplints {
 
 		try {
 			java.util.Properties props = System.getProperties();
-			props.put("http.proxyHost", "localhost");
-			props.put("http.proxyPort", "8888");
+			props.put("http.proxyHost", Config.PROXY_HOST);
+			props.put("http.proxyPort", Config.PROXY_PORT);
 
 			// Setup SOAP message.
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -554,8 +536,8 @@ public class FootPrints11 implements ISplints {
 		try {
 			// Comment this out for NO proxy.
 			java.util.Properties props = System.getProperties();
-			props.put("http.proxyHost", "localhost");
-			props.put("http.proxyPort", "8888");
+			props.put("http.proxyHost", Config.PROXY_HOST);
+			props.put("http.proxyPort", Config.PROXY_PORT);
 
 			// Setup SOAP message.
 			SOAPConnectionFactory scf = SOAPConnectionFactory.newInstance();
@@ -576,11 +558,11 @@ public class FootPrints11 implements ISplints {
 
 			SOAPElement arg1 = invoke.addChildElement(env.createName("user"));
 			arg1.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-                        arg1.addTextNode(Config.SOAP_AGENT_USERNAME);
+			arg1.addTextNode(Config.SOAP_AGENT_USERNAME);
 
 			SOAPElement arg2 = invoke.addChildElement(env.createName("password"));
 			arg2.addAttribute(env.createName("type", "xsi", ""), "xsd:string");
-                       arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
+			arg2.addTextNode(Config.SOAP_AGENT_PASSWORD);
 
 			SOAPElement arg3 = invoke.addChildElement(env.createName("extrainfo"));
 			arg3.addAttribute(env.createName("type", "xsi", ""), "xsd:string");

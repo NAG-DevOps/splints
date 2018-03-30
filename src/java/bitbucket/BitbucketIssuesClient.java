@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import org.json.*;
 
 /**
@@ -24,20 +23,34 @@ public class BitbucketIssuesClient {
 	 * @param issueNumber
 	 * @throws Exception
 	 */
-	public static void getIssueDetails(int issueNumber) throws Exception {
+	public static void getIssueDetails(int issueNumber) throws Exception{
+
 		String inumber = Integer.toString(issueNumber);
 		JSONObject json;
-
+		JSONObject json1;
 		try {
 			URL base = new URL(urlprefix);
-			URL url = new URL(base, inumber);
+			URL url = new URL (base,inumber);
 			json = new JSONObject(getText(url));
-			// System.out.println(response);
-
+			//System.out.println(response);
+			
 			String[] names = JSONObject.getNames(json);
-
-			for (String str : names) {
-				if (!str.equals("reported_by")) {
+									
+			for(String str : names){
+				
+				if(str.equals("reported_by")){
+					
+					System.out.println(str + ":");
+					
+					json1 = new JSONObject(""+json.get(str));
+					String[] names1 = JSONObject.getNames(json1);
+					
+					for (String str1 : names1){
+						System.out.println(str1 + ":" + json1.get(str1));
+					}
+					
+				}
+				if(!str.equals("reported_by")){
 					System.out.println(str + ":" + json.get(str));
 				}
 			}
@@ -45,7 +58,9 @@ public class BitbucketIssuesClient {
 		} catch (MalformedURLException e) {
 			System.err.println("ERROR: " + e.getMessage());
 		}
+
 	}
+	
 
 	/**
 	 * Get Text given URL
