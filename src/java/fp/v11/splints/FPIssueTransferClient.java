@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import org.w3c.dom.NodeList;
+import rt.RT;
+import rt.Constants;
+import github.GitHub;
+import github.Constants;
+import bitbucket.BitBucket;
+import bitbucket.Constants;
 
 /**
  * Client for Transferring between ISplints inheritors
@@ -27,18 +33,18 @@ public class FPIssueTransferClient {
     public void transferToRT(int issueId, int projectId) {
         RT rt = new RT();
         Map<String, Serializable> fpIssueParams = new HashMap<String, Serializable>();
-        fpIssueParams.put(Constants.WORKSPACE, projectId);
-        fpIssueParams.put(Constants.ISSUE, issueId);
+        fpIssueParams.put(fp.Constants.WORKSPACE, projectId);
+        fpIssueParams.put(fp.Constants.ISSUE, issueId);
         NodeList context = fp11.getIssueDetails(fpIssueParams);
         Map<String, Serializable> details = new HashMap<String, Serializable>();
-        details.add(rt.Constants.SUBJECT,context.item(Constants.ISSUE_SUBJECT).getNodeValue());
-        details.add(rt.Constants.STATUS,context.item(Constants.ISSUE_STATUS).getNodeValue());
-        details.add(rt.Constants.CREATOR,context.item(Constants.SUBMITTER).getNodeValue());
-        details.add(rt.Constants.TOLD,context.item(Constants.ASSIGNEES).getNodeValue());
-        details.add(rt.Constants.PRIORITY ,context.item(Constants.PRIORITY_NUMBER).getNodeValue());
-        details.add(rt.Constants.TEXT ,context.item(Constants.DESCRIPTION).getNodeValue());
-        details.add(rt.Constants.REQUESTOR ,context.item(Constants.DESCRIPTION).getNodeValue());
-        rt.createIssue(details);
+        details.put(Constants.SUBJECT,context.item(Integer.valueOf(fp.Constants.ISSUE_SUBJECT)).getNodeValue());
+        details.put(Constants.STATUS,context.item(Integer.valueOf(fp.Constants.ISSUE_STATUS)).getNodeValue());
+        //details.put(Constants.CREATOR,context.item(Constants.SUBMITTER).getNodeValue());
+        //details.put(Constants.TOLD,context.item(Constants.ASSIGNEES).getNodeValue());
+        details.put(Constants.PRIORITY ,context.item(Integer.valueOf(fp.Constants.PRIORITY_NUMBER)).getNodeValue());
+        details.put(Constants.TEXT ,context.item(Integer.valueOf(fp.Constants.DESCRIPTION)).getNodeValue());
+        details.put(Constants.REQUESTOR ,context.item(Integer.valueOf(fp.Constants.SUBMITTER)).getNodeValue());
+        rt.createIssue(details)
     }
 
     /**
@@ -50,14 +56,15 @@ public class FPIssueTransferClient {
     public void transferToGitHub(int issueId, int projectId) {
         GitHub github = new GitHub();
         Map<String, Serializable> fpIssueParams = new HashMap<String, Serializable>();
-        fpIssueParams.put(Constants.WORKSPACE, projectId);
-        fpIssueParams.put(Constants.ISSUE, issueId);
+        fpIssueParams.put(fp.Constants.WORKSPACE, projectId);
+        fpIssueParams.put(fp.Constants.ISSUE, issueId);
         NodeList context = fp11.getIssueDetails(fpIssueParams);
         Map<String, Serializable> details = new HashMap<String, Serializable>();
-        details.add(github.Constants.SUBJECT,context.item(Constants.ISSUE_SUBJECT).getNodeValue());
-        details.add(github.Constants.BODY ,context.item(Constants.DESCRIPTION).getNodeValue());
-        details.add(github.Constants.ASSIGNEES,context.item(Constants.ASSIGNEES).getNodeValue());
-        github.createIssue(details);    
+        //TODO: Implement once constants are refactored properly
+        //details.put(github.Constants.SUBJECT,context.item(Integer.valueOf(fp.Constants.ISSUE_SUBJECT)).getNodeValue());
+        //details.put(github.Constants.BODY ,context.item(Integer.valueOf(fp.Constants.DESCRIPTION)).getNodeValue());
+        //details.put(github.Constants.ASSIGNEES,context.item(Integer.valueOf(fp.Constants.ASSIGNEES)).getNodeValue());
+        github.createIssue(details);
     }
 
     /**
@@ -67,19 +74,20 @@ public class FPIssueTransferClient {
      * @param projectId 
      */
     public void transferToBitbucket(int issueId, int projectId) {
+        //TODO: Implement once constants are refactored properly
         BitBucket bitbucket = new BitBucket();
-        Map<String, Serializable> fpIssueParams = new HashMap<String, Serializable>();
-        fpIssueParams.put(Constants.WORKSPACE, projectId);
-        fpIssueParams.put(Constants.ISSUE, issueId);
-        NodeList context = fp11.getIssueDetails(fpIssueParams);
-        Map<String, Serializable> details = new HashMap<String, Serializable>();
-        details.add(bitbucket.Constants.STATUS ,context.item(Constants.ISSUE_STATUS).getNodeValue());
-        details.add(bitbucket.Constants.PRIORITY ,context.item(Constants.PRIORITY_NUMBER).getNodeValue());
-        details.add(bitbucket.Constants.SUBJECT ,context.item(Constants.ISSUE_SUBJECT).getNodeValue());
-        details.add(bitbucket.Constants.RESPONSIBLE ,context.item(Constants.ASSIGNEES).getNodeValue());
-        details.add(bitbucket.Constants.CONTENT ,context.item(Constants.DESCRIPTION).getNodeValue());
-        details.add(bitbucket.Constants.KIND ,context.item(Constants.TICKET_TYPE).getNodeValue());
-        bitbucket.createIssue(details);
+       Map<String, Serializable> fpIssueParams = new HashMap<String, Serializable>();
+       fpIssueParams.put(Constants.WORKSPACE, projectId);
+       fpIssueParams.put(Constants.ISSUE, issueId);
+       NodeList context = fp11.getIssueDetails(fpIssueParams);
+       Map<String, Serializable> details = new HashMap<String, Serializable>();
+       details.put(bitbucket.Constants.STATUS ,context.item(Integer.valueOf(Constants.ISSUE_STATUS)).getNodeValue());
+       details.put(bitbucket.Constants.PRIORITY ,context.item(Integer.valueOf(Constants.PRIORITY_NUMBER)).getNodeValue());
+       details.put(bitbucket.Constants.SUBJECT ,context.item(Integer.valueOf(Constants.ISSUE_SUBJECT)).getNodeValue());
+       details.put(bitbucket.Constants.RESPONSIBLE ,context.item(Integer.valueOf(Constants.ASSIGNEES)).getNodeValue());
+       details.put(bitbucket.Constants.CONTENT ,context.item(Integer.valueOf(Constants.DESCRIPTION)).getNodeValue());
+       details.put(bitbucket.Constants.KIND ,context.item(Integer.valueOf(Constants.TICKET_TYPE)).getNodeValue());
+       bitbucket.createIssue(details);
     }
 
 }
