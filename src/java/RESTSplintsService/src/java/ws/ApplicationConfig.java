@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fp11;
+package ws;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -29,11 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(bitbucket.RESTSplintsService.class);
-        resources.add(fp11.RESTSplintsService.class);
-        resources.add(fp12.RESTSplintsService.class);
-        resources.add(github.RESTSplintsService.class);
-        resources.add(rt.RESTSplintsService.class);
+        resources.add(ws.RESTSplintsService.class);
     }
     
 }
