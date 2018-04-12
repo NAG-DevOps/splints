@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <nextCatalog catalog="nbproject/private/retriever/catalog.xml"/>
+    <system systemId="http://localhost:5050/TransferClient/TransferClientWS?WSDL" uri="src/localhost_5050/TransferClient/TransferClientWS.wsdl"/>
+    <system systemId="http://localhost:5050/TransferClient/TransferClientWS?xsd=1" uri="src/localhost_5050/TransferClient/TransferClientWS.xsd_1.xsd"/>
+</catalog>

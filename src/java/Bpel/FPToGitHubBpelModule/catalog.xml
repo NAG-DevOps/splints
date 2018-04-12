@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <nextCatalog catalog="nbproject/private/retriever/catalog.xml"/>
-    <system systemId="file:/C:/Users/chris/Documents/SOEN%20487/splints/src/java/Bpel/TransferClient/build/generated-sources/jax-ws/resources/TransferClientWS.wsdl" uri="src/TransferClientWS.wsdl"/>
-    <system systemId="file:/C:/Users/chris/Documents/SOEN%20487/splints/src/java/Bpel/TransferClient/build/generated-sources/jax-ws/resources/TransferClientWS_schema1.xsd" uri="src/TransferClientWS_schema1.xsd"/>
-</catalog>

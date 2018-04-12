@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://fp/" xmlns:ns2="CompositeApp1" xmlns:ns3="http://j2ee.netbeans.org/wsdl/BpelModule1/src/RequestorWSDL" xmlns:ns4="http://enterprise.netbeans.org/bpel/BpelModule1/bpelModule1" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="TransferClientWSPort" interface-name="ns1:TransferClientWS" name="endpoint1" service-name="ns1:TransferClientWS"/>
+        <endpoint endpoint-name="casaPort1" interface-name="ns3:RequestorWSDLPortType" name="endpoint2" service-name="ns2:CompositeApp1Service1"/>
+        <endpoint display-name="PartnerLink2" endpoint-name="RequestorWSDLPortTypeRole_myRole" file-path="bpelModule1.bpel" interface-name="ns3:RequestorWSDLPortType" name="endpoint3" process-name="bpelModule1" service-name="ns4:PartnerLink2"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="TransferClientWSRole_partnerRole" file-path="bpelModule1.bpel" interface-name="ns1:TransferClientWS" name="endpoint4" process-name="bpelModule1" service-name="ns4:PartnerLink1"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="BpelModule1.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="CompositeApp1-BpelModule1" unit-name="BpelModule1" unknown="false" x="155" y="99">
+            <provides endpoint="endpoint3"/>
+            <consumes endpoint="endpoint4"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="CompositeApp1-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port bindingType="soap" x="67" y="267">
+                    <link xlink:href="../jbiasa/CompositeApp1.wsdl#xpointer(/definitions/service[@name='CompositeApp1Service1']/port[@name='casaPort1'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+                <port x="67" y="39">
+                    <link xlink:href="../jbiServiceUnits/BpelModule1/localhost_5050/TransferClient/TransferClientWS.wsdl#xpointer(/definitions/service[@name='TransferClientWS']/port[@name='TransferClientWSPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint2" provider="endpoint3" state="new"/>
+        <connection consumer="endpoint4" provider="endpoint1" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiasa/CompositeApp1.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule1/localhost_5050/TransferClient/TransferClientWS.wsdl#xpointer(/definitions/portType[@name='TransferClientWS'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule1/RequestorWSDL.wsdl#xpointer(/definitions/portType[@name='RequestorWSDLPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/CompositeApp1.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiasa/CompositeApp1.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule1/localhost_5050/TransferClient/TransferClientWS.wsdl#xpointer(/definitions/binding[@name='TransferClientWSPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/CompositeApp1.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiasa/CompositeApp1.wsdl#xpointer(/definitions/service[@name='CompositeApp1Service1'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule1/localhost_5050/TransferClient/TransferClientWS.wsdl#xpointer(/definitions/service[@name='TransferClientWS'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/CompositeApp1.wsdl#xpointer(/definitions/service[@name='CompositeApp1Service1'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>

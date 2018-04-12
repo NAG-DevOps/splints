@@ -6,6 +6,7 @@ import javax.xml.soap.SOAPElement;
 import org.w3c.dom.NodeList;
 
 import java.util.Map;
+import utils.ContentMap;
 
 /**
  * ISplints Interface Interface for interacting with Splints
@@ -20,42 +21,25 @@ public interface ISplints {
      *
      * @return Ticket Number
      */
-    public String createIssue(Map<String,Serializable> content);
+    public String createIssue(ContentMap content);
     //public String createIssue(Map<String,String> idetails);
 
     /**
      * Gets issue details
      *
      */
-    public NodeList getIssueDetails(Map<String,Serializable> content);
+    public ContentMap getIssueDetails(ContentMap content);
 
     /**
      * Links two issues
      *
      */
-    public NodeList linkIssues();
+    public ContentMap linkIssues();
 
     /**
      * Edit Issue
      */
-    void editIssue(Map<String,Serializable> content);
-
-    /**
-     * Get Indent
-     *
-     * @param num
-     * @return indent
-     */
-    String getIndent(int num);
-
-    /**
-     * Dump SOAP Element
-     *
-     * @param el
-     * @param indent
-     * @throws Exception
-     */
-    void dumpSOAPElement(SOAPElement el, int indent) throws Exception;
+    void editIssue(ContentMap content);
 
     /**
      * Query Issues

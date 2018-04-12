@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://fp/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://fp/">
+
+<xs:element name="transferFromFp11ToBitBucket" type="tns:transferFromFp11ToBitBucket"/>
+
+<xs:element name="transferFromFp11ToBitBucketResponse" type="tns:transferFromFp11ToBitBucketResponse"/>
+
+<xs:element name="transferFromFp11ToGithub" type="tns:transferFromFp11ToGithub"/>
+
+<xs:element name="transferFromFp11ToGithubResponse" type="tns:transferFromFp11ToGithubResponse"/>
+
+<xs:element name="transferFromFp11ToRt" type="tns:transferFromFp11ToRt"/>
+
+<xs:element name="transferFromFp11ToRtResponse" type="tns:transferFromFp11ToRtResponse"/>
+
+<xs:element name="transferFromRtToFp11" type="tns:transferFromRtToFp11"/>
+
+<xs:element name="transferFromRtToFp11Response" type="tns:transferFromRtToFp11Response"/>
+
+<xs:complexType name="transferFromFp11ToGithub">
+<xs:sequence>
+<xs:element name="issueId" type="xs:int"/>
+<xs:element name="projectId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromFp11ToGithubResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromFp11ToRt">
+<xs:sequence>
+<xs:element name="issueId" type="xs:int"/>
+<xs:element name="projectId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromFp11ToRtResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromRtToFp11">
+<xs:sequence>
+<xs:element name="issueId" type="xs:int"/>
+<xs:element name="projectId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromRtToFp11Response">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromFp11ToBitBucket">
+<xs:sequence>
+<xs:element name="issueId" type="xs:int"/>
+<xs:element name="projectId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferFromFp11ToBitBucketResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
