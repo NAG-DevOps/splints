@@ -1,8 +1,0 @@
-<soapenv:Envelope xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="CompositeApp1">
-  <soapenv:Body>
-    <com:RequestorWSDLOperation>
-      <issueId>?3?</issueId>
-      <projectId>?3?</projectId>
-    </com:RequestorWSDLOperation>
-  </soapenv:Body>
-</soapenv:Envelope>

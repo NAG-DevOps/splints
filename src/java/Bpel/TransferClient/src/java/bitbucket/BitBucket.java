@@ -38,7 +38,6 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-
         String inumber = Integer.toString((Integer)content.get("issueNumber"));
         JSONObject json;
         JSONObject json1;
@@ -105,8 +104,13 @@ public class BitBucket implements ISplints {
 
     @Override
     @WebMethod(operationName = "createIssue")
-    public String createIssue(@WebParam(name = "content") ContentMap content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String createIssue(@WebParam(name = "content") ContentMap params) {
+        JSONObject content = new JSONObject(params.getMap());
+        if(content.has("issueId"))
+        {
+            return "New BitBucket Issue:"+(String)content.get("issueId");
+        }
+        return null;
     }
 
     @Override

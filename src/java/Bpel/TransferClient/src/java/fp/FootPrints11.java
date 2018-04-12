@@ -201,12 +201,10 @@ public class FootPrints11 implements ISplints {
     @Override
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
-        System.out.println(params.getMap());
         JSONObject content = new JSONObject(params.getMap());
-        System.out.println("amount of params:"+content.keySet().size());
         if(content.has("issueId"))
         {
-            System.out.println("HIT");
+            System.out.println("Got Issue details from FP:"+content.getString("issueId"));
             return params;
         }
         NodeList result = null;

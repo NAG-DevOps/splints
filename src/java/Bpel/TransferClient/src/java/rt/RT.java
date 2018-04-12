@@ -35,7 +35,7 @@ public class RT implements ISplints {
 
         if(content.has("issueId"))
         {
-            return (String)content.get("issueId");
+            return "New RT Issue:"+(String)content.get("issueId");
         }
         String uri = Config.BASE_URI + "/ticket/new?user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
 

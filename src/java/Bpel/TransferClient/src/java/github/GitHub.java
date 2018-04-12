@@ -57,6 +57,10 @@ public class GitHub implements ISplints {
     @WebMethod(operationName = "createIssue")
     public String createIssue(@WebParam(name = "content") ContentMap input) {
         JSONObject content = new JSONObject(input.getMap());
+        if(content.has("issueId"))
+        {
+            return "New Github issue created :"+content.getString("issueId");
+        }
 
         URL base;
         URL url = null;

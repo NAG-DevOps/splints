@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="fpToAllBpelModule"
+    targetNamespace="http://enterprise.netbeans.org/bpel/FpToAllBpelModule/fpToAllBpelModule"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/FpToAllBpelModule/fpToAllBpelModule"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling">
+    <import namespace="http://enterprise.netbeans.org/bpel/ContentMapConverterWrapper" location="ContentMapConverterWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://utils/" location="http://localhost:5050/TransferClient/ContentMapConverter?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/FootPrints11Wrapper" location="FootPrints11Wrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://fp/" location="http://localhost:5050/TransferClient/FootPrints11?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/RTWrapper" location="RTWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://rt/" location="http://localhost:5050/TransferClient/RT?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/BitBucketWrapper" location="BitBucketWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://bitbucket/" location="http://localhost:5050/TransferClient/BitBucket?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/GitHubWrapper" location="GitHubWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://github/" location="http://localhost:5050/TransferClient/GitHub?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL" location="FPRequestorWSDL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL" partnerLinkType="tns:FPRequestorWSDL" myRole="FPRequestorWSDLPortTypeRole"/>
+        <partnerLink name="InputConverter" xmlns:tns="http://enterprise.netbeans.org/bpel/ContentMapConverterWrapper" partnerLinkType="tns:ContentMapConverterLinkType" partnerRole="ContentMapConverterRole"/>
+        <partnerLink name="FP11" xmlns:tns="http://enterprise.netbeans.org/bpel/FootPrints11Wrapper" partnerLinkType="tns:FootPrints11LinkType" partnerRole="FootPrints11Role"/>
+        <partnerLink name="RT" xmlns:tns="http://enterprise.netbeans.org/bpel/RTWrapper" partnerLinkType="tns:RTLinkType" partnerRole="RTRole"/>
+        <partnerLink name="BitBucket" xmlns:tns="http://enterprise.netbeans.org/bpel/BitBucketWrapper" partnerLinkType="tns:BitBucketLinkType" partnerRole="BitBucketRole"/>
+        <partnerLink name="GitHub" xmlns:tns="http://enterprise.netbeans.org/bpel/GitHubWrapper" partnerLinkType="tns:GitHubLinkType" partnerRole="GitHubRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="FPRequestorWSDLOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL" messageType="tns:FPRequestorWSDLOperationRequest"/>
+        <variable name="FPRequestorWSDLOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL" messageType="tns:FPRequestorWSDLOperationResponse"/>
+        <variable name="CreateIssueGitHubOut" xmlns:tns="http://github/" messageType="tns:createIssueResponse"/>
+        <variable name="CreateIssueGitHubIn" xmlns:tns="http://github/" messageType="tns:createIssue"/>
+        <variable name="CreateIssueBitBucketOut" xmlns:tns="http://bitbucket/" messageType="tns:createIssueResponse"/>
+        <variable name="CreateIssueBitBucketIn" xmlns:tns="http://bitbucket/" messageType="tns:createIssue"/>
+        <variable name="CreateIssueOut" xmlns:tns="http://rt/" messageType="tns:createIssueResponse"/>
+        <variable name="CreateIssueIn" xmlns:tns="http://rt/" messageType="tns:createIssue"/>
+        <variable name="GetIssueDetailsOut" xmlns:tns="http://fp/" messageType="tns:getIssueDetailsResponse"/>
+        <variable name="GetIssueDetailsIn" xmlns:tns="http://fp/" messageType="tns:getIssueDetails"/>
+        <variable name="GetCreateIssueInputContentOut" xmlns:tns="http://utils/" messageType="tns:getCreateIssueInputContentResponse"/>
+        <variable name="GetCreateIssueInputContentIn" xmlns:tns="http://utils/" messageType="tns:getCreateIssueInputContent"/>
+    </variables>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="FPRequestorWSDLOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL" portType="tns:FPRequestorWSDLPortType" variable="FPRequestorWSDLOperationIn"/>
+        <assign name="Assign5">
+            <copy>
+                <from variable="FPRequestorWSDLOperationIn" part="issueId"/>
+                <to>$GetCreateIssueInputContentIn.parameters/issueId</to>
+            </copy>
+            <copy>
+                <from variable="FPRequestorWSDLOperationIn" part="projectId"/>
+                <to>$GetCreateIssueInputContentIn.parameters/projectId</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke1" partnerLink="InputConverter" operation="getCreateIssueInputContent" xmlns:tns="http://utils/" portType="tns:ContentMapConverter" inputVariable="GetCreateIssueInputContentIn" outputVariable="GetCreateIssueInputContentOut"/>
+        <assign name="Assign2">
+            <copy>
+                <from>$GetCreateIssueInputContentOut.parameters/return/map</from>
+                <to>$GetIssueDetailsIn.parameters/content/map</to>
+            </copy>
+            <copy>
+                <from>$GetCreateIssueInputContentOut.parameters/return</from>
+                <to>$GetIssueDetailsIn.parameters/content</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke5" partnerLink="FP11" operation="getIssueDetails" xmlns:tns="http://fp/" portType="tns:FootPrints11" inputVariable="GetIssueDetailsIn" outputVariable="GetIssueDetailsOut"/>
+        <assign name="Assign3">
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return</from>
+                <to>$CreateIssueGitHubIn.parameters/content</to>
+            </copy>
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return/map</from>
+                <to>$CreateIssueGitHubIn.parameters/content/map</to>
+            </copy>
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return</from>
+                <to>$CreateIssueBitBucketIn.parameters/content</to>
+            </copy>
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return/map</from>
+                <to>$CreateIssueBitBucketIn.parameters/content/map</to>
+            </copy>
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return</from>
+                <to>$CreateIssueIn.parameters/content</to>
+            </copy>
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return/map</from>
+                <to>$CreateIssueIn.parameters/content/map</to>
+            </copy>
+        </assign>
+        <flow name="Flow1">
+            <invoke name="Invoke2" partnerLink="RT" operation="createIssue" xmlns:tns="http://rt/" portType="tns:RT" inputVariable="CreateIssueIn" outputVariable="CreateIssueOut"/>
+            <invoke name="Invoke3" partnerLink="BitBucket" operation="createIssue" xmlns:tns="http://bitbucket/" portType="tns:BitBucket" inputVariable="CreateIssueBitBucketIn" outputVariable="CreateIssueBitBucketOut"/>
+            <invoke name="Invoke4" partnerLink="GitHub" operation="createIssue" xmlns:tns="http://github/" portType="tns:GitHub" inputVariable="CreateIssueGitHubIn" outputVariable="CreateIssueGitHubOut"/>
+        </flow>
+        <assign name="Assign4">
+            <copy>
+                <from>$CreateIssueGitHubOut.parameters/return</from>
+                <to variable="FPRequestorWSDLOperationOut" part="newGitHubId"/>
+            </copy>
+            <copy>
+                <from>$CreateIssueBitBucketOut.parameters/return</from>
+                <to variable="FPRequestorWSDLOperationOut" part="newBitBucketId"/>
+            </copy>
+            <copy>
+                <from>$CreateIssueOut.parameters/return</from>
+                <to variable="FPRequestorWSDLOperationOut" part="newRTId"/>
+            </copy>
+        </assign>
+        <reply name="Reply1" partnerLink="PartnerLink1" operation="FPRequestorWSDLOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL" portType="tns:FPRequestorWSDLPortType" variable="FPRequestorWSDLOperationOut"/>
+    </sequence>
+</process>
