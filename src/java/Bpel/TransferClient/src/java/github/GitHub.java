@@ -59,7 +59,7 @@ public class GitHub implements ISplints {
         JSONObject content = new JSONObject(input.getMap());
         if(content.has("issueId"))
         {
-            return "New Github issue created :"+content.getString("issueId");
+            return "New Github Issue:"+(String)content.get("issueId");
         }
 
         URL base;
@@ -111,6 +111,11 @@ public class GitHub implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
+        if(content.has("issueId"))
+        {
+            System.out.println("Got Issue details from Gitub:"+content.getString("issueId"));
+            return params;
+        }
         try {
             URL base = new URL(Config.API);
             URL url = new URL(base, Config.WORKSPACE + "issues/" + content.get("issueNumber"));

@@ -1,0 +1,8 @@
+<soapenv:Envelope xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:git="GitHubToBitBucketCompositeApp">
+  <soapenv:Body>
+    <git:RequestorWSDLOperation>
+      <issueId>11</issueId>
+      <projectId>22</projectId>
+    </git:RequestorWSDLOperation>
+  </soapenv:Body>
+</soapenv:Envelope>

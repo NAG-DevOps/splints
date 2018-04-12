@@ -35,6 +35,10 @@ public class FootPrints11 implements ISplints {
     public String createIssue(@WebParam(name = "content") ContentMap params) {
 
         JSONObject content = new JSONObject(params.getMap());
+        if(content.has("issueId"))
+        {
+            return "New FP11 Issue:"+(String)content.get("issueId");
+        }
         //Optional Parameters
         String customFieldOne = "Value of Custom Field One";
         String customFieldTwo = "Value of Custom Field Two";

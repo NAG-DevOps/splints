@@ -143,7 +143,13 @@ public class RT implements ISplints {
 
     @Override
     @WebMethod(operationName = "getIssueDetails")
-    public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap content) {
+    public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
+        JSONObject content = new JSONObject(params.getMap());
+        if(content.has("issueId"))
+        {
+            System.out.println("Got Issue details from FP:"+content.getString("issueId"));
+            return params;
+        }
         return null;
     }
 

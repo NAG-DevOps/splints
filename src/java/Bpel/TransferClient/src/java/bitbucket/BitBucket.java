@@ -38,6 +38,11 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
+        if(content.has("issueId"))
+        {
+            System.out.println("Got Issue details from BitBucket:"+content.getString("issueId"));
+            return params;
+        }
         String inumber = Integer.toString((Integer)content.get("issueNumber"));
         JSONObject json;
         JSONObject json1;
