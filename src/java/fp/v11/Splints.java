@@ -1,5 +1,7 @@
 package fp.v11;
 
+import fp.v11.splints.bitbucketcloud.BitbucketCloud;
+
 public class Splints {
 	
 	
@@ -7,7 +9,9 @@ public class Splints {
 	{
 		try
 		{
-			System.out.println("Hello.");
+			// just for testing
+			BitbucketCloud client = new BitbucketCloud();
+			client.editIssue();
 		}
 		catch(Exception e)
 		{
