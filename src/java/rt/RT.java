@@ -141,7 +141,38 @@ public class RT implements ISplints {
 
 	@Override
 	public void editIssue() {
-	
+		String uri = Config.BASE_URI + "/ticket/" + Constants.TICKET_ID + "/edit?user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
+		HttpPost httppost = new HttpPost(uri);
+		HttpClient httpclient = HttpClientBuilder.create().build();
+		HttpResponse response = null;
+		
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("Started: " + Constants.STARTED);
+			sb.append("TimeEstimated: " + Constants.TIME_ESTIMATED);
+			sb.append("TimeWorked: " + Constants.TIME_WORKED);
+			
+			StringBody content = new StringBody(sb.toString(), ContentType.TEXT_PLAIN);
+			MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
+			reqEntity.addPart("content", content);
+			httppost.setEntity(reqEntity.build());
+			System.out.println("Request: " + httppost.getRequestLine()+"\n");
+			
+			response = httpclient.execute(httppost);
+			
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+
+		if (response != null){
+			System.out.println(response.getStatusLine());
+		}
+		
+		HttpEntity responseEntity = response.getEntity();
+		if (responseEntity != null) {
+			System.out.println("Response received: " + responseEntity.toString());
+		} 
 	}
 
 	@Override
