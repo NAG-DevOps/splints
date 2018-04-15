@@ -2,7 +2,7 @@ package bitbucket;
 
 /**
  * Constants for Bitbucket cloud
- * @author Daniil Karpov from soen487-w18-team03
+ * @author Daniil Karpov from soen487-w18-team08
  */
 public class Constants {
 

@@ -27,23 +27,23 @@ import java.util.HashMap;
 
 /**
  * Refactored BitbucketCloud Class
- * @author Daniil Karpov from soen487-w18-team03
+ * @author Daniil Karpov from soen487-w18-team08
  */
 public class BitbucketCloud implements ISplints{
 
     public static void main(String args[]) {
-        BitbucketCloud bitCloud = new BitbucketCloud();
+        /*BitbucketCloud bitCloud = new BitbucketCloud();
         Map<String, Serializable> contentMap = new HashMap<String, Serializable>();
         contentMap.put("issueNumber", "4");
-        //contentMap.put("state", "open");
-        //contentMap.put("priority", "minor");
-        //contentMap.put("title", "Changed title");
-        //contentMap.put("assignee", "d_karpo");
-        //contentMap.put("content", "This is a test issue.");
-        //contentMap.put("kind", "proposal");
-        //bitCloud.getIssueDetails(contentMap);
+        contentMap.put("state", "open");
+        contentMap.put("priority", "minor");
+        contentMap.put("title", "Changed title");
+        contentMap.put("assignee", "d_karpo");
+        contentMap.put("content", "This is a test issue.");
+        contentMap.put("kind", "proposal");
+        bitCloud.getIssueDetails(contentMap);
         bitCloud.search("bug");
-        //System.out.println(bitCloud.createIssue(contentMap));
+        System.out.println(bitCloud.createIssue(contentMap));*/
     }
         
     /**
