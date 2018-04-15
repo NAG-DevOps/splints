@@ -1,4 +1,4 @@
-package fp.v11.splints.bitbucketcloud;
+package bitbucket;
 
 /**
  * Constants for Bitbucket cloud
