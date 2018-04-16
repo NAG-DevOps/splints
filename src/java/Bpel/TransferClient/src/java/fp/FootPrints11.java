@@ -270,7 +270,7 @@ public class FootPrints11 implements ISplints {
                 throw new Exception(replybody.getFault().getFaultString());
 
             }
-            DumpSOAPElement(replybody, 0);
+            dumpSOAPElement(replybody, 0);
             result = replybody.getChildNodes();
 
         } catch (Exception ex) {
@@ -280,12 +280,12 @@ public class FootPrints11 implements ISplints {
         }
 
         System.out.println("Done");
-        Map<String,String> response = new HashMap<String,String>();
+        JSONObject response = new JSONObject();
         for(int i=0;i<result.getLength();i++)
         {
             response.put(result.item(i).getNodeName(), result.item(i).getNodeValue());
         }
-        return new ContentMap(content.toString());
+        return new ContentMap(response.toString());
     }
 
     @Override
@@ -397,11 +397,11 @@ public class FootPrints11 implements ISplints {
     /**
      * Prints soap element names
      */
-    private void DumpSOAPElement(SOAPElement el, int indent) throws Exception {
+    private void dumpSOAPElement(SOAPElement el, int indent) throws Exception {
         java.util.Iterator it = el.getChildElements();
 
         while (it.hasNext()) {
-            String indstr = GetIndent(indent);
+            String indstr = getIndent(indent);
             Object obj = it.next();
 
             if (obj instanceof SOAPElement) {
@@ -409,7 +409,7 @@ public class FootPrints11 implements ISplints {
                 System.out.println(indstr + "-----------------------------");
                 System.out.println(indstr + ele.getElementName().getLocalName());
                 System.out.println(indstr + "-----------------------------");
-                DumpSOAPElement(ele, indent + 4);
+                dumpSOAPElement(ele, indent + 4);
 
             } else if (obj instanceof Text) {
                 Text txt = (Text) obj;
@@ -422,7 +422,7 @@ public class FootPrints11 implements ISplints {
     /**
      * Gets indent for printing
      */
-    private String GetIndent(int num) {
+    private String getIndent(int num) {
         String s = "";
 
         for (int i = 0; i < num; i++) {
@@ -516,33 +516,6 @@ public class FootPrints11 implements ISplints {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private String getIndent(int num) {
-        String s = "";
-        for (int i = 0; i < num; i++) {
-            s = s + " ";
-        }
-        return s;
-    }
-
-    private void dumpSOAPElement(SOAPElement el, int indent) throws Exception {
-        java.util.Iterator<?> it = el.getChildElements();
-        while (it.hasNext()) {
-            String indstr = getIndent(indent);
-            Object obj = it.next();
-
-            if (obj instanceof SOAPElement) {
-                SOAPElement ele = (SOAPElement) obj;
-                System.out.println(indstr + "-----------------------------");
-                System.out.println(indstr + ele.getElementName().getLocalName());
-                System.out.println(indstr + "-----------------------------");
-                dumpSOAPElement(ele, indent + 4);
-            } else if (obj instanceof Text) {
-                Text txt = (Text) obj;
-                System.out.println(indstr + txt.getValue() + "\n");
-            }
         }
     }
 
