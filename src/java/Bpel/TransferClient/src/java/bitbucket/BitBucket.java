@@ -2,6 +2,7 @@ package bitbucket;
 
 import fp.ISplints;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -38,19 +39,18 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if(content.has("issueId"))
-        {
-            System.out.println("Got Issue details from BitBucket:"+content.getString("issueId"));
+        if (content.has("issueId")) {
+            System.out.println("Got Issue details from BitBucket:" + content.getString("issueId"));
             return params;
         }
-        String inumber = Integer.toString((Integer)content.get("issueNumber"));
+        String inumber = Integer.toString((Integer) content.get("issueNumber"));
         JSONObject json;
         JSONObject json1;
         try {
             URL base = new URL(urlprefix);
             URL url = new URL(base, inumber);
             json = new JSONObject(getText(url));
-			//System.out.println(response);
+            //System.out.println(response);
 
             String[] names = JSONObject.getNames(json);
 
@@ -111,9 +111,8 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "createIssue")
     public String createIssue(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if(content.has("issueId"))
-        {
-            return "New BitBucket Issue:"+(String)content.get("issueId");
+        if (content.has("issueId")) {
+            return "New BitBucket Issue:" + (String) content.get("issueId");
         }
         return null;
     }
@@ -127,10 +126,52 @@ public class BitBucket implements ISplints {
     public void editIssue(ContentMap content) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public void queryIssues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void closeIssue(int issueNumber) throws Exception {
+        String inumber = Integer.toString(issueNumber);
+        URL url = null;
+
+        JSONObject data = new JSONObject();
+        data.put("status", "closed");
+        //System.out.println(data);
+
+        HttpURLConnection connection = null;
+
+        try {
+            URL base = new URL(urlprefix);
+            url = new URL(base, inumber);
+				//System.out.println("The Path given is: " + url.getPath());
+
+            //Connect using PUT Request
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            //Update status to close
+            DataOutputStream output = new DataOutputStream(connection.getOutputStream());
+            output.writeUTF(data.toString());
+            output.flush();
+            output.close();
+            connection.disconnect();
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                System.out.println("Ok!");
+            } else {
+                System.out.println(connection.getResponseCode());
+                System.out.println(connection.getResponseMessage());
+            }
+
+        } catch (MalformedURLException e) {
+            System.err.println("ERROR: " + e.getMessage());
+        }
+
     }
 
 }

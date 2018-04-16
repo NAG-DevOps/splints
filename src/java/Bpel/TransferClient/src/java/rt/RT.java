@@ -13,7 +13,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.w3c.dom.NodeList;
 
 import fp.ISplints;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -33,9 +38,8 @@ public class RT implements ISplints {
     public String createIssue(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
 
-        if(content.has("issueId"))
-        {
-            return "New RT Issue:"+(String)content.get("issueId");
+        if (content.has("issueId")) {
+            return "New RT Issue:" + (String) content.get("issueId");
         }
         String uri = Config.BASE_URI + "/ticket/new?user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
 
@@ -145,10 +149,31 @@ public class RT implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if(content.has("issueId"))
-        {
-            System.out.println("Got Issue details from FP:"+content.getString("issueId"));
+        if (content.has("issueId")) {
+            System.out.println("Got Issue details from FP:" + content.getString("issueId"));
             return params;
+        }
+
+        JSONObject json;
+        String query = content.get("issueId").toString();
+        String urlprefix = "http://" + "/REST/1.0/search/ticket?query=" + query;
+
+        try {
+            //URL base = new URL(urlprefix);
+            URL url = new URL(urlprefix);
+            json = new JSONObject(getText(url));
+            // System.out.println(response);
+
+            String[] names = JSONObject.getNames(json);
+
+            for (String str : names) {
+                if (str.equals(query)) {
+                    System.out.println(str + ":" + json.get(str));
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("ERROR: " + e.getMessage());
         }
         return null;
     }
@@ -159,12 +184,90 @@ public class RT implements ISplints {
     }
 
     @Override
-    public void editIssue(ContentMap content) {
-
+    public void editIssue(ContentMap params) {
+        JSONObject content = new JSONObject(params.getMap());
+        String url = "http://" + content.get("host") + "/REST/1.0/ticket/" + content.get("issueId") + "/edit?user=" + content.get("username") + "&pass=" + content.get("password") + "";
+        String postData = "AdminCc: userX\nText: This is a REST test edit ticket\n";
+        try {
+            sendPost(url, postData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void queryIssues() {
+    }
+
+    /**
+     * Get Text given URL
+     *
+     * @param url
+     * @return response
+     */
+    private String getText(URL url) {
+        StringBuilder response = new StringBuilder();
+
+        try {
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            in.close();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return response.toString();
+    }
+
+    /**
+     * Send Post HTTP Request
+     *
+     * @param url
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    private static void sendPost(String url, String params) throws Exception {
+
+        // open URL connection
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // add request header
+        con.setRequestMethod("POST");
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setDoOutput(true);
+
+        // add content
+        DataOutputStream w = new DataOutputStream(con.getOutputStream());
+        w.writeBytes(params);
+        w.flush();
+        w.close();
+
+        // get response code
+        int responseCode = con.getResponseCode();
+        System.out.println("Response Code: " + responseCode);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // print result
+        System.out.println(response.toString());
     }
 
 }
