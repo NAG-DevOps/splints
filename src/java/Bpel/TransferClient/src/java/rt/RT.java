@@ -15,6 +15,7 @@ import org.w3c.dom.NodeList;
 import fp.ISplints;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -23,7 +24,9 @@ import java.util.Map;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import stubs.RTStub;
 import utils.ContentMap;
 
 /**
@@ -38,9 +41,9 @@ public class RT implements ISplints {
     public String createIssue(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
 
-        if (content.has("issueId")) {
-            return "New RT Issue:" + (String) content.get("issueId");
-        }
+//        if (content.has("issueId")) {
+//            return "New RT Issue:" + (String) content.get("issueId");
+//        }
         String uri = Config.BASE_URI + "/ticket/new?user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
 
         HttpPost httppost = new HttpPost(uri);
@@ -51,10 +54,10 @@ public class RT implements ISplints {
         try {
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("id: " + Constants.ID);
+            stringBuilder.append("id: " + content.get("id")/*Constants.ID*/);
             stringBuilder.append("Queue: " + Constants.QUEUE);
             stringBuilder.append("Requestor: " + Constants.REQUESTOR);
-            stringBuilder.append("Subject: " + Constants.SUBJECT);
+            stringBuilder.append("Subject: " + content.get(Constants.SUBJECT));
             stringBuilder.append("CC: " + Constants.CC);
             stringBuilder.append("AdminCc: " + Constants.ADMIN_CC);
             stringBuilder.append("Owner: " + Constants.OWNER);
@@ -65,7 +68,7 @@ public class RT implements ISplints {
             stringBuilder.append("TimeEstimated: " + Constants.TIME_ESTIMATED);
             stringBuilder.append("Starts: " + Constants.STARTS);
             stringBuilder.append("Due: " + Constants.DUE);
-            stringBuilder.append("Text: " + Constants.TEXT);
+            stringBuilder.append("Text: " + content.get(Constants.TEXT));
             stringBuilder.append("CF-CustomField: " + Constants.CUSTOM_FIELD);
 
             StringBody contentString = new StringBody(stringBuilder.toString(), ContentType.TEXT_PLAIN);
@@ -74,7 +77,7 @@ public class RT implements ISplints {
             httppost.setEntity(builder.build());
             System.out.println("Request: " + httppost.getRequestLine() + "\n");
 
-            response = httpclient.execute(httppost);
+            response = RTStub.createIssue(httppost,content.getString("id"));//httpclient.execute(httppost);
             responseEntity = response.getEntity();
 
         } catch (Exception e) {
@@ -89,7 +92,12 @@ public class RT implements ISplints {
 
         if (responseEntity != null) {
             System.out.println(responseEntity.getContentType() + "\nContent-Length: " + responseEntity.getContentLength());
-            return responseEntity.toString();
+            try {
+               // InputStream inputStream = responseEntity.getContent();
+                return EntityUtils.toString(responseEntity);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             return null;
         }

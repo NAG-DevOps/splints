@@ -21,6 +21,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import org.json.JSONObject;
+import stubs.FootPrints11Stub;
 import utils.ContentMap;
 
 /**
@@ -206,12 +207,13 @@ public class FootPrints11 implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if(content.has("issueId"))
-        {
-            System.out.println("Got Issue details from FP:"+content.getString("issueId"));
-            return params;
-        }
+//        if(content.has("issueId"))
+//        {
+//            System.out.println("Got Issue details from FP:"+content.getString("issueId"));
+//            return params;
+//        }
         NodeList result = null;
+        JSONObject response = new JSONObject();
 
         try {
 
@@ -256,7 +258,7 @@ public class FootPrints11 implements ISplints {
             //System.out.println("Request Message ----------\n");
             //msg.writeTo( System.out );
             // Make SOAP call
-            SOAPMessage reply = connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
+            SOAPMessage reply = FootPrints11Stub.getIssueDetails(msg,content.getString(Constants.ISSUE));///connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
 
             connection.close();
 
@@ -270,7 +272,7 @@ public class FootPrints11 implements ISplints {
                 throw new Exception(replybody.getFault().getFaultString());
 
             }
-            dumpSOAPElement(replybody, 0);
+            response=dumpSOAPElement(replybody, 0, response);
             result = replybody.getChildNodes();
 
         } catch (Exception ex) {
@@ -280,11 +282,11 @@ public class FootPrints11 implements ISplints {
         }
 
         System.out.println("Done");
-        JSONObject response = new JSONObject();
-        for(int i=0;i<result.getLength();i++)
-        {
-            response.put(result.item(i).getNodeName(), result.item(i).getNodeValue());
-        }
+//        for(int i=0;i<result.getLength();i++)
+//        {
+//            response.put(result.item(i).getNodeName(), result.item(i).getNodeValue());
+//        }
+        System.out.println("fp11 getIssueDetailsResponse: |"+response.toString());
         return new ContentMap(response.toString());
     }
 
@@ -397,9 +399,8 @@ public class FootPrints11 implements ISplints {
     /**
      * Prints soap element names
      */
-    private void dumpSOAPElement(SOAPElement el, int indent) throws Exception {
+    private JSONObject dumpSOAPElement(SOAPElement el, int indent, JSONObject response) throws Exception {
         java.util.Iterator it = el.getChildElements();
-
         while (it.hasNext()) {
             String indstr = getIndent(indent);
             Object obj = it.next();
@@ -409,14 +410,15 @@ public class FootPrints11 implements ISplints {
                 System.out.println(indstr + "-----------------------------");
                 System.out.println(indstr + ele.getElementName().getLocalName());
                 System.out.println(indstr + "-----------------------------");
-                dumpSOAPElement(ele, indent + 4);
+                dumpSOAPElement(ele, indent + 4, response);
 
             } else if (obj instanceof Text) {
                 Text txt = (Text) obj;
                 System.out.println(indstr + txt.getValue() + "\n");
-
+                response.put(el.getElementName().getLocalName(), txt.getValue());
             }
         }
+        return response;
     }
 
     /**
@@ -576,7 +578,7 @@ public class FootPrints11 implements ISplints {
             if (replybody.hasFault()) {
                 throw new Exception(replybody.getFault().getFaultString());
             }
-            dumpSOAPElement(replybody, 0);
+            dumpSOAPElement(replybody, 0, new JSONObject());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
