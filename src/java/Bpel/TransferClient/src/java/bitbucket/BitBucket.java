@@ -111,8 +111,8 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "createIssue")
     public String createIssue(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if (content.has("issueId")) {
-            return "New BitBucket Issue:" + (String) content.get("issueId");
+        if (content.has("id")) {
+            return "Created new BitBucket Issue: " + (String) content.get("id");
         }
         return null;
     }

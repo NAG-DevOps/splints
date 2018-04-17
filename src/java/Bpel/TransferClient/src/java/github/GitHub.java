@@ -40,6 +40,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import org.json.JSONObject;
+import stubs.GitHubStub;
 import utils.ContentMap;
 
 /**
@@ -92,10 +93,11 @@ public class GitHub implements ISplints {
 
         //Execute and get the response.
         try {
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = GitHubStub.createIssue(httppost, content.getString("id"));//httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
             String responseString = EntityUtils.toString(entity, "UTF-8");
             System.out.println(responseString);
+            return responseString;
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
