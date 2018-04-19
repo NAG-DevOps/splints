@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="SplintsServiceRequestor" targetNamespace="http://j2ee.netbeans.org/wsdl/GithubToBitbucketBpel/src/SplintsServiceRequestor"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/GithubToBitbucketBpel/src/SplintsServiceRequestor" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+    <types/>
+    <message name="SplintsServiceRequestorOperationRequest">
+        <part name="issueId" type="xsd:string"/>
+        <part name="projectId" type="xsd:string"/>
+    </message>
+    <message name="SplintsServiceRequestorOperationResponse">
+        <part name="newlyCreatedId" type="xsd:string"/>
+    </message>
+    <portType name="SplintsServiceRequestorPortType">
+        <operation name="SplintsServiceRequestorOperation">
+            <input name="input1" message="tns:SplintsServiceRequestorOperationRequest"/>
+            <output name="output1" message="tns:SplintsServiceRequestorOperationResponse"/>
+        </operation>
+    </portType>
+    <plnk:partnerLinkType name="SplintsServiceRequestor">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="SplintsServiceRequestorPortTypeRole" portType="tns:SplintsServiceRequestorPortType"/>
+    </plnk:partnerLinkType>
+</definitions>
