@@ -58,10 +58,10 @@ public class GitHub implements ISplints {
     @WebMethod(operationName = "createIssue")
     public String createIssue(@WebParam(name = "content") ContentMap input) {
         JSONObject content = new JSONObject(input.getMap());
-        if(content.has("issueId"))
-        {
-            return "New Github Issue:"+(String)content.get("issueId");
-        }
+//        if(content.has("issueId"))
+//        {
+//            return "New Github Issue:"+(String)content.get("issueId");
+//        }
 
         URL base;
         URL url = null;
@@ -113,23 +113,24 @@ public class GitHub implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if(content.has("issueId"))
-        {
-            System.out.println("Got Issue details from Gitub:"+content.getString("issueId"));
-            return params;
-        }
+        String response = "";
+//        if(content.has("issueId"))
+//        {
+//            System.out.println("Got Issue details from Gitub:"+content.getString("issueId"));
+//            return params;
+//        }
         try {
             URL base = new URL(Config.API);
-            URL url = new URL(base, Config.WORKSPACE + "issues/" + content.get("issueNumber"));
-            String response = sendGet(url);
+            URL url = new URL(base, Config.WORKSPACE + "issues/" + content.get("id"));
+            response = GitHubStub.getIssueDetails(url, content.getString("id"));//sendGet(url);
             System.out.println(response);
-            JsonObject object = getJsonObject(response);
+            JsonObject object = getJsonObject(response); 
             JsonString title = (JsonString) object.get("title");
             System.out.println("Issue title : " + title.getString());
         } catch (MalformedURLException e) {
             System.err.println("ERROR: " + e.getMessage());
         }
-        return null;
+        return new ContentMap(response);
     }
 
     @Override

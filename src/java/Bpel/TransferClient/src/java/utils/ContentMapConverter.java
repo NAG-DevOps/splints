@@ -29,7 +29,8 @@ public class ContentMapConverter {
 //        map.put("projectId", projectId);
         Map<String,String> map = new HashMap<String,String>() {};
         map.put(fp.Constants.ISSUE, issueId);
-        map.put(fp.Constants.WORKSPACE, projectId);     
+        map.put(fp.Constants.WORKSPACE, projectId);
+        map.put("id", issueId);
         JSONObject response = new JSONObject(map);
         System.out.println("resp:"+response.toString());
         return new ContentMap(response.toString());

@@ -17,7 +17,7 @@ import javax.xml.soap.SOAPMessage;
  */
 public class FootPrints11Stub {
 
-    public static SOAPMessage createIssue(SOAPMessage msg) {
+    public static SOAPMessage createIssue(SOAPMessage msg,String id) {
         String xml = "<?xml version=\"1.0\"?>\n"
                 + "\n"
                 + "<soap:Envelope\n"
@@ -26,7 +26,7 @@ public class FootPrints11Stub {
                 + "\n"
                 + "<soap:Body xmlns:m=\"http://www.example.org/stock\">\n"
                 + "  <m:MRWebServices__createIssueResponse>\n"
-                + "    <m:return>12</m:return>\n"
+                + "    <m:return>"+id+"</m:return>\n"
                 + "  </m:MRWebServices__createIssueResponse>\n"
                 + "</soap:Body>\n"
                 + "\n"

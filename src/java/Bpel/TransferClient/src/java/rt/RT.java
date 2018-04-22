@@ -163,13 +163,13 @@ public class RT implements ISplints {
         }
 
         JSONObject json;
-        String query = content.get("issueId").toString();
+        String query = content.get("id").toString();
         String urlprefix = "http://" + "/REST/1.0/search/ticket?query=" + query;
 
         try {
             //URL base = new URL(urlprefix);
             URL url = new URL(urlprefix);
-            json = new JSONObject(getText(url));
+            json = RTStub.getIssueDetails(query);//new JSONObject(getText(url));
             // System.out.println(response);
 
             String[] names = JSONObject.getNames(json);

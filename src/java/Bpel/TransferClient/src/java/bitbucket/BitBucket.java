@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import stubs.BitBucketStub;
 import utils.ContentMap;
 
 /**
@@ -39,17 +40,17 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if (content.has("issueId")) {
-            System.out.println("Got Issue details from BitBucket:" + content.getString("issueId"));
-            return params;
-        }
-        String inumber = Integer.toString((Integer) content.get("issueNumber"));
-        JSONObject json;
+//        if (content.has("issueId")) {
+//            System.out.println("Got Issue details from BitBucket:" + content.getString("issueId"));
+//            return params;
+//        }
+        String inumber = content.getString("id");
+        JSONObject json = new JSONObject();
         JSONObject json1;
         try {
             URL base = new URL(urlprefix);
             URL url = new URL(base, inumber);
-            json = new JSONObject(getText(url));
+            json = new JSONObject(BitBucketStub.getIssueDetails(url, inumber));//new JSONObject(getText(url));
             //System.out.println(response);
 
             String[] names = JSONObject.getNames(json);
@@ -76,7 +77,7 @@ public class BitBucket implements ISplints {
         } catch (MalformedURLException e) {
             System.err.println("ERROR: " + e.getMessage());
         }
-        return null;
+        return new ContentMap(json.toString());
     }
 
     /**

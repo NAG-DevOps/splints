@@ -5,6 +5,7 @@
  */
 package stubs;
 
+import java.net.URL;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseFactory;
 import org.apache.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.message.BasicStatusLine;
+import org.json.JSONObject;
 
 /**
  *
@@ -28,4 +30,13 @@ public class GitHubStub {
         entityBuilder.setText("Created new GitHub issue: "+id);
         response.setEntity(entityBuilder.build());
         return response;
-    }}
+    }
+
+    public static String getIssueDetails(URL url, String id)
+    {
+        JSONObject response = new JSONObject();
+        response.put("id", id);
+        response.put("title", "Stub Issue");
+        return response.toString();
+    }
+}
