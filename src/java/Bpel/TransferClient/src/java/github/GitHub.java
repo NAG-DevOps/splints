@@ -58,11 +58,6 @@ public class GitHub implements ISplints {
     @WebMethod(operationName = "createIssue")
     public String createIssue(@WebParam(name = "content") ContentMap input) {
         JSONObject content = new JSONObject(input.getMap());
-//        if(content.has("issueId"))
-//        {
-//            return "New Github Issue:"+(String)content.get("issueId");
-//        }
-
         URL base;
         URL url = null;
         try {
@@ -93,6 +88,7 @@ public class GitHub implements ISplints {
 
         //Execute and get the response.
         try {
+            //TODO: switch to real system, stubbing for testing
             HttpResponse response = GitHubStub.createIssue(httppost, content.getString("id"));//httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
             String responseString = EntityUtils.toString(entity, "UTF-8");
@@ -114,17 +110,13 @@ public class GitHub implements ISplints {
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
         String response = "";
-//        if(content.has("issueId"))
-//        {
-//            System.out.println("Got Issue details from Gitub:"+content.getString("issueId"));
-//            return params;
-//        }
         try {
             URL base = new URL(Config.API);
             URL url = new URL(base, Config.WORKSPACE + "issues/" + content.get("id"));
+            //TODO: switch to real system, stubbing for testing
             response = GitHubStub.getIssueDetails(url, content.getString("id"));//sendGet(url);
             System.out.println(response);
-            JsonObject object = getJsonObject(response); 
+            JsonObject object = getJsonObject(response);
             JsonString title = (JsonString) object.get("title");
             System.out.println("Issue title : " + title.getString());
         } catch (MalformedURLException e) {

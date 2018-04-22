@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package stubs;
 
 import fp.Constants;
@@ -19,8 +14,8 @@ import org.apache.http.message.BasicStatusLine;
 import org.json.JSONObject;
 
 /**
- *
- * @author chris
+ * Class with mocks RT API responses
+ * @author soen487-w18-team03
  */
 public class RTStub {
 

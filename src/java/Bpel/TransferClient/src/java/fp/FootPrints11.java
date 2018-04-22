@@ -36,10 +36,7 @@ public class FootPrints11 implements ISplints {
     public String createIssue(@WebParam(name = "content") ContentMap params) {
 
         JSONObject content = new JSONObject(params.getMap());
-//        if(content.has("issueId"))
-//        {
-//            return "New FP11 Issue:"+(String)content.get("issueId");
-//        }
+
         //Optional Parameters
         String customFieldOne = "Value of Custom Field One";
         String customFieldTwo = "Value of Custom Field Two";
@@ -145,6 +142,7 @@ public class FootPrints11 implements ISplints {
             //System.out.println("Request Message ----------\n");
             //msg.writeTo( System.out );
             // Make SOAP call
+            //TODO: switch to real system, stubbing for testing
             SOAPMessage reply = FootPrints11Stub.createIssue(msg, ticketNumber);//connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
 
             connection.close();
@@ -207,11 +205,7 @@ public class FootPrints11 implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-//        if(content.has("issueId"))
-//        {
-//            System.out.println("Got Issue details from FP:"+content.getString("issueId"));
-//            return params;
-//        }
+
         NodeList result = null;
         JSONObject response = new JSONObject();
 
@@ -258,7 +252,8 @@ public class FootPrints11 implements ISplints {
             //System.out.println("Request Message ----------\n");
             //msg.writeTo( System.out );
             // Make SOAP call
-            SOAPMessage reply = FootPrints11Stub.getIssueDetails(msg,content.getString(Constants.ISSUE));///connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
+            //TODO: switch to real system, stubbing for testing
+            SOAPMessage reply = FootPrints11Stub.getIssueDetails(msg, content.getString(Constants.ISSUE));///connection.call(msg, Config.BASE_URL + "/MRcgi/MRWebServices.pl");
 
             connection.close();
 
@@ -272,7 +267,7 @@ public class FootPrints11 implements ISplints {
                 throw new Exception(replybody.getFault().getFaultString());
 
             }
-            response=dumpSOAPElement(replybody, 0, response);
+            response = dumpSOAPElement(replybody, 0, response);
             result = replybody.getChildNodes();
 
         } catch (Exception ex) {
@@ -286,7 +281,7 @@ public class FootPrints11 implements ISplints {
 //        {
 //            response.put(result.item(i).getNodeName(), result.item(i).getNodeValue());
 //        }
-        System.out.println("fp11 getIssueDetailsResponse: |"+response.toString());
+        System.out.println("fp11 getIssueDetailsResponse: |" + response.toString());
         return new ContentMap(response.toString());
     }
 
@@ -389,8 +384,7 @@ public class FootPrints11 implements ISplints {
             ex.printStackTrace();
         }
         JSONObject response = new JSONObject();
-        for(int i=0;i<result.getLength();i++)
-        {
+        for (int i = 0; i < result.getLength(); i++) {
             response.put(result.item(i).getNodeName(), result.item(i).getNodeValue());
         }
         return new ContentMap(response.toString());
@@ -565,12 +559,12 @@ public class FootPrints11 implements ISplints {
             arg4.addTextNode("select mrID, mrTITLE from MASTER78 WHERE mrTITLE LIKE '%of%'");
 
             msg.saveChanges();
-			// System.out.println("Request Message ----------\n");
+            // System.out.println("Request Message ----------\n");
             // msg.writeTo( System.out );
             // Make SOAP call
             SOAPMessage reply = connection.call(msg, "http://virgo/MRcgi/MRWebServices.pl");
             connection.close();
-			// System.out.println("Reply Message ----------\n");
+            // System.out.println("Reply Message ----------\n");
             // reply.writeTo( System.out );
             // Get result
             SOAPBody replybody = reply.getSOAPPart().getEnvelope().getBody();

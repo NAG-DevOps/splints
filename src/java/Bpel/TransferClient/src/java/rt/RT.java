@@ -40,10 +40,6 @@ public class RT implements ISplints {
     @WebMethod(operationName = "createIssue")
     public String createIssue(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-
-//        if (content.has("issueId")) {
-//            return "New RT Issue:" + (String) content.get("issueId");
-//        }
         String uri = Config.BASE_URI + "/ticket/new?user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
 
         HttpPost httppost = new HttpPost(uri);
@@ -76,8 +72,8 @@ public class RT implements ISplints {
             builder.addPart("content", contentString);
             httppost.setEntity(builder.build());
             System.out.println("Request: " + httppost.getRequestLine() + "\n");
-
-            response = RTStub.createIssue(httppost,content.getString("id"));//httpclient.execute(httppost);
+            //TODO: switch to real system, stubbing for testing
+            response = RTStub.createIssue(httppost, content.getString("id"));//httpclient.execute(httppost);
             responseEntity = response.getEntity();
 
         } catch (Exception e) {
@@ -93,7 +89,7 @@ public class RT implements ISplints {
         if (responseEntity != null) {
             System.out.println(responseEntity.getContentType() + "\nContent-Length: " + responseEntity.getContentLength());
             try {
-               // InputStream inputStream = responseEntity.getContent();
+                // InputStream inputStream = responseEntity.getContent();
                 return EntityUtils.toString(responseEntity);
             } catch (Exception e) {
                 return null;
@@ -157,11 +153,6 @@ public class RT implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-        if (content.has("issueId")) {
-            System.out.println("Got Issue details from FP:" + content.getString("issueId"));
-            return params;
-        }
-
         JSONObject json;
         String query = content.get("id").toString();
         String urlprefix = "http://" + "/REST/1.0/search/ticket?query=" + query;
@@ -169,8 +160,8 @@ public class RT implements ISplints {
         try {
             //URL base = new URL(urlprefix);
             URL url = new URL(urlprefix);
+            //TODO: switch to real system, stubbing for testing
             json = RTStub.getIssueDetails(query);//new JSONObject(getText(url));
-            // System.out.println(response);
 
             String[] names = JSONObject.getNames(json);
 

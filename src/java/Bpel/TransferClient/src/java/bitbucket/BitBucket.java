@@ -40,16 +40,13 @@ public class BitBucket implements ISplints {
     @WebMethod(operationName = "getIssueDetails")
     public ContentMap getIssueDetails(@WebParam(name = "content") ContentMap params) {
         JSONObject content = new JSONObject(params.getMap());
-//        if (content.has("issueId")) {
-//            System.out.println("Got Issue details from BitBucket:" + content.getString("issueId"));
-//            return params;
-//        }
         String inumber = content.getString("id");
         JSONObject json = new JSONObject();
         JSONObject json1;
         try {
             URL base = new URL(urlprefix);
             URL url = new URL(base, inumber);
+            //TODO: switch to real system, stubbing for testing
             json = new JSONObject(BitBucketStub.getIssueDetails(url, inumber));//new JSONObject(getText(url));
             //System.out.println(response);
 
