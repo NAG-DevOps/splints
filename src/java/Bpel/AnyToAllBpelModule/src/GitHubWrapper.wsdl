@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GitHubWrapper" targetNamespace="http://enterprise.netbeans.org/bpel/GitHubWrapper" xmlns:tns="http://enterprise.netbeans.org/bpel/GitHubWrapper" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns="http://github/">
+    <import location="http://localhost:5050/TransferClient/GitHub?WSDL" namespace="http://github/"/>
+    <plnk:partnerLinkType name="GitHubLinkType">
+        <plnk:role name="GitHubRole" portType="ns:GitHub"/>
+    </plnk:partnerLinkType>
+</definitions>

@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 /**
  * Class with mocks RT API responses
+ *
  * @author soen487-w18-team03
  */
 public class RTStub {
@@ -38,6 +39,13 @@ public class RTStub {
         response.put(fp.Constants.WORKSPACE, "23");
         response.put(fp.Constants.ISSUE_SUBJECT, "bug fix");
         response.put(fp.Constants.ISSUE, id);
+        response.put("id",id);
+        response.put("title", "Bug");
+        response.put("body", "fix bug");
+        response.put("assignee", "person");
+        response.put("milestone", "2");
+        response.put("labels", "Bug");
+        response.put("assignees", "people");
         return response;
     }
 }

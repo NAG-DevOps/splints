@@ -122,6 +122,7 @@ public class GitHub implements ISplints {
         } catch (MalformedURLException e) {
             System.err.println("ERROR: " + e.getMessage());
         }
+        System.out.println("GITHUB: "+response);
         return new ContentMap(response);
     }
 

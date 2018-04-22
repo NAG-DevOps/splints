@@ -97,6 +97,7 @@ public class RT implements ISplints {
         } else {
             return null;
         }
+        
 
     }
 
@@ -170,6 +171,8 @@ public class RT implements ISplints {
                     System.out.println(str + ":" + json.get(str));
                 }
             }
+            System.out.println("RT :"+json.toString());
+            return new ContentMap(json.toString());
 
         } catch (Exception e) {
             System.err.println("ERROR: " + e.getMessage());
