@@ -5,7 +5,7 @@
   <SOAP-ENV:Body>
     <m:RequestortnewWSDLOperationResponse xmlns:m="AnyToAllCompositeApp" xmlns:msgns="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">
       <newId1 xmlns:msgns="http://github/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">Created new GitHub issue: 12</newId1>
-      <newId2 xmlns:msgns="http://fp/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">12</newId2>
+      <newId2 xmlns:msgns="http://fp/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">Created new FP11 issue 12</newId2>
       <newId3 xmlns:msgns="http://bitbucket/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">Created new BitBucket Issue: 12</newId3>
     </m:RequestortnewWSDLOperationResponse>
   </SOAP-ENV:Body>

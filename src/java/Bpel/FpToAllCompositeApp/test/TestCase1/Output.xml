@@ -4,9 +4,9 @@
     xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/">
   <SOAP-ENV:Body>
     <m:FPRequestorWSDLOperationResponse xmlns:m="FpToAllCompositeApp" xmlns:msgns="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">
-      <newRTId xmlns:msgns="http://rt/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">New RT Issue:12</newRTId>
-      <newBitBucketId xmlns:msgns="http://bitbucket/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">New BitBucket Issue:12</newBitBucketId>
-      <newGitHubId xmlns:msgns="http://github/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">New Github issue created :12</newGitHubId>
+      <newRTId xmlns:msgns="http://rt/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">Created new RT issue: 1234</newRTId>
+      <newBitBucketId xmlns:msgns="http://bitbucket/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">Created new BitBucket Issue: 1234</newBitBucketId>
+      <newGitHubId xmlns:msgns="http://github/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToAllBpelModule/src/FPRequestorWSDL">Created new GitHub issue: 1234</newGitHubId>
     </m:FPRequestorWSDLOperationResponse>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
