@@ -5,6 +5,11 @@
  */
 package ws;
 
+import bitbucket.BitBucket;
+import fp.FootPrints11;
+import fp.FootPrints12;
+import fp.ISplints;
+import github.GitHub;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -22,6 +27,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import org.json.JSONObject;
+import rt.RT;
+import utils.ContentMap;
+import utils.ContentMapConverter;
 import utils.PATCH;
 
 /**
@@ -38,44 +47,48 @@ public class RESTSplintsService {
     private final String RT = "rt";
     private final String GITHUB = "github";
     private final String BITBUCKET = "bitbucket";
+    ContentMapConverter contentMapConverter = new ContentMapConverter();
 
     @GET
     @Produces("application/json")
-    @Path("issue/{serviceType}/{issueNumber}")
-    public String getIssue(@PathParam("serviceType") String serviceType, @PathParam("issueNumber") int issueNumber) {
-        Map<String, Serializable> content = new HashMap<String, Serializable>();
+    @Path("issue/{serviceType}/{projectNumber}/{issueNumber}")
+    public String getIssue(@PathParam("serviceType") String serviceType, @PathParam("projectNumber") String projectNumber, @PathParam("issueNumber") String issueNumber) {
+        JSONObject content = new JSONObject();
         switch (serviceType) {
             case FP11:
-                content.add(fp.Constants.ISSUE, issueNumber);
+                content.put(fp.Constants.ISSUE, issueNumber);
+                content.put(fp.Constants.WORKSPACE, projectNumber);
+
                 service = new FootPrints11();
                 break;
             case FP12:
-                content.add(fp.Constants.ISSUE, issueNumber);
+                content.put(fp.Constants.ISSUE, issueNumber);
+                content.put(fp.Constants.WORKSPACE, projectNumber);
+
                 service = new FootPrints12();
                 break;
             case RT:
-                content.add(RT.Constants.ISSUE, issueNumber);
+                content.put("id", issueNumber);
                 service = new RT();
                 break;
             case GITHUB:
-                content.add(GitHub.Constants.ISSUE, issueNumber);
+                content.put("id", issueNumber);
                 service = new GitHub();
                 break;
             case BITBUCKET:
-                content.add(BitBucket.Constants.ISSUE, issueNumber);
-                service = new BitbucketCloud();
+                content.put("id", issueNumber);
+                service = new BitBucket();
                 break;
             default:
-                content.add(fp.Constants.ISSUE, issueNumber);
+                content.put(fp.Constants.ISSUE, issueNumber);
+                content.put(fp.Constants.WORKSPACE, projectNumber);
+
                 service = new FootPrints11();
                 break;
         }
-        Map<String, Serializable> issueDetails = service.getIssueDetails(content);
-        JsonObjectBuilder response = Json.createObjectBuilder();
-        for (Map.Entry<String, Serializable> detail : issueDetails.entrySet()) {
-            response.add(detail.getKey(), String.valueOf(detail.getValue()));
-        }
-        return response.build().toString();
+        ContentMap requestInfo = new ContentMap(content.toString());
+        ContentMap issueDetails = service.getIssueDetails(requestInfo);
+        return issueDetails.getMap();
     }
 
     @GET
@@ -89,40 +102,34 @@ public class RESTSplintsService {
     @Consumes("application/json")
     @Path("issue/{serviceType}/{issueNumber}")
     public void putIssue(@PathParam("serviceType") String serviceType, @PathParam("issueNumber") int issueNumber, String issueDetails) {
-        JsonReader jsonReader = Json.createReader(new StringReader(issueDetails));
-        JsonObject issueDetailsJson = jsonReader.readObject();
-        jsonReader.close();
-        Map<String, Serializable> issueChanges = new HashMap<String, Serializable>();
-        for (Map.Entry<String, JsonValue> detail : issueDetailsJson.entrySet()) {
-            Class<?> valueClass = detail.getValue().getClass();
-            issueChanges.put(detail.getKey(), (Serializable) valueClass.cast(detail.getValue()));
-        }
+        JSONObject request = new JSONObject(issueDetails);
         switch (serviceType) {
             case FP11:
-        issueChanges.put(fp.Constants.ISSUE, issueNumber);
+                request.put(fp.Constants.ISSUE, issueNumber);
                 service = new FootPrints11();
                 break;
             case FP12:
-        issueChanges.put(fp.Constants.ISSUE, issueNumber);
+                request.put(fp.Constants.ISSUE, issueNumber);
                 service = new FootPrints12();
                 break;
             case RT:
-        issueChanges.put(RT.Constants.ISSUE, issueNumber);
+                request.put("id", issueNumber);
                 service = new RT();
                 break;
             case GITHUB:
-        issueChanges.put(GitHub.Constants.ISSUE, issueNumber);
+                request.put("id", issueNumber);
                 service = new GitHub();
                 break;
             case BITBUCKET:
-        issueChanges.put(BitBucket.Constants.ISSUE, issueNumber);
-                service = new BitbucketCloud();
+                request.put("id", issueNumber);
+                service = new BitBucket();
                 break;
             default:
-        issueChanges.put(fp.Constants.ISSUE, issueNumber);
+                request.put(fp.Constants.ISSUE, issueNumber);
                 service = new FootPrints11();
                 break;
         }
+        ContentMap issueChanges = new ContentMap(request.toString());
         service.editIssue(issueChanges);
     }
 
@@ -137,55 +144,43 @@ public class RESTSplintsService {
     @Consumes("application/json")
     @Path("issue/{serviceType}/{issueNumber}")
     public void patchIssue(@PathParam("serviceType") String serviceType, @PathParam("issueNumber") int issueNumber, String issueDetails) {
-        JsonReader jsonReader = Json.createReader(new StringReader(issueDetails));
-        JsonObject issueDetailsJson = jsonReader.readObject();
-        jsonReader.close();
-        Map<String, Serializable> issueChanges = new HashMap<String, Serializable>();
-        for (Map.Entry<String, JsonValue> detail : issueDetailsJson.entrySet()) {
-            Class<?> valueClass = detail.getValue().getClass();
-            issueChanges.put(detail.getKey(), (Serializable) valueClass.cast(detail.getValue()));
-        }
+        JSONObject request = new JSONObject(issueDetails);
         switch (serviceType) {
             case FP11:
-        issueChanges.put(fp.Constants.ISSUE, issueNumber);
+                request.put(fp.Constants.ISSUE, issueNumber);
                 service = new FootPrints11();
                 break;
             case FP12:
-        issueChanges.put(fp.Constants.ISSUE, issueNumber);
+                request.put(fp.Constants.ISSUE, issueNumber);
                 service = new FootPrints12();
                 break;
             case RT:
-        issueChanges.put(RT.Constants.ISSUE, issueNumber);
+                request.put("id", issueNumber);
                 service = new RT();
                 break;
             case GITHUB:
-        issueChanges.put(GitHub.Constants.ISSUE, issueNumber);
+                request.put("id", issueNumber);
                 service = new GitHub();
                 break;
             case BITBUCKET:
-        issueChanges.put(BitBucket.Constants.ISSUE, issueNumber);
-                service = new BitbucketCloud();
+                request.put("id", issueNumber);
+                service = new BitBucket();
                 break;
             default:
-        issueChanges.put(fp.Constants.ISSUE, issueNumber);
+                request.put(fp.Constants.ISSUE, issueNumber);
                 service = new FootPrints11();
                 break;
         }
+        ContentMap issueChanges = new ContentMap(request.toString());
         service.editIssue(issueChanges);
     }
 
     @POST
     @Consumes("application/json")
+    @Produces("application/json")
     @Path("issue/{serviceType}")
-    public void postIssue(@PathParam("serviceType") String serviceType, String issueDetails) {
-        JsonReader jsonReader = Json.createReader(new StringReader(issueDetails));
-        JsonObject issueDetailsJson = jsonReader.readObject();
-        jsonReader.close();
-        Map<String, Serializable> issueChanges = new HashMap<String, Serializable>();
-        for (Map.Entry<String, JsonValue> detail : issueDetailsJson.entrySet()) {
-            Class<?> valueClass = detail.getValue().getClass();
-            issueChanges.put(detail.getKey(), (Serializable) valueClass.cast(detail.getValue()));
-        }
+    public String postIssue(@PathParam("serviceType") String serviceType, String issueDetails) {
+        ContentMap newIssueDetails = new ContentMap(issueDetails);
         switch (serviceType) {
             case FP11:
                 service = new FootPrints11();
@@ -200,12 +195,14 @@ public class RESTSplintsService {
                 service = new GitHub();
                 break;
             case BITBUCKET:
-                service = new BitbucketCloud();
+                service = new BitBucket();
                 break;
             default:
                 service = new FootPrints11();
                 break;
         }
-        service.createIssue(issueChanges);
+        JSONObject response = new JSONObject();
+        response.put("new id", service.createIssue(newIssueDetails));
+        return response.toString();
     }
 }
