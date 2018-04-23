@@ -193,8 +193,11 @@ public class GitHub implements ISplints {
             System.out.println(response);
             
             JsonObject object;
-            try (JsonReader jsonReader = Json.createReader(new StringReader(response))) {
+            try {
+                JsonReader jsonReader = Json.createReader(new StringReader(response));
                 object = jsonReader.readObject();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
             
             // TODO: query search, in order to perform query search, queryIssues() method should
@@ -211,9 +214,12 @@ public class GitHub implements ISplints {
     * @param response
     */
     public JsonObject getJsonObject(String response) {
-        JsonObject object;
-        try (JsonReader jsonReader = Json.createReader(new StringReader(response))) {
+        JsonObject object = null;
+        try {
+            JsonReader jsonReader = Json.createReader(new StringReader(response));
             object = jsonReader.readObject();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return object;
     }
