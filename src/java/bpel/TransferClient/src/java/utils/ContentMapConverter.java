@@ -34,4 +34,9 @@ public class ContentMapConverter {
         System.out.println("resp:"+response.toString());
         return new ContentMap(response.toString());
     }
+    
+    public JSONObject getJsonObjectFromContentMap(ContentMap contentMap) {
+        //JSONObject jsonObject = 
+        return new JSONObject(contentMap.getMap());
+    }
 }

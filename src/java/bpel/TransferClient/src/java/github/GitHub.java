@@ -4,6 +4,7 @@
  */
 package github;
 
+import bitbucket.BitBucket;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,11 +37,15 @@ import org.apache.http.util.EntityUtils;
 import org.w3c.dom.NodeList;
 
 import fp.ISplints;
+import java.util.Base64;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 import utils.ContentMap;
+import utils.ContentMapConverter;
 
 /**
  *
@@ -49,8 +54,8 @@ import utils.ContentMap;
 @WebService(serviceName = "GitHub")
 public class GitHub implements ISplints {
 
-    public static void main(String[] args) {
-
+    public static void main(String args[]) {
+        
     }
 
     @Override
@@ -62,7 +67,7 @@ public class GitHub implements ISplints {
         URL url = null;
         try {
             base = new URL(Config.API);
-            url = new URL(base, Config.WORKSPACE + "issues/");
+            url = new URL(base, Config.WORKSPACE + "issues");
         } catch (MalformedURLException e2) {
             // TODO Auto-generated catch block
             e2.printStackTrace();
@@ -70,28 +75,33 @@ public class GitHub implements ISplints {
 
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url.toString());
+        String encoding = Base64.getEncoder().encodeToString((Config.AGENT_USERNAME + ":" + Config.AGENT_PASSWORD).getBytes());
+        httppost.setHeader("Authorization", "Basic " + encoding);
+        httppost.setHeader("Content-Type", "application/json");
 
-        // Request parameters and other properties.
-        List<NameValuePair> params = new ArrayList<NameValuePair>(6);
-        params.add(new BasicNameValuePair("title", (String) content.get("title")));
-        params.add(new BasicNameValuePair("body", (String) content.get("body")));
-        params.add(new BasicNameValuePair("assignee", (String) content.get("assignee")));
-        params.add(new BasicNameValuePair("milestone", (String) content.get("milestone")));
-        params.add(new BasicNameValuePair("labels", (String) content.get("labels")));
-        params.add(new BasicNameValuePair("assignees", (String) content.get("assignees")));
+        JSONObject jsonRequestBody = new JSONObject();
+        jsonRequestBody.put("title", content.get("title")); // mandatory field
+		
+
+	httppost.setEntity(new StringEntity(jsonRequestBody.toString(), ContentType.TEXT_PLAIN));
+        
         try {
-            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-        } catch (UnsupportedEncodingException e1) {
+            httppost.setEntity(new StringEntity(jsonRequestBody.toString(), ContentType.TEXT_PLAIN));
+            //httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+        } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
         //Execute and get the response.
+        String newIssueNumber = null;
         try {
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
             String responseString = EntityUtils.toString(entity, "UTF-8");
             System.out.println(responseString);
+            JSONObject jsonResponse = new JSONObject(responseString);
+            newIssueNumber = Integer.toString(jsonResponse.getInt("number"));
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -100,7 +110,7 @@ public class GitHub implements ISplints {
             e.printStackTrace();
         }
 
-        return null;
+        return newIssueNumber;
     }
 
     @Override

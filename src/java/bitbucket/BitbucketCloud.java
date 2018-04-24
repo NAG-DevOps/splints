@@ -44,6 +44,11 @@ public class BitbucketCloud implements ISplints{
         bitCloud.getIssueDetails(contentMap);
         bitCloud.search("bug");
         System.out.println(bitCloud.createIssue(contentMap));*/
+    	
+    	BitbucketCloud bitbucket = new BitbucketCloud();
+    	Map<String, Serializable> contentMap = new HashMap<String, Serializable>();
+        contentMap.put("issueNumber", "4");
+        bitbucket.getIssueDetails(contentMap);
     }
         
     /**
