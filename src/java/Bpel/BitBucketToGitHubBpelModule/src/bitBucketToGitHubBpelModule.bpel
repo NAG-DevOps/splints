@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="bitBucketToGitHubBpelModule"
+    targetNamespace="http://enterprise.netbeans.org/bpel/BitBucketToGitHubBpelModule/bitBucketToGitHubBpelModule"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/BitBucketToGitHubBpelModule/bitBucketToGitHubBpelModule"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling">
+    <import namespace="http://enterprise.netbeans.org/bpel/ContentMapConverterWrapper" location="ContentMapConverterWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://utils/" location="http://localhost:5050/TransferClient/ContentMapConverter?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/BitBucketWrapper" location="BitBucketWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://bitbucket/" location="http://localhost:5050/TransferClient/BitBucket?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/GitHubWrapper" location="GitHubWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://github/" location="http://localhost:5050/TransferClient/GitHub?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/BitBucketToGitHubBpelModule/src/RequestorWSDL" location="RequestorWSDL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/BitBucketToGitHubBpelModule/src/RequestorWSDL" partnerLinkType="tns:RequestorWSDL" myRole="RequestorWSDLPortTypeRole"/>
+        <partnerLink name="InputConverter" xmlns:tns="http://enterprise.netbeans.org/bpel/ContentMapConverterWrapper" partnerLinkType="tns:ContentMapConverterLinkType" partnerRole="ContentMapConverterRole"/>
+        <partnerLink name="BitBucket" xmlns:tns="http://enterprise.netbeans.org/bpel/BitBucketWrapper" partnerLinkType="tns:BitBucketLinkType" partnerRole="BitBucketRole"/>
+        <partnerLink name="GitHub" xmlns:tns="http://enterprise.netbeans.org/bpel/GitHubWrapper" partnerLinkType="tns:GitHubLinkType" partnerRole="GitHubRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="CreateIssueOut" xmlns:tns="http://github/" messageType="tns:createIssueResponse"/>
+        <variable name="CreateIssueIn" xmlns:tns="http://github/" messageType="tns:createIssue"/>
+        <variable name="GetIssueDetailsOut" xmlns:tns="http://bitbucket/" messageType="tns:getIssueDetailsResponse"/>
+        <variable name="GetIssueDetailsIn" xmlns:tns="http://bitbucket/" messageType="tns:getIssueDetails"/>
+        <variable name="GetCreateIssueInputContentOut" xmlns:tns="http://utils/" messageType="tns:getCreateIssueInputContentResponse"/>
+        <variable name="GetCreateIssueInputContentIn" xmlns:tns="http://utils/" messageType="tns:getCreateIssueInputContent"/>
+        <variable name="RequestorWSDLOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/BitBucketToGitHubBpelModule/src/RequestorWSDL" messageType="tns:RequestorWSDLOperationResponse"/>
+        <variable name="RequestorWSDLOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/BitBucketToGitHubBpelModule/src/RequestorWSDL" messageType="tns:RequestorWSDLOperationRequest"/>
+    </variables>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="RequestorWSDLOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BitBucketToGitHubBpelModule/src/RequestorWSDL" portType="tns:RequestorWSDLPortType" variable="RequestorWSDLOperationIn"/>
+        <assign name="Assign1">
+            <copy>
+                <from variable="RequestorWSDLOperationIn" part="issueId"/>
+                <to>$GetCreateIssueInputContentIn.parameters/issueId</to>
+            </copy>
+            <copy>
+                <from variable="RequestorWSDLOperationIn" part="projectId"/>
+                <to>$GetCreateIssueInputContentIn.parameters/projectId</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke1" partnerLink="InputConverter" operation="getCreateIssueInputContent" xmlns:tns="http://utils/" portType="tns:ContentMapConverter" inputVariable="GetCreateIssueInputContentIn" outputVariable="GetCreateIssueInputContentOut"/>
+        <assign name="Assign2">
+            <copy>
+                <from>$GetCreateIssueInputContentOut.parameters/return</from>
+                <to>$GetIssueDetailsIn.parameters/content</to>
+            </copy>
+            <copy>
+                <from>$GetCreateIssueInputContentOut.parameters/return/map</from>
+                <to>$GetIssueDetailsIn.parameters/content/map</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke2" partnerLink="BitBucket" operation="getIssueDetails" xmlns:tns="http://bitbucket/" portType="tns:BitBucket" inputVariable="GetIssueDetailsIn" outputVariable="GetIssueDetailsOut"/>
+        <assign name="Assign3">
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return</from>
+                <to>$CreateIssueIn.parameters/content</to>
+            </copy>
+            <copy>
+                <from>$GetIssueDetailsOut.parameters/return/map</from>
+                <to>$CreateIssueIn.parameters/content/map</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke3" partnerLink="GitHub" operation="createIssue" xmlns:tns="http://github/" portType="tns:GitHub" inputVariable="CreateIssueIn" outputVariable="CreateIssueOut"/>
+        <assign name="Assign4">
+            <copy>
+                <from>$CreateIssueOut.parameters/return</from>
+                <to variable="RequestorWSDLOperationOut" part="newId"/>
+            </copy>
+        </assign>
+        <reply name="Reply1" partnerLink="PartnerLink1" operation="RequestorWSDLOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/BitBucketToGitHubBpelModule/src/RequestorWSDL" portType="tns:RequestorWSDLPortType" variable="RequestorWSDLOperationOut"/>
+    </sequence>
+</process>

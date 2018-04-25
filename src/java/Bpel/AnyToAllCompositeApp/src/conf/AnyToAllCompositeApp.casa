@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://github/" xmlns:ns2="http://rt/" xmlns:ns3="http://utils/" xmlns:ns4="http://fp/" xmlns:ns5="http://bitbucket/" xmlns:ns6="AnyToAllCompositeApp" xmlns:ns7="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL" xmlns:ns8="http://enterprise.netbeans.org/bpel/AnyToAllBpelModule/anyToAllBpelModule" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="GitHubPort" interface-name="ns1:GitHub" name="endpoint1" service-name="ns1:GitHub"/>
+        <endpoint endpoint-name="RTPort" interface-name="ns2:RT" name="endpoint2" service-name="ns2:RT"/>
+        <endpoint endpoint-name="ContentMapConverterPort" interface-name="ns3:ContentMapConverter" name="endpoint3" service-name="ns3:ContentMapConverter"/>
+        <endpoint endpoint-name="FootPrints11Port" interface-name="ns4:FootPrints11" name="endpoint4" service-name="ns4:FootPrints11"/>
+        <endpoint endpoint-name="BitBucketPort" interface-name="ns5:BitBucket" name="endpoint5" service-name="ns5:BitBucket"/>
+        <endpoint endpoint-name="casaPort1" interface-name="ns7:RequestortnewWSDLPortType" name="endpoint6" service-name="ns6:AnyToAllCompositeAppService1"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="RequestortnewWSDLPortTypeRole_myRole" file-path="anyToAllBpelModule.bpel" interface-name="ns7:RequestortnewWSDLPortType" name="endpoint7" process-name="anyToAllBpelModule" service-name="ns8:PartnerLink1"/>
+        <endpoint display-name="InputConverter" endpoint-name="ContentMapConverterRole_partnerRole" file-path="anyToAllBpelModule.bpel" interface-name="ns3:ContentMapConverter" name="endpoint8" process-name="anyToAllBpelModule" service-name="ns8:InputConverter"/>
+        <endpoint display-name="fp11" endpoint-name="FootPrints11Role_partnerRole" file-path="anyToAllBpelModule.bpel" interface-name="ns4:FootPrints11" name="endpoint9" process-name="anyToAllBpelModule" service-name="ns8:fp11"/>
+        <endpoint display-name="RT" endpoint-name="RTRole_partnerRole" file-path="anyToAllBpelModule.bpel" interface-name="ns2:RT" name="endpoint10" process-name="anyToAllBpelModule" service-name="ns8:RT"/>
+        <endpoint display-name="BitBucket" endpoint-name="BitBucketRole_partnerRole" file-path="anyToAllBpelModule.bpel" interface-name="ns5:BitBucket" name="endpoint11" process-name="anyToAllBpelModule" service-name="ns8:BitBucket"/>
+        <endpoint display-name="GitHub" endpoint-name="GitHubRole_partnerRole" file-path="anyToAllBpelModule.bpel" interface-name="ns1:GitHub" name="endpoint12" process-name="anyToAllBpelModule" service-name="ns8:GitHub"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="AnyToAllBpelModule.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="AnyToAllCompositeApp-AnyToAllBpelModule" unit-name="AnyToAllBpelModule" unknown="false" x="134" y="99">
+            <provides endpoint="endpoint7"/>
+            <consumes endpoint="endpoint8"/>
+            <consumes endpoint="endpoint9"/>
+            <consumes endpoint="endpoint10"/>
+            <consumes endpoint="endpoint11"/>
+            <consumes endpoint="endpoint12"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="AnyToAllCompositeApp-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port bindingType="soap" x="67" y="454">
+                    <link xlink:href="../jbiasa/AnyToAllCompositeApp.wsdl#xpointer(/definitions/service[@name='AnyToAllCompositeAppService1']/port[@name='casaPort1'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint6"/>
+                    <provides endpoint="endpoint6"/>
+                </port>
+                <port x="67" y="355">
+                    <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/service[@name='BitBucket']/port[@name='BitBucketPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint5"/>
+                    <provides endpoint="endpoint5"/>
+                </port>
+                <port x="67" y="276">
+                    <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/service[@name='ContentMapConverter']/port[@name='ContentMapConverterPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint3"/>
+                    <provides endpoint="endpoint3"/>
+                </port>
+                <port x="67" y="197">
+                    <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/FootPrints11.wsdl#xpointer(/definitions/service[@name='FootPrints11']/port[@name='FootPrints11Port'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint4"/>
+                    <provides endpoint="endpoint4"/>
+                </port>
+                <port x="67" y="118">
+                    <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/service[@name='GitHub']/port[@name='GitHubPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+                <port x="67" y="39">
+                    <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/RT.wsdl#xpointer(/definitions/service[@name='RT']/port[@name='RTPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint12" provider="endpoint1" state="unchanged"/>
+        <connection consumer="endpoint10" provider="endpoint2" state="unchanged"/>
+        <connection consumer="endpoint8" provider="endpoint3" state="unchanged"/>
+        <connection consumer="endpoint6" provider="endpoint7" state="new"/>
+        <connection consumer="endpoint9" provider="endpoint4" state="unchanged"/>
+        <connection consumer="endpoint11" provider="endpoint5" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiasa/AnyToAllCompositeApp.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/portType[@name='BitBucket'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/portType[@name='ContentMapConverter'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/FootPrints11.wsdl#xpointer(/definitions/portType[@name='FootPrints11'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/portType[@name='GitHub'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/RT.wsdl#xpointer(/definitions/portType[@name='RT'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/RequestorWSDL.wsdl#xpointer(/definitions/portType[@name='RequestortnewWSDLPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllCompositeApp.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiasa/AnyToAllCompositeApp.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/binding[@name='BitBucketPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/binding[@name='ContentMapConverterPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/FootPrints11.wsdl#xpointer(/definitions/binding[@name='FootPrints11PortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/binding[@name='GitHubPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/RT.wsdl#xpointer(/definitions/binding[@name='RTPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllCompositeApp.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiasa/AnyToAllCompositeApp.wsdl#xpointer(/definitions/service[@name='AnyToAllCompositeAppService1'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/service[@name='BitBucket'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/service[@name='ContentMapConverter'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/FootPrints11.wsdl#xpointer(/definitions/service[@name='FootPrints11'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/service[@name='GitHub'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllBpelModule/localhost_5050/TransferClient/RT.wsdl#xpointer(/definitions/service[@name='RT'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/AnyToAllCompositeApp.wsdl#xpointer(/definitions/service[@name='AnyToAllCompositeAppService1'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>
