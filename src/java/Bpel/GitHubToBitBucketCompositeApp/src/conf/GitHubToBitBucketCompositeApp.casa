@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://github/" xmlns:ns2="http://utils/" xmlns:ns3="http://bitbucket/" xmlns:ns4="GitHubToBitBucketCompositeApp" xmlns:ns5="http://j2ee.netbeans.org/wsdl/GitHubToBitBucketBpelModule/src/RequestorWSDL" xmlns:ns6="http://enterprise.netbeans.org/bpel/GitHubToBitBucketBpelModule/gitHubToBitBucketBpelModule" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="GitHubPort" interface-name="ns1:GitHub" name="endpoint1" service-name="ns1:GitHub"/>
+        <endpoint endpoint-name="ContentMapConverterPort" interface-name="ns2:ContentMapConverter" name="endpoint2" service-name="ns2:ContentMapConverter"/>
+        <endpoint endpoint-name="BitBucketPort" interface-name="ns3:BitBucket" name="endpoint3" service-name="ns3:BitBucket"/>
+        <endpoint endpoint-name="casaPort1" interface-name="ns5:RequestorWSDLPortType" name="endpoint4" service-name="ns4:GitHubToBitBucketCompositeAppService1"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="RequestorWSDLPortTypeRole_myRole" file-path="gitHubToBitBucketBpelModule.bpel" interface-name="ns5:RequestorWSDLPortType" name="endpoint5" process-name="gitHubToBitBucketBpelModule" service-name="ns6:PartnerLink1"/>
+        <endpoint display-name="InputConverter" endpoint-name="ContentMapConverterRole_partnerRole" file-path="gitHubToBitBucketBpelModule.bpel" interface-name="ns2:ContentMapConverter" name="endpoint6" process-name="gitHubToBitBucketBpelModule" service-name="ns6:InputConverter"/>
+        <endpoint display-name="GitHub" endpoint-name="GitHubRole_partnerRole" file-path="gitHubToBitBucketBpelModule.bpel" interface-name="ns1:GitHub" name="endpoint7" process-name="gitHubToBitBucketBpelModule" service-name="ns6:GitHub"/>
+        <endpoint display-name="BitBucket" endpoint-name="BitBucketRole_partnerRole" file-path="gitHubToBitBucketBpelModule.bpel" interface-name="ns3:BitBucket" name="endpoint8" process-name="gitHubToBitBucketBpelModule" service-name="ns6:BitBucket"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="GitHubToBitBucketBpelModule.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="GitHubToBitBucketCompositeApp-GitHubToBitBucketBpelModule" unit-name="GitHubToBitBucketBpelModule" unknown="false" x="105" y="99">
+            <provides endpoint="endpoint5"/>
+            <consumes endpoint="endpoint6"/>
+            <consumes endpoint="endpoint7"/>
+            <consumes endpoint="endpoint8"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="GitHubToBitBucketCompositeApp-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port bindingType="soap" x="67" y="362">
+                    <link xlink:href="../jbiasa/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/service[@name='GitHubToBitBucketCompositeAppService1']/port[@name='casaPort1'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint4"/>
+                    <provides endpoint="endpoint4"/>
+                </port>
+                <port x="67" y="197">
+                    <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/service[@name='BitBucket']/port[@name='BitBucketPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint3"/>
+                    <provides endpoint="endpoint3"/>
+                </port>
+                <port x="67" y="118">
+                    <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/service[@name='ContentMapConverter']/port[@name='ContentMapConverterPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+                <port x="67" y="39">
+                    <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/service[@name='GitHub']/port[@name='GitHubPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint4" provider="endpoint5" state="new"/>
+        <connection consumer="endpoint7" provider="endpoint1" state="unchanged"/>
+        <connection consumer="endpoint6" provider="endpoint2" state="unchanged"/>
+        <connection consumer="endpoint8" provider="endpoint3" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiasa/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/portType[@name='BitBucket'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/portType[@name='ContentMapConverter'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/portType[@name='GitHub'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/RequestorWSDL.wsdl#xpointer(/definitions/portType[@name='RequestorWSDLPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiasa/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/binding[@name='BitBucketPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/binding[@name='ContentMapConverterPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/binding[@name='GitHubPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/binding[@name='casaBinding1'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiasa/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/service[@name='GitHubToBitBucketCompositeAppService1'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/BitBucket.wsdl#xpointer(/definitions/service[@name='BitBucket'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/service[@name='ContentMapConverter'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketBpelModule/localhost_5050/TransferClient/GitHub.wsdl#xpointer(/definitions/service[@name='GitHub'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/GitHubToBitBucketCompositeApp.wsdl#xpointer(/definitions/service[@name='GitHubToBitBucketCompositeAppService1'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>

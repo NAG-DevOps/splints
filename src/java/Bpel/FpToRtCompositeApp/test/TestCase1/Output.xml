@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <m:RequestorWSDLOperationResponse xmlns:m="FpToRtCompositeApp" xmlns:msgns="http://j2ee.netbeans.org/wsdl/FpToRtBpelModule/src/RequestorWSDL">
+      <newId xmlns:msgns="http://rt/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/FpToRtBpelModule/src/RequestorWSDL">Created new RT issue: 234</newId>
+    </m:RequestorWSDLOperationResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
