@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <nextCatalog catalog="nbproject/private/retriever/catalog.xml"/>
+    <system systemId="http://localhost:8080/TransferClient/ContentMapConverter?WSDL" uri="src/localhost_8080/TransferClient/ContentMapConverter.wsdl"/>
+    <system systemId="http://localhost:8080/TransferClient/ContentMapConverter?xsd=1" uri="src/localhost_8080/TransferClient/ContentMapConverter.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/TransferClient/RT?WSDL" uri="src/localhost_8080/TransferClient/RT.wsdl"/>
+    <system systemId="http://localhost:8080/TransferClient/RT?xsd=1" uri="src/localhost_8080/TransferClient/RT.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/TransferClient/FootPrints11?WSDL" uri="src/localhost_8080/TransferClient/FootPrints11.wsdl"/>
+    <system systemId="http://localhost:8080/TransferClient/FootPrints11?xsd=1" uri="src/localhost_8080/TransferClient/FootPrints11.xsd_1.xsd"/>
+</catalog>

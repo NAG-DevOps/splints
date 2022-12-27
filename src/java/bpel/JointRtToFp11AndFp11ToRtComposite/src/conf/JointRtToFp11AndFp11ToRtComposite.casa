@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://rt/" xmlns:ns2="http://utils/" xmlns:ns3="http://fp/" xmlns:ns4="http://enterprise.netbeans.org/bpel/JointRtToFp11AndFp11ToRTBpel/jointRtToFp11AndFp11ToRTBpel" xmlns:ns5="http://j2ee.netbeans.org/wsdl/JointRtToFp11AndFp11ToRTBpel/src/SplintsServiceRequestor" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="RTPort" interface-name="ns1:RT" name="endpoint1" service-name="ns1:RT"/>
+        <endpoint endpoint-name="ContentMapConverterPort" interface-name="ns2:ContentMapConverter" name="endpoint2" service-name="ns2:ContentMapConverter"/>
+        <endpoint endpoint-name="FootPrints11Port" interface-name="ns3:FootPrints11" name="endpoint3" service-name="ns3:FootPrints11"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="SplintsServiceRequestorPortTypeRole_myRole" file-path="jointRtToFp11AndFp11ToRTBpel.bpel" interface-name="ns5:SplintsServiceRequestorPortType" name="endpoint4" process-name="jointRtToFp11AndFp11ToRTBpel" service-name="ns4:PartnerLink1"/>
+        <endpoint display-name="ContentMapConverter" endpoint-name="ContentMapConverterRole_partnerRole" file-path="jointRtToFp11AndFp11ToRTBpel.bpel" interface-name="ns2:ContentMapConverter" name="endpoint5" process-name="jointRtToFp11AndFp11ToRTBpel" service-name="ns4:ContentMapConverter"/>
+        <endpoint display-name="RT" endpoint-name="RTRole_partnerRole" file-path="jointRtToFp11AndFp11ToRTBpel.bpel" interface-name="ns1:RT" name="endpoint6" process-name="jointRtToFp11AndFp11ToRTBpel" service-name="ns4:RT"/>
+        <endpoint display-name="FP11" endpoint-name="FootPrints11Role_partnerRole" file-path="jointRtToFp11AndFp11ToRTBpel.bpel" interface-name="ns3:FootPrints11" name="endpoint7" process-name="jointRtToFp11AndFp11ToRTBpel" service-name="ns4:FP11"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="JointRtToFp11AndFp11ToRTBpel.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="JointRtToFp11AndFp11ToRtComposite-JointRtToFp11AndFp11ToRTBpel" unit-name="JointRtToFp11AndFp11ToRTBpel" unknown="false" x="99" y="99">
+            <provides endpoint="endpoint4"/>
+            <consumes endpoint="endpoint5"/>
+            <consumes endpoint="endpoint6"/>
+            <consumes endpoint="endpoint7"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="JointRtToFp11AndFp11ToRtComposite-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port x="67" y="197">
+                    <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/service[@name='ContentMapConverter']/port[@name='ContentMapConverterPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+                <port x="67" y="118">
+                    <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/FootPrints11.wsdl#xpointer(/definitions/service[@name='FootPrints11']/port[@name='FootPrints11Port'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint3"/>
+                    <provides endpoint="endpoint3"/>
+                </port>
+                <port x="67" y="39">
+                    <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/RT.wsdl#xpointer(/definitions/service[@name='RT']/port[@name='RTPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint6" provider="endpoint1" state="unchanged"/>
+        <connection consumer="endpoint5" provider="endpoint2" state="unchanged"/>
+        <connection consumer="endpoint7" provider="endpoint3" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/portType[@name='ContentMapConverter'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/FootPrints11.wsdl#xpointer(/definitions/portType[@name='FootPrints11'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/RT.wsdl#xpointer(/definitions/portType[@name='RT'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/SplintsServiceRequestor.wsdl#xpointer(/definitions/portType[@name='SplintsServiceRequestorPortType'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/binding[@name='ContentMapConverterPortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/FootPrints11.wsdl#xpointer(/definitions/binding[@name='FootPrints11PortBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/RT.wsdl#xpointer(/definitions/binding[@name='RTPortBinding'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/ContentMapConverter.wsdl#xpointer(/definitions/service[@name='ContentMapConverter'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/FootPrints11.wsdl#xpointer(/definitions/service[@name='FootPrints11'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/JointRtToFp11AndFp11ToRTBpel/localhost_8080/TransferClient/RT.wsdl#xpointer(/definitions/service[@name='RT'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>

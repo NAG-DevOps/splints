@@ -4,20 +4,39 @@ import javax.xml.soap.SOAPElement;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
+import bitbucket.Config;
 import fp.v11.splints.ISplints;
 
-public class RT implements ISplints {
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Base64;
+import java.util.Map;
 
+public class RT implements ISplints {
+    
+
+	/**
+	 * Create new issue for RT given a map of issue details
+	 * @author Daniil Karpov from soen487-w18-team08
+	 * @param contentMap Map containing issue details
+	 * @return reply String
+	 */
 	@Override
-	public String createIssue() {
+	public String createIssue(Map<String,Serializable> contentMap) {
 		
 		String uri = Config.BASE_URI+"/ticket/new?user="+Config.AGENT_USERNAME+"&pass="+Config.AGENT_PASSWORD;
 		
@@ -27,29 +46,58 @@ public class RT implements ISplints {
 		HttpResponse response = null;
 		
 		try {
+			JSONObject jsonRequestBody = new JSONObject();
+			if (contentMap.get("id") != null) {
+				jsonRequestBody.put("id", (String)contentMap.get("id"));
+			}
+			if (contentMap.get("Queue") != null) {
+				jsonRequestBody.put("Queue", (String)contentMap.get("Queue"));
+			}
+			if (contentMap.get("Requestor") != null) {
+				jsonRequestBody.put("Requestor", (String)contentMap.get("Requestor"));
+			}
+			if (contentMap.get("Subject") != null) {
+				jsonRequestBody.put("Subject", (String)contentMap.get("Subject"));
+			}
+			if (contentMap.get("CC") != null) {
+				jsonRequestBody.put("CC", (String)contentMap.get("CC"));
+			}
+			if (contentMap.get("AdminCc") != null) {
+				jsonRequestBody.put("AdminCc", (String)contentMap.get("AdminCc"));
+			}
+			if (contentMap.get("Owner") != null) {
+				jsonRequestBody.put("Owner", (String)contentMap.get("Owner"));
+			}
+			if (contentMap.get("Status") != null) {
+				jsonRequestBody.put("Status", (String)contentMap.get("Status"));
+			}
+			if (contentMap.get("Priority") != null) {
+				jsonRequestBody.put("Priority", (String)contentMap.get("Priority"));
+			}
+			if (contentMap.get("InitialPriority") != null) {
+				jsonRequestBody.put("InitialPriority", (String)contentMap.get("InitialPriority"));
+			}
+			if (contentMap.get("FinalPriority") != null) {
+				jsonRequestBody.put("FinalPriority", (String)contentMap.get("FinalPriority"));
+			}
+			if (contentMap.get("TimeEstimated") != null) {
+				jsonRequestBody.put("TimeEstimated", (String)contentMap.get("TimeEstimated"));
+			}
+			if (contentMap.get("Starts") != null) {
+				jsonRequestBody.put("Starts", (String)contentMap.get("Starts"));
+			}
+			if (contentMap.get("Due") != null) {
+				jsonRequestBody.put("Due", (String)contentMap.get("Due"));
+			}
+			if (contentMap.get("Text") != null) {
+				jsonRequestBody.put("Text", (String)contentMap.get("Text"));
+			}
+			if (contentMap.get("CF-CustomField") != null) {
+				jsonRequestBody.put("CF-CustomField", (String)contentMap.get("CF-CustomField"));
+			}
+
+			httppost.setEntity(new StringEntity(jsonRequestBody.toString(), ContentType.TEXT_PLAIN));
 			
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("id: " + Constants.ID);
-			stringBuilder.append("Queue: " + Constants.QUEUE);
-			stringBuilder.append("Requestor: " + Constants.REQUESTOR);
-			stringBuilder.append("Subject: " + Constants.SUBJECT);
-			stringBuilder.append("CC: " + Constants.CC);
-			stringBuilder.append("AdminCc: " + Constants.ADMIN_CC);
-			stringBuilder.append("Owner: " + Constants.OWNER);
-			stringBuilder.append("Status: " + Constants.STATUS);
-			stringBuilder.append("Priority: " + Constants.PRIORITY);
-			stringBuilder.append("InitialPriority: " + Constants.INITIAL_PRIORITY);
-			stringBuilder.append("FinalPriority: " + Constants.FINAL_PRIORITY);
-			stringBuilder.append("TimeEstimated: " + Constants.TIME_ESTIMATED);
-			stringBuilder.append("Starts: " + Constants.STARTS);
-			stringBuilder.append("Due: " + Constants.DUE);
-			stringBuilder.append("Text: " + Constants.TEXT);
-			stringBuilder.append("CF-CustomField: " + Constants.CUSTOM_FIELD);
-			
-			StringBody content = new StringBody(stringBuilder.toString(),ContentType.TEXT_PLAIN);
-			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			builder.addPart("content", content);
-			httppost.setEntity(builder.build());
 			System.out.println("Request: " + httppost.getRequestLine()+"\n");
 			
 			response = httpclient.execute(httppost);
@@ -130,7 +178,7 @@ public class RT implements ISplints {
 	}
 
 	@Override
-	public NodeList getIssueDetails() {
+	public NodeList getIssueDetails(Map<String,Serializable> contentMap) {
 		return null;
 	}
 
@@ -139,9 +187,117 @@ public class RT implements ISplints {
 		return null;
 	}
 
+	/**
+	 * Edit existing RT issue given a map of issue details
+	 * @author Daniil Karpov from soen487-w18-team08
+	 * @param contentMap Map containing issue details
+	 */
 	@Override
-	public void editIssue() {
+	public void editIssue(Map<String,Serializable> contentMap) {
+		String uri = Config.BASE_URI + "/ticket/" + contentMap.get("id") + "/edit?user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
+		HttpPost httppost = new HttpPost(uri);
+		HttpClient httpclient = HttpClientBuilder.create().build();
+		HttpResponse response = null;
+		
+		try {
+			JSONObject jsonRequestBody = new JSONObject();
+			if (contentMap.get("Queue") != null) {
+				jsonRequestBody.put("Queue", (String)contentMap.get("Queue"));
+			}
+			if (contentMap.get("Requestor") != null) {
+				jsonRequestBody.put("Requestor", (String)contentMap.get("Requestor"));
+			}
+			if (contentMap.get("Subject") != null) {
+				jsonRequestBody.put("Subject", (String)contentMap.get("Subject"));
+			}
+			if (contentMap.get("CC") != null) {
+				jsonRequestBody.put("CC", (String)contentMap.get("CC"));
+			}
+			if (contentMap.get("AdminCc") != null) {
+				jsonRequestBody.put("AdminCc", (String)contentMap.get("AdminCc"));
+			}
+			if (contentMap.get("Owner") != null) {
+				jsonRequestBody.put("Owner", (String)contentMap.get("Owner"));
+			}
+			if (contentMap.get("Status") != null) {
+				jsonRequestBody.put("Status", (String)contentMap.get("Status"));
+			}
+			if (contentMap.get("Priority") != null) {
+				jsonRequestBody.put("Priority", (String)contentMap.get("Priority"));
+			}
+			if (contentMap.get("InitialPriority") != null) {
+				jsonRequestBody.put("InitialPriority", (String)contentMap.get("InitialPriority"));
+			}
+			if (contentMap.get("FinalPriority") != null) {
+				jsonRequestBody.put("FinalPriority", (String)contentMap.get("FinalPriority"));
+			}
+			if (contentMap.get("TimeEstimated") != null) {
+				jsonRequestBody.put("TimeEstimated", (String)contentMap.get("TimeEstimated"));
+			}
+			if (contentMap.get("Starts") != null) {
+				jsonRequestBody.put("Starts", (String)contentMap.get("Starts"));
+			}
+			if (contentMap.get("Due") != null) {
+				jsonRequestBody.put("Due", (String)contentMap.get("Due"));
+			}
+			if (contentMap.get("Text") != null) {
+				jsonRequestBody.put("Text", (String)contentMap.get("Text"));
+			}
+			if (contentMap.get("CF-CustomField") != null) {
+				jsonRequestBody.put("CF-CustomField", (String)contentMap.get("CF-CustomField"));
+			}
+
+			httppost.setEntity(new StringEntity(jsonRequestBody.toString(), ContentType.TEXT_PLAIN));
+			
+			
+			System.out.println("Request: " + httppost.getRequestLine()+"\n");
+			
+			response = httpclient.execute(httppost);
+			
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+
+		if (response != null){
+			System.out.println(response.getStatusLine());
+		}
+		
+		HttpEntity responseEntity = response.getEntity();
+		if (responseEntity != null) {
+			System.out.println("Response received: " + responseEntity.toString());
+		} 
+	}
 	
+	/**
+	 * Search all existing RT issues given a query string, all matching issues will be printed out
+	 * 
+	 * @author Daniil Karpov from soen487-w18-team08
+	 * @param query Query string that will be used for the search
+	 */
+	public void search(String query) {
+		String uri = Config.BASE_URI + "/ticket?query=" + query + "&user=" + Config.AGENT_USERNAME + "&pass=" + Config.AGENT_PASSWORD;
+
+		HttpGet httpget = new HttpGet(uri);
+		HttpClient httpclient = HttpClientBuilder.create().build();
+		
+		HttpResponse response = null;
+		HttpEntity responseEntity = null;
+		try {
+			response = httpclient.execute(httpget);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		if (response != null) {
+			System.out.println(response.getStatusLine());
+			responseEntity = response.getEntity();
+			
+			if (responseEntity != null) {
+				System.out.println("Response received: " + responseEntity.toString());
+			} 
+		}
 	}
 
 	@Override

@@ -20,5 +20,6 @@ public class Constants {
 	static final String CUSTOM_FIELD = "custom_field";
 	
 	static final String RESOLVED = "resolved";
+    static final String TICKET_ID = "3";
 	
 }
