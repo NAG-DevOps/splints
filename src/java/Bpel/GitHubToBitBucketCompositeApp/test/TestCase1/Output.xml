@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <m:RequestorWSDLOperationResponse xmlns:m="GitHubToBitBucketCompositeApp" xmlns:msgns="http://j2ee.netbeans.org/wsdl/GitHubToBitBucketBpelModule/src/RequestorWSDL">
+      <newId xmlns:msgns="http://bitbucket/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/GitHubToBitBucketBpelModule/src/RequestorWSDL">Created new BitBucket Issue: 1143</newId>
+    </m:RequestorWSDLOperationResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

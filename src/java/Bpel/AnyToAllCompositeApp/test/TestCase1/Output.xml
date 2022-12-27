@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <m:RequestortnewWSDLOperationResponse xmlns:m="AnyToAllCompositeApp" xmlns:msgns="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">
+      <newId1 xmlns:msgns="http://rt/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">Created new RT issue: 43</newId1>
+      <newId2 xmlns:msgns="http://github/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">Created new GitHub issue: 43</newId2>
+      <newId3 xmlns:msgns="http://bitbucket/" xmlns:ns0="http://j2ee.netbeans.org/wsdl/AnyToAllBpelModule/src/RequestorWSDL">Created new BitBucket Issue: 43</newId3>
+    </m:RequestortnewWSDLOperationResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

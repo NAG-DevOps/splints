@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BitBucketWrapper" targetNamespace="http://enterprise.netbeans.org/bpel/BitBucketWrapper" xmlns:tns="http://enterprise.netbeans.org/bpel/BitBucketWrapper" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns="http://bitbucket/">
+    <import location="http://localhost:5050/TransferClient/BitBucket?WSDL" namespace="http://bitbucket/"/>
+    <plnk:partnerLinkType name="BitBucketLinkType">
+        <plnk:role name="BitBucketRole" portType="ns:BitBucket"/>
+    </plnk:partnerLinkType>
+</definitions>

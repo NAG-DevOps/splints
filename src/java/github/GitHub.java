@@ -15,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +29,17 @@ import javax.xml.soap.SOAPElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -39,44 +48,47 @@ import org.w3c.dom.NodeList;
 import fp.v11.splints.ISplints;
 
 public class GitHub implements ISplints {
-	
-	public static void main (String []args){
-		
-	}
 
+	String user = Config.USERNAME;
+	String password = Config.PASSWORD;
+	
     @Override
 	public String createIssue(Map<String, Serializable> content) {
 		URL base;
 		URL url = null;
 		try {
 			base = new URL(Config.API);
-	        url = new URL(base, Config.WORKSPACE + "issues/");
+	        url = new URL(base, Config.WORKSPACE + "issues");
 		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
+    	
+        HttpPost httppost = new HttpPost(url.toString());
+        System.out.println("Request TO: "+url.toString());
+
+		HttpClient httpClient = HttpClients.createDefault();
+		String encoding = null;
+		try {
+			encoding = Base64.getEncoder().encodeToString((user+":"+password).getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-    		
-        HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(url.toString());
-
-        // Request parameters and other properties.
-        List<NameValuePair> params = new ArrayList<NameValuePair>(6);
-        params.add(new BasicNameValuePair("title", (String) content.get("title")));
-        params.add(new BasicNameValuePair("body", (String) content.get("body")));
-        params.add(new BasicNameValuePair("assignee", (String) content.get("assignee")));
-        params.add(new BasicNameValuePair("milestone", (String) content.get("milestone")));
-        params.add(new BasicNameValuePair("labels", (String) content.get("labels")));
-        params.add(new BasicNameValuePair("assignees", (String) content.get("assignees")));
-        try {
-			httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		
+		String json = "{\"title\":\""+content.get("title")+"\",\"body\":\""+content.get("body")+"\"}";
+	    StringEntity input = null;
+		try {
+			input = new StringEntity(json);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		
+        httppost.setEntity(input);
+		httppost.setHeader("Authorization", "Basic " + encoding);
 
         //Execute and get the response.
         try {
-			HttpResponse response = httpclient.execute(httppost);
+			HttpResponse response = httpClient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			String responseString = EntityUtils.toString(entity, "UTF-8");
 			System.out.println(responseString);
@@ -91,6 +103,14 @@ public class GitHub implements ISplints {
         return null;
 	}
 
+    public void setUser(String user){
+    	this.user = user;
+    }
+    
+    public void setPassword(String password){
+    	this.password = password;
+    }
+    
 	@Override
 	public NodeList getIssueDetails(Map<String, Serializable> content) {
 		try {
