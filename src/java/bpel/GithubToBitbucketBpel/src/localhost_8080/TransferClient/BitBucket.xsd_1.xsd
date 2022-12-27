@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://bitbucket/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://bitbucket/">
+
+<xs:element name="createIssue" type="tns:createIssue"/>
+
+<xs:element name="createIssueResponse" type="tns:createIssueResponse"/>
+
+<xs:element name="editIssue" type="tns:editIssue"/>
+
+<xs:element name="editIssueResponse" type="tns:editIssueResponse"/>
+
+<xs:element name="getIssueDetails" type="tns:getIssueDetails"/>
+
+<xs:element name="getIssueDetailsResponse" type="tns:getIssueDetailsResponse"/>
+
+<xs:element name="linkIssues" type="tns:linkIssues"/>
+
+<xs:element name="linkIssuesResponse" type="tns:linkIssuesResponse"/>
+
+<xs:element name="queryIssues" type="tns:queryIssues"/>
+
+<xs:element name="queryIssuesResponse" type="tns:queryIssuesResponse"/>
+
+<xs:complexType name="editIssue">
+<xs:sequence>
+<xs:element name="arg0" type="tns:contentMap" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="contentMap">
+<xs:sequence>
+<xs:element name="map" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="editIssueResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="createIssue">
+<xs:sequence>
+<xs:element name="content" type="tns:contentMap" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createIssueResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="linkIssues">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="linkIssuesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:contentMap" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getIssueDetails">
+<xs:sequence>
+<xs:element name="content" type="tns:contentMap" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getIssueDetailsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:contentMap" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="queryIssues">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="queryIssuesResponse">
+<xs:sequence/>
+</xs:complexType>
+</xs:schema>

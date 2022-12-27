@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="FootPrints11">
+      <implementation-class>fp.FootPrints11</implementation-class>
+    </service>
+    <service name="BitBucket">
+      <implementation-class>bitbucket.BitBucket</implementation-class>
+    </service>
+    <service name="GitHub">
+      <implementation-class>github.GitHub</implementation-class>
+    </service>
+    <service name="RT">
+      <implementation-class>rt.RT</implementation-class>
+    </service>
+    <service name="ContentMapConverter">
+      <implementation-class>utils.ContentMapConverter</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>
