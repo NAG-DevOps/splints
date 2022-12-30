@@ -162,6 +162,7 @@
 
 /* Icon */
 @iconButtonOpacity: 0.9;
+@loadingIconDuration: 2s;
 
 /* Labeled */
 @labeledLabelFontSize: @medium;
@@ -318,12 +319,14 @@
 /* Ordinality */
 @primaryBackgroundImage: @coloredBackgroundImage;
 @primaryTextColor: @invertedTextColor;
+@lightPrimaryTextColor: @invertedTextColor;
 @primaryTextShadow: @invertedTextShadow;
 @primaryBoxShadow: @coloredBoxShadow;
 
 @secondaryBackgroundImage: @coloredBackgroundImage;
 @secondaryTextColor: @invertedTextColor;
 @secondaryTextShadow: @invertedTextShadow;
+@lightSecondaryTextColor: @invertedTextColor;
 @secondaryBoxShadow: @coloredBoxShadow;
 
 @positiveBackgroundImage: @coloredBackgroundImage;

@@ -2,7 +2,7 @@
            Watch Task
 *******************************/
 
-var
+let
   gulp         = require('gulp'),
 
   // node deps
@@ -17,13 +17,12 @@ var
   less         = require('gulp-less'),
   minifyCSS    = require('gulp-clean-css'),
   plumber      = require('gulp-plumber'),
-  print        = require('gulp-print'),
+  print        = require('gulp-print').default,
   rename       = require('gulp-rename'),
   replace      = require('gulp-replace'),
   rtlcss       = require('gulp-rtlcss'),
   uglify       = require('gulp-uglify'),
-  util         = require('gulp-util'),
-  watch        = require('gulp-watch'),
+  replaceExt   = require('replace-ext'),
 
   // user config
   config       = require('../config/user'),
@@ -41,14 +40,25 @@ var
   banner       = tasks.banner,
   comments     = tasks.regExp.comments,
   log          = tasks.log,
-  settings     = tasks.settings
+  settings     = tasks.settings,
+
+  watchRTL,
+
+  // individual watch tasks
+  watchCSS,
+  watchJS,
+  watchAssets,
+
+  watchCSSCallback,
+  watchJSCallback,
+  watchAssetsCallback
 
 ;
 
 // add internal tasks (concat release)
 require('../collections/internal')(gulp);
 
-module.exports = function(callback) {
+watchRTL = function(callback) {
 
   if( !install.isSetup() ) {
     console.error('Cannot watch files. Run "gulp install" to set-up Semantic');
@@ -70,7 +80,7 @@ module.exports = function(callback) {
       source.themes        + '/**/*.{overrides,variables}'
     ], function(file) {
 
-      var
+      let
         lessPath,
 
         stream,
@@ -107,16 +117,16 @@ module.exports = function(callback) {
       else if(isPackagedTheme) {
         console.log('Change detected in packaged theme');
         lessPath = lessPath.replace(tasks.regExp.theme, source.definitions);
-        lessPath = util.replaceExtension(file.path, '.less');
+        lessPath = replaceExt(file.path, '.less');
       }
       else if(isSiteTheme) {
         console.log('Change detected in site theme');
         lessPath = lessPath.replace(source.site, source.definitions);
-        lessPath = util.replaceExtension(file.path, '.less');
+        lessPath = replaceExt(file.path, '.less');
       }
       else if(isDefinition) {
         console.log('Change detected in definition');
-        lessPath = util.replaceExtension(file.path, '.less');
+        lessPath = replaceExt(file.path, '.less');
       }
 
       /*--------------
@@ -154,7 +164,7 @@ module.exports = function(callback) {
           })
         ;
 
-        compressedStream = stream
+        compressedStream
           .pipe(plumber())
           .pipe(replace(assets.source, assets.compressed))
           .pipe(minifyCSS(settings.minify))
@@ -219,3 +229,9 @@ module.exports = function(callback) {
   ;
 
 };
+
+
+/* Export with Metadata */
+watchRTL.displayName = 'watch-rtl';
+watchRTL.description = 'Watch files as RTL';
+module.exports = watchRTL;

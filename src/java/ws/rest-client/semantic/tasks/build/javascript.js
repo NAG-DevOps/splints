@@ -2,7 +2,7 @@
           Build Task
 *******************************/
 
-var
+let
   gulp         = require('gulp'),
 
   // node dependencies
@@ -14,7 +14,7 @@ var
   flatten      = require('gulp-flatten'),
   gulpif       = require('gulp-if'),
   plumber      = require('gulp-plumber'),
-  print        = require('gulp-print'),
+  print        = require('gulp-print').default,
   rename       = require('gulp-rename'),
   replace      = require('gulp-replace'),
   uglify       = require('gulp-uglify'),
@@ -33,15 +33,19 @@ var
   banner       = tasks.banner,
   comments     = tasks.regExp.comments,
   log          = tasks.log,
-  settings     = tasks.settings
+  settings     = tasks.settings,
+
+  {series, parallel} = gulp,
+
+  buildJavascript
 ;
 
 // add internal tasks (concat release)
 require('../collections/internal')(gulp);
 
-module.exports = function(callback) {
+buildJavascript = function(callback) {
 
-  var
+  let
     stream,
     compressedStream,
     uncompressedStream
@@ -55,7 +59,7 @@ module.exports = function(callback) {
   }
 
   // copy source javascript
-  gulp.src(source.definitions + '/**/' + globs.components + '.js')
+  return gulp.src(source.definitions + '/**/' + globs.components + '.js')
     .pipe(plumber())
     .pipe(flatten())
     .pipe(replace(comments.license.in, comments.license.out))
@@ -75,3 +79,8 @@ module.exports = function(callback) {
   ;
 
 };
+
+/* Export with Metadata */
+buildJavascript.displayName = 'build-javascript';
+buildJavascript.description = 'Builds all javascript from source';
+module.exports = series(buildJavascript);
