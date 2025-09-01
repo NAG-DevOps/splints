@@ -5,9 +5,10 @@ import 'rxjs/add/operator/catch';
 
 
 @Component({
-  selector: 'app-result',
-  templateUrl: './result.component.html',
-  styleUrls: ['./result.component.css']
+    selector: 'app-result',
+    templateUrl: './result.component.html',
+    styleUrls: ['./result.component.css'],
+    standalone: false
 })
 export class ResultComponent implements OnInit {
   issues: Issue[] = [];
