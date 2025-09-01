@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "undefined:build"
+            "buildTarget": "undefined:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "undefined:build:production"
+              "buildTarget": "undefined:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "undefined:build"
+            "buildTarget": "undefined:build"
           }
         },
         "lint": {
