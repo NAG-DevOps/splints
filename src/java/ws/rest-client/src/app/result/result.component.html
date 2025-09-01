@@ -8,12 +8,14 @@
         <i class="remove icon"></i>Clear
       </button>
     </div>
-    <div id="result-panel" *ngIf="issues?.length != 0" class="ui raised secondary segment">
-      <h3 class="ui grey header">Results</h3>
-      <div class="ui divider"></div>
-      <span>
-        <pre>{{ issues | json }}</pre>
-      </span>
-    </div>
+    @if (issues?.length != 0) {
+      <div id="result-panel" class="ui raised secondary segment">
+        <h3 class="ui grey header">Results</h3>
+        <div class="ui divider"></div>
+        <span>
+          <pre>{{ issues | json }}</pre>
+        </span>
+      </div>
+    }
   </div>
 </div>
