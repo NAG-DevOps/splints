@@ -8,10 +8,11 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist",
-            "main": "src/main.ts",
+            "outputPath": {
+              "base": "dist"
+            },
             "tsConfig": "src/tsconfig.app.json",
             "serviceWorker": false,
             "index": "src/index.html",
@@ -34,7 +35,10 @@
             "scripts": [
               "semantic/dist/semantic.min.js"
             ],
-            "polyfills": "src/polyfills.ts"
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -50,9 +54,7 @@
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },
