@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.2.1",
-    "@angular/cli": "^20.3.13",
+    "@angular/cli": "^21.0.3",
     "@angular/compiler-cli": "^21.0.5",
     "@angular/language-service": "^20.2.3",
     "@cypress/schematic": "^4.3.0",
