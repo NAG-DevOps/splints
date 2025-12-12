@@ -43,7 +43,7 @@
     "@types/node": "~6.0.60",
     "angular-eslint": "20.2.0",
     "cypress": "latest",
-    "diff": "^5.2.0",
+    "diff": "^8.0.2",
     "eslint": "^9.33.0",
     "glob-parent": "^5.1.2",
     "gulp-concat-css": "^3.1.0",
