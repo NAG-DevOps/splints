@@ -26,7 +26,7 @@
     "rxjs": "^7.8.2",
     "rxjs-compat": "^6.6.7",
     "semantic-ui": "^2.5.0",
-    "tough-cookie": "^4.1.3",
+    "tough-cookie": "^6.0.0",
     "webdriver-js-extender": "^2.2.0",
     "webdriver-manager": "^12.1.9",
     "xml2js": "^0.6.2",
