@@ -45,7 +45,7 @@
     "cypress": "latest",
     "diff": "^8.0.3",
     "eslint": "^9.39.2",
-    "glob-parent": "^5.1.2",
+    "glob-parent": "^6.0.2",
     "gulp-concat-css": "^3.1.0",
     "jasmine-core": "~5.10.0",
     "jasmine-spec-reporter": "~7.0.0",
