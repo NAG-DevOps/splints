@@ -56,7 +56,7 @@
     "karma-jasmine-html-reporter": "^2.2.0",
     "protractor": "^7.0.0",
     "rework-import": "^2.1.0",
-    "selenium-webdriver": "^4.41.0",
+    "selenium-webdriver": "^4.43.0",
     "ts-node": "~10.9.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "8.57.1"
