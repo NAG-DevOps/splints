@@ -47,7 +47,7 @@
     "eslint": "^10.2.1",
     "glob-parent": "^6.0.2",
     "gulp-concat-css": "^3.1.0",
-    "jasmine-core": "~6.1.0",
+    "jasmine-core": "~6.2.0",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
