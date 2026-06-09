@@ -41,7 +41,7 @@
     "@types/jasmine": "~6.0.0",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
-    "angular-eslint": "21.3.1",
+    "angular-eslint": "22.0.0",
     "cypress": "latest",
     "diff": "^9.0.0",
     "eslint": "^10.2.1",
