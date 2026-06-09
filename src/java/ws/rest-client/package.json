@@ -30,7 +30,7 @@
     "webdriver-js-extender": "^2.2.0",
     "webdriver-manager": "^12.1.9",
     "xml2js": "^0.6.2",
-    "zone.js": "^0.16.1"
+    "zone.js": "^0.16.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.2.10",
