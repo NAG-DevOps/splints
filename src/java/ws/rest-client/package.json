@@ -44,7 +44,7 @@
     "angular-eslint": "22.0.0",
     "cypress": "latest",
     "diff": "^9.0.0",
-    "eslint": "^10.2.1",
+    "eslint": "^10.6.0",
     "glob-parent": "^6.0.2",
     "gulp-concat-css": "^3.1.0",
     "jasmine-core": "~6.3.0",
