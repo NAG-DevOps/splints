@@ -1,14 +1,10 @@
+import { test, expect } from '@playwright/test';
 import { AppPage } from './app.po';
 
-describe('rest-client App', () => {
-  let page: AppPage;
-
-  beforeEach(() => {
-    page = new AppPage();
-  });
-
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+test.describe('rest-client App', () => {
+  test('should display welcome message', async ({ page }) => {
+    const appPage = new AppPage(page);
+    await appPage.navigateTo();
+    await expect(page.locator('app-root h1')).toHaveText('Welcome to app!');
   });
 });

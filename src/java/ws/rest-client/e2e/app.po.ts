@@ -1,11 +1,13 @@
-import { browser, by, element } from 'protractor';
+import { Page } from '@playwright/test';
 
 export class AppPage {
-  navigateTo() {
-    return browser.get('/');
+  constructor(private readonly page: Page) {}
+
+  async navigateTo(): Promise<void> {
+    await this.page.goto('/');
   }
 
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  async getParagraphText(): Promise<string> {
+    return this.page.locator('app-root h1').innerText();
   }
 }

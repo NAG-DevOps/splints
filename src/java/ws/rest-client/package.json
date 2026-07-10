@@ -27,8 +27,6 @@
     "rxjs-compat": "^6.6.7",
     "semantic-ui": "^2.5.0",
     "tough-cookie": "^6.0.2",
-    "webdriver-js-extender": "^2.2.0",
-    "webdriver-manager": "^12.1.9",
     "xml2js": "^0.6.2",
     "zone.js": "^0.16.2"
   },
@@ -38,8 +36,8 @@
     "@angular/compiler-cli": "^21.2.0",
     "@angular/language-service": "^22.0.5",
     "@cypress/schematic": "^5.0.0",
+    "@playwright/test": "^1.61.1",
     "@types/jasmine": "~6.0.0",
-    "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "angular-eslint": "22.0.0",
     "cypress": "latest",
@@ -54,9 +52,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.2.0",
-    "protractor": "^7.0.0",
     "rework-import": "^2.1.0",
-    "selenium-webdriver": "^4.45.0",
     "ts-node": "~10.9.2",
     "typescript": "~6.0.3",
     "typescript-eslint": "8.61.1"
