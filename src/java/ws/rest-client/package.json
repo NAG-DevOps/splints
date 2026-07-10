@@ -66,6 +66,9 @@
     },
     "js-beautify": {
       "glob": "10.5.0"
+    },
+    "@actions/http-client": {
+      "undici": "^6.24.0"
     }
   }
 }
