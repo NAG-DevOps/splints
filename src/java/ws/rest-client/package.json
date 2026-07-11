@@ -69,6 +69,7 @@
     },
     "@actions/http-client": {
       "undici": "^6.24.0"
-    }
+    },
+    "@adobe/css-tools": "4.3.2"
   }
 }
