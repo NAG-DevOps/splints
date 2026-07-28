@@ -42,7 +42,7 @@
     "@playwright/test": "^1.61.1",
     "@types/jasmine": "~6.0.0",
     "@types/node": "~6.0.60",
-    "angular-eslint": "22.0.0",
+    "angular-eslint": "22.1.0",
     "cypress": "latest",
     "diff": "^9.0.0",
     "eslint": "^10.7.0",
