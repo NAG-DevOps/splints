@@ -1,0 +1,20 @@
+name: PR Build
+on: pull_request
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      # Don't fail all elements of the matrix if one fails
+      fail-fast: false
+      matrix:
+        node-version: ['22.x', '24.x']
+    steps:
+      - uses: actions/checkout@v7.0.0
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          local-dir: src/java/ws/rest-client
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
