@@ -39,7 +39,7 @@
     "@angular/compiler-cli": "^22.1.0",
     "@angular/language-service": "^22.1.0",
     "@cypress/schematic": "^5.0.0",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "@types/jasmine": "~6.0.0",
     "@types/node": "~6.0.60",
     "angular-eslint": "22.1.0",
