@@ -14,12 +14,12 @@ jobs:
       - uses: actions/setup-node@v7.0.0
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-        with:
-          local-dir: src/java/ws/rest-client
-      - run: npm run build
-        with:
-          local-dir: src/java/ws/rest-client
-      - run: npm run lint
-        with:
-          local-dir: src/java/ws/rest-client
+      - name: Install dependencies in ws/rest-client
+        run: npm ci
+        working-directory: src/java/ws/rest-client
+      - name: Build in ws/rest-client
+        run: npm run build
+        working-directory: src/java/ws/rest-client
+      - name: Lint in ws/rest-client
+        run: npm run lint
+        working-directory: src/java/ws/rest-client
