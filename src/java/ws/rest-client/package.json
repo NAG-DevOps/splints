@@ -41,7 +41,7 @@
     "@cypress/schematic": "^5.0.0",
     "@playwright/test": "^1.61.1",
     "@types/jasmine": "~6.0.0",
-    "@types/node": "~6.0.60",
+    "@types/node": "^26.4.1",
     "angular-eslint": "22.1.0",
     "cypress": "latest",
     "diff": "^9.0.0",
@@ -76,6 +76,7 @@
     "@octokit/request": "8.4.1",
     "@octokit/request-error": "5.1.1",
     "uuid": "11.1.1",
-    "@octokit/plugin-paginate-rest": "9.2.2"
+    "@octokit/plugin-paginate-rest": "9.2.2",
+    "less": "^4.9.0"
   }
 }
