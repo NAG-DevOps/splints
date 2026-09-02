@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService, Issue } from '../rest.service';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 
 
 @Component({
