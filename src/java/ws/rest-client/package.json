@@ -47,7 +47,7 @@
     "diff": "^9.0.0",
     "eslint": "^10.8.0",
     "glob-parent": "^6.0.2",
-    "@fomantic/gulp-concat-css": "^3.3.0",
+    "@fomantic/gulp-concat-css": "^5.0.0",
     "jasmine-core": "~6.3.0",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.4",
