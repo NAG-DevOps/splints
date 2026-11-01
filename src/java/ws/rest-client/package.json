@@ -65,10 +65,13 @@
     },
     "@babel/core": "~7.29.6",
     "editorconfig": {
-      "minimatch": "^9.0.6"
+      "minimatch": "11.0.1"
     },
     "js-beautify": {
-      "glob": "13.0.6"
+      "glob": {
+        ".": "13.0.6",
+        "minimatch": "11.0.1"
+      }
     },
     "undici": "^6.29.1",
     "@adobe/css-tools": "4.3.2",
@@ -77,6 +80,15 @@
     "@octokit/request-error": "5.1.1",
     "uuid": "11.1.1",
     "@octokit/plugin-paginate-rest": "9.2.2",
-    "less": "^4.9.0"
+    "less": "^4.9.0",
+    "@eslint/config-array": {
+      "minimatch": "11.0.1"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.1"
+    },
+    "eslint": {
+      "minimatch": "11.0.1"
+    }
   }
 }
