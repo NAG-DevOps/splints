@@ -40,7 +40,7 @@
     "@angular/language-service": "^22.2.1",
     "@cypress/schematic": "^6.0.0",
     "@playwright/test": "^1.63.0",
-    "@types/jasmine": "~6.0.0",
+    "@types/jasmine": "~7.0.0",
     "@types/node": "^26.4.1",
     "angular-eslint": "^22.5.0",
     "cypress": "16.2.1",
